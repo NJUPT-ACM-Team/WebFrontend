@@ -33,7 +33,16 @@
 								<h3>Source code</h3>
 							</div>
 							<div class="txt-bd">
-								
+								<div class="mod-codemirror">
+									<div class="cm-hd clearfix">
+										<div class="cm-btn">
+											<a href="javascript:;" class="icon icon-trash"></a>
+										</div>
+									</div>
+									<div class="cm-bd">
+										<codemirror v-model="code" :options="editorOption"></codemirror>
+									</div>
+								</div>
 							</div>
 						</li>
 					</ul>
@@ -74,17 +83,46 @@
 		text-decoration: underline;
 	}
 
+	.CodeMirror.cm-s-default {
+		background: #fafafa;
+	}
+
 </style>
 
 <script>
 import 'assets/css/mod-header.css';
 import 'assets/css/mod-txt.css';
 import 'assets/css/mod-btn.css';
+import 'assets/css/mod-codemirror.css';
 
 	export default{
         data(){
             return{
-               
+      			code: 'const a = 10',
+      			lan: {
+      				g: 'text/x-c++src',
+      				gcc: 'text/x-csrc',
+      				java: 'text/x-java',
+      				pascal: 'text/x-pascal'
+      			},
+      			editorOption: {
+        			tabSize: 4,
+		            styleActiveLine: true,
+		            lineNumbers: true,
+		            line: true,
+		            foldGutter: false,
+		            styleSelectedText: true,
+		            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+		            highlightSelectionMatches: { showToken: /w/, annotateScrollbar: true },
+		            mode: 'text/x-c++src',
+		            hintOptions:{
+		              completeSingle: false
+		            },
+		            keyMap: "sublime",
+		            matchBrackets: true,
+		            showCursorWhenSelecting: true,
+		            theme: "default"
+			    }
             }
         }
     }

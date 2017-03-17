@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import App from './App'
 import VueRouter from 'vue-router'
+import VueCodeMirror from 'vue-codemirror'
 
 Vue.use(VueRouter);
+Vue.use(VueCodeMirror);
+
 const router = new VueRouter({
 	mode: 'history',
 	routes: [

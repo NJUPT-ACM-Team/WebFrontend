@@ -150,4 +150,5 @@ body {
 .footer .friend-link {
     float: right;
 }
+
 </style>

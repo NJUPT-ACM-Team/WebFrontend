@@ -1,0 +1,29 @@
+/* mod-codemirror */
+
+.mod-codemirror .cm-hd {
+	height: 30px;
+	background: #f7f7f7;
+	border-top-left-radius: 12px;
+	border-top-right-radius: 12px;
+	border: 1px solid #dddddd;
+	position: relative;
+}
+.mod-codemirror .cm-bd {
+	border-left: 1px solid #dddddd;
+	border-right: 1px solid #dddddd;
+	border-bottom: 1px solid #dddddd;
+}
+
+.cm-hd .cm-btn {
+	position: absolute;
+	right: 30px;
+	top: 50%;
+	transform: translateY(-40%);
+}
+.cm-hd .cm-btn .icon {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: url('../img/trash.png');
+	background-size: cover;
+}
