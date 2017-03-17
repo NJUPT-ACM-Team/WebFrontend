@@ -1,0 +1,64 @@
+/* mod-media */
+
+.mod-media .media-hd {
+    font-size: 18px;
+    color: #333333;
+    padding: 0 12px 20px 12px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+
+.media-bd .problem-list .problem-item {
+    padding: 24px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+.problem-item .problem-tit,
+.contest-item .contest-tit {
+    font-size: 18px;
+    margin-bottom: 12px;
+    position: relative;
+}
+.problem-item .problem-tit a,
+.contest-item .contest-tit a {
+    color: #22409a;
+}
+.problem-item .problem-txt,
+.contest-item .contest-txt {
+    font-size: 16px;
+    line-height: 1.5;
+}
+.problem-item .problem-txt span {
+    display: inline-block;
+    margin-right: 14px;
+}
+
+
+.media-bd .contest-list .contest-item {
+    padding: 14px 0 2px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+.contest-item .contest-tit span {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #f3f3f3;
+    transform: translateY(-2px);
+    background: #a8adb1;
+    margin-right: 10px;
+}
+.contest-item .contest-tit .contest-status.in-progress {
+    background: #fbcd36;
+}
+.contest-item .contest-tit .contest-status.in-future {
+    background: #22409a;
+}
+.contest-item .contest-tit .contest-status.ended {
+    background: #a8adb1;
+}
+.contest-item .contest-tit .contest-access.private {
+    background: #f26c68;
+}
+.contest-item .contest-tit .contest-access.public {
+    background: #1f8d85;
+}

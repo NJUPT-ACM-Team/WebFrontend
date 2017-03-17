@@ -1,0 +1,22 @@
+/* mod-txt */
+
+.mod-txt .txt-hd {
+	border-bottom: 1px solid #e0e0e0;
+	margin-bottom: 10px;
+}
+.mod-txt .txt-hd h3 {
+	font-size: 18px;
+	color: #4a4a4a;
+	line-height: 1.5;
+}
+.mod-txt .txt-hd h3 a {
+	color: inherit;
+}
+.mod-txt .txt-bd p {
+	line-height: 1.5;
+	font-size: 16px;
+	color: #5b5b5b;
+}
+.mod-txt a {
+	color: #22409a;
+}

@@ -1,0 +1,119 @@
+/* mod-box */
+
+.mod-box .box-hd {
+    font-size: 18px;
+    color: #333333;
+    padding-bottom: 20px;
+}
+
+/* index page table panel */
+.box-bd .table-list .table-item {
+    margin-bottom: 56px;
+}
+.table-list .table-item .table-header {
+    background: #e0e0e0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    text-align: left;
+    text-indent: 14px;
+    line-height: 32px;
+}
+.table-list .table-item table {
+    width: 100%;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.table-item table tr,
+.table-item table tr td {
+    border: 1px solid #e0e0e0;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 32px;
+    font-size: 14px;
+}
+.table-item.table-contest tr td:first-child {
+    width: 30%;
+}
+.table-item tr td:first-child {
+    border-right: 1px solid #e0e0e0;
+}
+
+/* problem page source panel */
+.box-bd .source-list .source-item {
+    width: 80%;
+    padding: 8px 12px;
+    border-left: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+    border-top: 1px solid #e0e0e0;
+    font-size: 14px;
+}
+.source-list .source-item:first-child {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.source-list .source-item:last-child {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom: 1px solid #e0e0e0;
+}
+.source-item a {
+    width: 100%;
+    display: block;
+    color: #22409a;
+}
+.source-item .item-num {
+    float: right;
+}
+
+/* contest page status panel */
+.box-bd .status-list .status-item {
+    width: 80%;
+    /*height: 32px;
+    line-height: 32px;*/
+    padding: 8px 12px;
+    border-left: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+    border-top: 1px solid #e0e0e0;
+    font-size: 14px;
+}
+.status-list .status-item:first-child {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.status-list .status-item:last-child {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom: 1px solid #e0e0e0;
+}
+.status-list .status-item:hover {
+    background: #e7e7e7;
+}
+.status-list .status-item.active {
+    background: #22409a;
+}
+.status-list .status-item.active a {
+    color: #f3f3f3;
+    cursor: default;
+}
+.status-list .status-item.active .item-num {
+    background: #f3f3f3;
+    color: #000000;
+}
+.status-item a {
+    width: 100%;
+    display: block;
+    color: #000000;
+}
+.status-item .item-num {
+    float: right;
+    border-radius: 10px;
+    padding: 2px 4px;
+    background: #000000;
+    color: #f3f3f3;
+    font-size: 12px;
+}

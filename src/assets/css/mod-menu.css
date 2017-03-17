@@ -1,0 +1,23 @@
+/* mod-menu */
+
+.mod-menu {
+	margin-top: 10px;
+	margin-left: 10px;
+}
+.menu-list .menu-item {
+	font-size: 16px;
+	margin: 10px 0;
+}
+.menu-list .menu-item.back-to-top {
+	margin-top: 30px;
+}
+.menu-list .menu-item a {
+	color: #767676;
+}
+.menu-list .menu-item:hover a {
+	color: #22409a;
+}
+.menu-list .menu-item.active a {
+	color: #22409a;
+	font-weight: bold;
+}
