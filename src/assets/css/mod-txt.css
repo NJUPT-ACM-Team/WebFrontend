@@ -20,3 +20,16 @@
 .mod-txt a {
 	color: #22409a;
 }
+.mod-txt .txt-bd .lan-item {
+	display: inline-block;
+	color: #5b5b5b;
+	margin-right: 25px;
+}
+.mod-txt .txt-bd .lan-item.active {
+	color: #22409a;
+	font-weight: bold;
+}
+.mod-txt .txt-bd .lan-item:hover {
+	color: #22409a;
+	text-decoration: underline;
+}

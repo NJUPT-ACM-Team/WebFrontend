@@ -17,8 +17,8 @@
                     </div>
                     <div class="box-bd">
                         <ul class="source-list">
-                            <li class="source-item" v-for="item in source">
-                                <a href="#" class="clearfix">
+                            <li class="source-item" v-for="item in source" :class="item.sname == activeSource?'active':''" @click="setSource(item.sname)">
+                                <a href="javascript:;" class="clearfix">
                                     <span class="item-tit">{{ item.sname }}</span>
                                     <span class="item-num">{{ item.snum }}</span>
                                 </a>
@@ -30,7 +30,7 @@
             <div class="layout-main">
                 <div class="mod-media">
                     <div class="media-hd">
-                        <h3 class="tit">All</h3>
+                        <h3 class="tit">{{ activeSource }}</h3>
                     </div>
                     <div class="media-bd">
                         <ul class="problem-list">
@@ -51,27 +51,38 @@
                     </div>
                 </div>
                 <div class="mod-pagination">
-                    <ul class="pagination-list">
-                        <li class="pagination-item disabled">
-                            <span>prev</span>
+                    <ul class="pagination-list" v-if="totalPages > 10">
+                        <li class="pagination-item" :class="currentPage <= 1?'disabled':''">
+                            <span v-if="currentPage<=1">&lt;&lt;</span>
+                            <a href="#" v-else @click="currentPage = 1">&lt;&lt;</a>
                         </li>
-                        <li class="pagination-item active">
-                            <a href="#">1</a>
+                        <li class="pagination-item" :class="currentPage <= 1?'disabled':''">
+                            <span v-if="currentPage<=1">prev</span>
+                            <a href="#" v-else @click="currentPage--">prev</a>
                         </li>
-                        <li class="pagination-item">
-                            <a href="#">2</a>
+                        <li class="pagination-item" v-for="n in setPageRange" :class="n == currentPage?'active':''" @click="setPage(n)">
+                            <a href="#">{{ n }}</a>
                         </li>
-                        <li class="pagination-item disabled">
-                            <span>...</span>
+                        <li class="pagination-item" :class="currentPage >= totalPages?'disabled':''">
+                            <span v-if="currentPage>=totalPages">next</span>
+                            <a href="#" v-else @click="currentPage++">next</a>
                         </li>
-                        <li class="pagination-item">
-                            <a href="#">98</a>
+                        <li class="pagination-item" :class="currentPage >= totalPages?'disabled':''">
+                            <span v-if="currentPage>=totalPages">&gt;&gt;</span>
+                            <a href="#" v-else @click="currentPage = totalPages">&gt;&gt;</a>
                         </li>
-                        <li class="pagination-item">
-                            <a href="#">99</a>
+                    </ul>
+                    <ul class="pagination-list" v-else>
+                        <li class="pagination-item" :class="currentPage <= 1?'disabled':''">
+                            <span v-if="currentPage<=1">prev</span>
+                            <a href="#" v-else @click="currentPage--">prev</a>
                         </li>
-                        <li class="pagination-item">
-                            <a href="#">next</a>
+                        <li class="pagination-item" v-for="n in totalPages" :class="n == currentPage?'active':''" @click="setPage(n)">
+                            <a href="#">{{ n }}</a>
+                        </li>
+                        <li class="pagination-item" :class="currentPage >= totalPages?'disabled':''">
+                            <span v-if="currentPage>=totalPages">next</span>
+                            <a href="#" v-else @click="currentPage++">next</a>
                         </li>
                     </ul>
                 </div>
@@ -80,11 +91,6 @@
     </div>
 </template>
 <style scoped>
-
-@import '../assets/css/mod-header.css';
-@import '../assets/css/mod-box.css';
-@import '../assets/css/mod-media.css';
-@import '../assets/css/mod-pagination.css';
     
     /* 异化 */
     .mod-header h2 {
@@ -104,6 +110,11 @@
     }
 </style>
 <script>
+import 'assets/css/mod-header.css';
+import 'assets/css/mod-box.css';
+import 'assets/css/mod-media.css';
+import 'assets/css/mod-pagination.css';
+
     export default{
         data(){
             return{
@@ -119,6 +130,7 @@
                         snum: 90
                     }
                 ],
+                activeSource: 'All',
                 problemList: [
                     {
                         pid: '1001',
@@ -137,7 +149,39 @@
                         psubmit: '10000',
                         pdate: '2017-01-25'
                     }
-                ]
+                ],
+                currentPage: 1,
+                totalPages: 99
+            }
+        },
+        computed: {
+            setPageRange: function() {
+                var arr = [],
+                    tol = this.totalPages,
+                    cur = this.currentPage;
+                if(cur > 6 && cur < (tol - 4)) {
+                    for(var i = (cur - 5); i < (cur + 5); i++)
+                        arr.push(i);
+                }else if(cur <= 6) {
+                    for(var i = 1; i <= 10; i++)
+                        arr.push(i);
+                }else {
+                    for(var i = tol; i > (tol - 10); i--)
+                        arr.unshift(i);
+                }
+                return arr;
+            }
+        },
+        methods: {
+            setSource: function(s) {
+                if(this.activeSource != s) {
+                    this.activeSource = s;
+                }
+            },
+            setPage: function(n) {
+                if(this.currentPage != n) {
+                    this.currentPage = n;
+                }
             }
         }
     }

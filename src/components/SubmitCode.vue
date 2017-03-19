@@ -83,9 +83,6 @@
 		text-decoration: underline;
 	}
 
-	.CodeMirror.cm-s-default {
-		background: #fafafa;
-	}
 
 </style>
 
@@ -98,7 +95,7 @@ import 'assets/css/mod-codemirror.css';
 	export default{
         data(){
             return{
-      			code: 'const a = 10',
+      			code: '',
       			lan: {
       				g: 'text/x-c++src',
       				gcc: 'text/x-csrc',

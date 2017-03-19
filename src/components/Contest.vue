@@ -14,10 +14,10 @@
                 <div class="mod-box">
                     <div class="box-bd">
                         <ul class="status-list">
-                            <li class="status-item" v-for="value, key in status">
-                                <a href="#" class="clearfix">
-                                    <span class="item-tit">{{ key }}</span>
-                                    <span class="item-num">{{ value }}</span>
+                            <li class="status-item" v-for="item in status" :class="item.sname == activeStatus?'active':''" @click="setStatus(item.sname)">
+                                <a href="javscript:;" class="clearfix">
+                                    <span class="item-tit">{{ item.sname }}</span>
+                                    <span class="item-num">{{ item.snum }}</span>
                                 </a>
                             </li>
                         </ul>
@@ -27,15 +27,15 @@
             <div class="layout-main">
                 <div class="mod-media">
                     <div class="media-hd">
-                        <h3 class="tit">All</h3>
+                        <h3 class="tit">{{ activeStatus }}</h3>
                     </div>
                     <div class="media-bd">
                         <ul class="contest-list">
                             <li class="contest-item" v-for="c in contestList">
                                 <div class="contest-tit">
                                     <a href="#">{{ c.cid }}. {{ c.cname }}</a>
-                                    <span class="contest-status" v-bind:class="[c.status]">{{ c.status }}</span>
-                                    <span class="contest-access" v-bind:class="[c.access]">{{ c.access }}</span>
+                                    <span class="contest-status" :class="[c.status]">{{ c.status }}</span>
+                                    <span class="contest-access" :class="[c.access]">{{ c.access }}</span>
                                 </div>
                                 <div class="contest-txt">
                                     <p class="txt-date">
@@ -48,27 +48,38 @@
                     </div>
                 </div>
                 <div class="mod-pagination">
-                    <ul class="pagination-list">
-                        <li class="pagination-item disabled">
-                            <span>prev</span>
+                    <ul class="pagination-list" v-if="totalPages > 10">
+                        <li class="pagination-item" :class="currentPage <= 1?'disabled':''">
+                            <span v-if="currentPage<=1">&lt;&lt;</span>
+                            <a href="#" v-else @click="currentPage = 1">&lt;&lt;</a>
                         </li>
-                        <li class="pagination-item active">
-                            <a href="#">1</a>
+                        <li class="pagination-item" :class="currentPage <= 1?'disabled':''">
+                            <span v-if="currentPage<=1">prev</span>
+                            <a href="#" v-else @click="currentPage--">prev</a>
                         </li>
-                        <li class="pagination-item">
-                            <a href="#">2</a>
+                        <li class="pagination-item" v-for="n in setPageRange" :class="n == currentPage?'active':''" @click="setPage(n)">
+                            <a href="#">{{ n }}</a>
                         </li>
-                        <li class="pagination-item disabled">
-                            <span>...</span>
+                        <li class="pagination-item" :class="currentPage >= totalPages?'disabled':''">
+                            <span v-if="currentPage>=totalPages">next</span>
+                            <a href="#" v-else @click="currentPage++">next</a>
                         </li>
-                        <li class="pagination-item">
-                            <a href="#">98</a>
+                        <li class="pagination-item" :class="currentPage >= totalPages?'disabled':''">
+                            <span v-if="currentPage>=totalPages">&gt;&gt;</span>
+                            <a href="#" v-else @click="currentPage = totalPages">&gt;&gt;</a>
                         </li>
-                        <li class="pagination-item">
-                            <a href="#">99</a>
+                    </ul>
+                    <ul class="pagination-list" v-else>
+                        <li class="pagination-item" :class="currentPage <= 1?'disabled':''">
+                            <span v-if="currentPage<=1">prev</span>
+                            <a href="#" v-else @click="currentPage--">prev</a>
                         </li>
-                        <li class="pagination-item">
-                            <a href="#">next</a>
+                        <li class="pagination-item" v-for="n in totalPages" :class="n == currentPage?'active':''" @click="setPage(n)">
+                            <a href="#">{{ n }}</a>
+                        </li>
+                        <li class="pagination-item" :class="currentPage >= totalPages?'disabled':''">
+                            <span v-if="currentPage>=totalPages">next</span>
+                            <a href="#" v-else @click="currentPage++">next</a>
                         </li>
                     </ul>
                 </div>
@@ -99,17 +110,29 @@
 <script>
 import 'assets/css/mod-header.css';
 import 'assets/css/mod-media.css';
+import 'assets/css/mod-box.css';
 import 'assets/css/mod-pagination.css';
 
     export default{
         data(){
             return{
-                status: {
-                    all: 12,
-                    past: 8,
-                    current: 3,
-                    future: 1
-                },
+                status: [
+                    {
+                        sname: 'All',
+                        snum: 12
+                    },{
+                        sname: 'Past',
+                        snum: 8
+                    },{
+                        sname: 'Current',
+                        snum: 3
+                    },{
+                        sname: 'Future',
+                        snum: 1
+                    }
+
+                ],
+                activeStatus: 'All',
                 contestList: [
                     {
                         cid: '1001',
@@ -133,7 +156,39 @@ import 'assets/css/mod-pagination.css';
                         status: 'ended',
                         access: 'public'
                     }
-                ]
+                ],
+                currentPage: 1,
+                totalPages: 99
+            }
+        },
+        computed: {
+            setPageRange: function() {
+                var arr = [],
+                    tol = this.totalPages,
+                    cur = this.currentPage;
+                if(cur > 6 && cur < (tol - 4)) {
+                    for(var i = (cur - 5); i < (cur + 5); i++)
+                        arr.push(i);
+                }else if(cur <= 6) {
+                    for(var i = 1; i <= 10; i++)
+                        arr.push(i);
+                }else {
+                    for(var i = tol; i > (tol - 10); i--)
+                        arr.unshift(i);
+                }
+                return arr;
+            }
+        },
+        methods: {
+            setStatus: function(s) {
+                if(this.activeStatus != s) {
+                    this.activeStatus = s;
+                }
+            },
+            setPage: function(n) {
+                if(this.currentPage != n) {
+                    this.currentPage = n;
+                }
             }
         }
     }

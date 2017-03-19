@@ -17,7 +17,7 @@
         			<ul>
         				<li>
         					<div class="txt-hd">
-        						<h3><a name="description">Description</a></h3>
+        						<h3><a name="description" href="#description">Description</a></h3>
         					</div>
         					<div class="txt-bd">
         						<p>{{ problem.dec }}</p>
@@ -25,7 +25,7 @@
         				</li>
         				<li>
         					<div class="txt-hd">
-        						<h3><a name="input">Input</a></h3>
+        						<h3><a name="input" href="#input">Input</a></h3>
         					</div>
         					<div class="txt-bd">
         						<p>{{ problem.input }}</p>
@@ -33,7 +33,7 @@
         				</li>
         				<li>
         					<div class="txt-hd">
-        						<h3><a name="output">Output</a></h3>
+        						<h3><a name="output" href="#output">Output</a></h3>
         					</div>
         					<div class="txt-bd">
         						<p>{{ problem.output }}</p>
@@ -41,7 +41,7 @@
         				</li>
         				<li>
         					<div class="txt-hd">
-        						<h3><a name="sampleInput">Sample input</a></h3>
+        						<h3><a name="sampleInput" href="#sampleInput">Sample input</a></h3>
         					</div>
         					<div class="txt-bd">
         						<p>{{ problem.sinput }}</p>
@@ -49,7 +49,7 @@
         				</li>
         				<li>
         					<div class="txt-hd">
-        						<h3><a name="sampleOutput">Sample output</a></h3>
+        						<h3><a name="sampleOutput" href="#sampleOutput">Sample output</a></h3>
         					</div>
         					<div class="txt-bd">
         						<p>{{ problem.soutput }}</p>
@@ -57,7 +57,7 @@
         				</li>
         				<li>
         					<div class="txt-hd">
-        						<h3><a name="hint">Hint</a></h3>
+        						<h3><a name="hint" href="#hint">Hint</a></h3>
         					</div>
         					<div class="txt-bd">
         						<p>{{ problem.hint }}</p>
@@ -65,17 +65,45 @@
         				</li>
         				<li name="source">
         					<div class="txt-hd">
-        						<h3><a name="source">Source</a></h3>
+        						<h3><a name="source" href="#source">Source</a></h3>
         					</div>
         					<div class="txt-bd">
         						<p>{{ problem.source }}</p>
         					</div>
         				</li>
+                        <li>
+                            <div class="txt-hd">
+                                <h3><a name="language" href="#language">Language</a></h3>
+                            </div>
+                            <div class="txt-bd">
+                                <a href="#" class="lan-item active">G++</a>
+                                <a href="#" class="lan-item">GCC</a>
+                                <a href="#" class="lan-item">Java</a>
+                                <a href="#" class="lan-item">Pascal</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt-hd">
+                                <h3><a name="sourceCode" href="#sourceCode">Source code</a></h3>
+                            </div>
+                            <div class="txt-bd">
+                                <div class="mod-codemirror">
+                                    <div class="cm-hd clearfix">
+                                        <div class="cm-btn">
+                                            <a href="javascript:;" class="icon icon-trash"></a>
+                                        </div>
+                                    </div>
+                                    <div class="cm-bd">
+                                        <codemirror v-model="code" :options="editorOption"></codemirror>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
         			</ul>
         		</div>
         		<div class="mod-btn">
         			<div class="btn btn-submit">
-        				<router-link :to="{name: 'submit', params: { problemId: problem.id }}" name="submit">Submit</router-link>
+        				<a href="javascript:;">Submit</a>
         			</div>
         		</div>
         	</div>
@@ -103,6 +131,12 @@
         				<li class="menu-item">
         					<a href="#source">Source</a>
         				</li>
+                        <li class="menu-item">
+                            <a href="#language">Language</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="#sourceCode">Source Code</a>
+                        </li>
         				<li class="menu-item">
         					<a href="#submit">Submit</a>
         				</li>
@@ -117,7 +151,6 @@
 </template>
 
 <style scoped>
-
 
 	.mod-header {
 		padding: 20px 0 5px 0;
@@ -139,6 +172,9 @@
 	.mod-txt ul li {
 		margin-bottom: 20px;
 	}
+    .mod-codemirror {
+        margin-top: 16px;
+    }
 
 </style>
 
@@ -147,6 +183,7 @@ import 'assets/css/mod-header.css';
 import 'assets/css/mod-txt.css';
 import 'assets/css/mod-menu.css';
 import 'assets/css/mod-btn.css';
+import 'assets/css/mod-codemirror.css';
 
 	export default{
         data(){
@@ -166,6 +203,31 @@ import 'assets/css/mod-btn.css';
                 	soutput: '3',
                 	hint: '给定两个整数，求它们之和。',
                 	source: 'NUAA'
+                },
+                code: '',
+                lan: {
+                    g: 'text/x-c++src',
+                    gcc: 'text/x-csrc',
+                    java: 'text/x-java',
+                    pascal: 'text/x-pascal'
+                },
+                editorOption: {
+                    tabSize: 4,
+                    styleActiveLine: true,
+                    lineNumbers: true,
+                    line: true,
+                    foldGutter: false,
+                    styleSelectedText: true,
+                    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+                    highlightSelectionMatches: { showToken: /w/, annotateScrollbar: true },
+                    mode: 'text/x-c++src',
+                    hintOptions:{
+                      completeSingle: false
+                    },
+                    keyMap: "sublime",
+                    matchBrackets: true,
+                    showCursorWhenSelecting: true,
+                    theme: "default"
                 }
             }
         },
@@ -181,6 +243,7 @@ import 'assets/css/mod-btn.css';
         		this.loading = true;
         		// get post
         		this.problem.id = this.$route.params.problemId;
+                console.log(this.problem.id);
         	}
         }
     }

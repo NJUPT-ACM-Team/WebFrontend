@@ -12,6 +12,7 @@
 	border-left: 1px solid #e1e4e8;
 	font-size: 14px;
 	cursor: pointer;
+	transition: all .2s;
 }
 .pagination-item a {
 	color: #22409a;
@@ -25,10 +26,10 @@
 	border-top-right-radius: 5px;
 	border-bottom-right-radius: 5px;
 }
-.mod-pagination .pagination-list .pagination-item:hover {
+.mod-pagination .pagination-list .pagination-item:hover:not(.active) {
 	background: #e7e7e7;
 }
-.mod-pagination .pagination-list .pagination-item:hover a {
+.mod-pagination .pagination-list .pagination-item:hover:not(.active) a {
 	color: #22409a;
 }
 .pagination-item.active {
@@ -37,7 +38,8 @@
 .pagination-item.active a {
 	color: #f3f3f3;
 }
-.mod-pagination .pagination-list .pagination-item.disabled {
+.mod-pagination .pagination-list .pagination-item.disabled,
+.mod-pagination .pagination-list .pagination-item.disabled:hover {
 	cursor: default;
 	background: #fafbfc;
 }

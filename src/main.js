@@ -26,11 +26,11 @@ const router = new VueRouter({
       name: 'problem',
       component: resolve => require(['components/ProblemDetail'], resolve)
     },
-    {
-      path: '/submit/:problemId',
-      name: 'submit',
-      component: resolve => require(['components/SubmitCode'], resolve)
-    },
+    // {
+    //   path: '/submit/:problemId',
+    //   name: 'submit',
+    //   component: resolve => require(['components/SubmitCode'], resolve)
+    // },
     {
 	    path: '/contest',
       component: resolve => require(['components/Contest'], resolve)

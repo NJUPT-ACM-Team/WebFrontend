@@ -51,6 +51,10 @@
     border-right: 1px solid #e0e0e0;
     border-top: 1px solid #e0e0e0;
     font-size: 14px;
+    transition: all .3s;
+}
+.source-list .source-item:hover {
+    background: #e7e7e7;
 }
 .source-list .source-item:first-child {
     border-top-left-radius: 5px;
@@ -69,6 +73,10 @@
 .source-item .item-num {
     float: right;
 }
+.source-list .source-item.active a {
+    color: #333333;
+    cursor: default;
+}
 
 /* contest page status panel */
 .box-bd .status-list .status-item {
@@ -80,6 +88,7 @@
     border-right: 1px solid #e0e0e0;
     border-top: 1px solid #e0e0e0;
     font-size: 14px;
+    transition: all .3s;
 }
 .status-list .status-item:first-child {
     border-top-left-radius: 5px;

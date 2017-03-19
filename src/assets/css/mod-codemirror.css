@@ -20,10 +20,15 @@
 	top: 50%;
 	transform: translateY(-40%);
 }
-.cm-hd .cm-btn .icon {
+.cm-hd .cm-btn .icon.icon-trash {
 	display: inline-block;
 	width: 16px;
 	height: 16px;
 	background: url('../img/trash.png');
 	background-size: cover;
+	opacity: 0.5;
+	transition: all .3s;
+}
+.cm-hd .cm-btn .icon-trash:hover {
+	opacity: 1;
 }
