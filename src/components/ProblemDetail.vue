@@ -76,10 +76,7 @@
                                 <h3><a name="language" href="#language">Language</a></h3>
                             </div>
                             <div class="txt-bd">
-                                <a href="#" class="lan-item active">G++</a>
-                                <a href="#" class="lan-item">GCC</a>
-                                <a href="#" class="lan-item">Java</a>
-                                <a href="#" class="lan-item">Pascal</a>
+                                <a href="javascript:;" class="lan-item" v-for="item in supportLan" :class="item.lan == usedLan?'active':''" @click="setLan(item)">{{ item.lan }}</a>
                             </div>
                         </li>
                         <li>
@@ -90,7 +87,7 @@
                                 <div class="mod-codemirror">
                                     <div class="cm-hd clearfix">
                                         <div class="cm-btn">
-                                            <a href="javascript:;" class="icon icon-trash"></a>
+                                            <a href="javascript:;" class="btn-clear" @click="code = ''">clear</a>
                                         </div>
                                     </div>
                                     <div class="cm-bd">
@@ -103,7 +100,7 @@
         		</div>
         		<div class="mod-btn">
         			<div class="btn btn-submit">
-        				<a href="javascript:;">Submit</a>
+        				<a href="javascript:;" name="submit">Submit</a>
         			</div>
         		</div>
         	</div>
@@ -141,7 +138,7 @@
         					<a href="#submit">Submit</a>
         				</li>
         				<li class="menu-item back-to-top">
-        					<a href="#">Back to top</a>
+        					<a href="javascript: window.scroll(0,0)">Back to top</a>
         				</li>
         			</ul>
         		</div>
@@ -175,6 +172,10 @@
     .mod-codemirror {
         margin-top: 16px;
     }
+    .layout-aside .fix {
+        position: fixed;
+        top: 20px;
+    }
 
 </style>
 
@@ -204,13 +205,23 @@ import 'assets/css/mod-codemirror.css';
                 	hint: '给定两个整数，求它们之和。',
                 	source: 'NUAA'
                 },
+                supportLan: [
+                    {
+                        lan: 'G++',
+                        mode: 'text/x-c++src'
+                    },{
+                        lan: 'GCC',
+                        mode: 'text/x-csrc',
+                    },{
+                        lan: 'Java',
+                        mode: 'text/x-java'
+                    },{
+                        lan: 'Pascal',
+                        mode: 'text/x-pascal'
+                    }
+                ],
+                usedLan: 'G++',
                 code: '',
-                lan: {
-                    g: 'text/x-c++src',
-                    gcc: 'text/x-csrc',
-                    java: 'text/x-java',
-                    pascal: 'text/x-pascal'
-                },
                 editorOption: {
                     tabSize: 4,
                     styleActiveLine: true,
@@ -228,23 +239,50 @@ import 'assets/css/mod-codemirror.css';
                     matchBrackets: true,
                     showCursorWhenSelecting: true,
                     theme: "default"
-                }
+                },
             }
         },
         created() {
         	this.fetchData();
         },
+        mounted() {
+            var aside = document.querySelector('.mod-menu');
+            requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame ||function(callback) {setTimeout(callback, 1000 / 60);};
+            var isScrolling = false;
+            window.addEventListener('scroll', function(){
+                if(!isScrolling) {
+                    if(window.scrollY > 130) {
+                        requestAnimationFrame(function() {
+                            aside.className = 'mod-menu fix';
+                            isScrolling = false;
+                        });
+                    }else {
+                        requestAnimationFrame(function() {
+                            aside.className = 'mod-menu';
+                            isScrolling = false;
+                        });
+                        
+                    }
+                    isScrolling = true;
+                }
+            })
+        },
         watch: {
         	'$route':'fetchData'
         },
         methods: {
-        	fetchData() {
+        	fetchData: function() {
         		this.error = this.post = null;
         		this.loading = true;
         		// get post
         		this.problem.id = this.$route.params.problemId;
-                console.log(this.problem.id);
-        	}
+        	},
+            setLan: function(l) {
+                if(l.lan != this.usedLan) {
+                    this.usedLan = l.lan;
+                    this.editorOption.mode = l.mode;
+                }
+            }
         }
     }
 </script>

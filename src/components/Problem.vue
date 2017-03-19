@@ -172,6 +172,9 @@ import 'assets/css/mod-pagination.css';
                 return arr;
             }
         },
+        watch: {
+            
+        },
         methods: {
             setSource: function(s) {
                 if(this.activeSource != s) {

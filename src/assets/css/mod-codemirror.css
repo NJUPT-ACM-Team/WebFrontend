@@ -18,17 +18,13 @@
 	position: absolute;
 	right: 30px;
 	top: 50%;
-	transform: translateY(-40%);
+	transform: translateY(-50%);
 }
-.cm-hd .cm-btn .icon.icon-trash {
-	display: inline-block;
-	width: 16px;
-	height: 16px;
-	background: url('../img/trash.png');
-	background-size: cover;
+.cm-hd .cm-btn .btn-clear {
+	color: #333333;
 	opacity: 0.5;
 	transition: all .3s;
 }
-.cm-hd .cm-btn .icon-trash:hover {
+.cm-hd .cm-btn .btn-clear:hover {
 	opacity: 1;
 }
