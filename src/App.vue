@@ -26,7 +26,17 @@
                         </li>
                       </ul>
                 </div>
-                <div class="nav-user"></div>
+                <div class="nav-user">
+                    <div v-if="isSignin">
+                        user
+                    </div>
+                    <div v-else>
+                        <p>
+                            <a href="#" class="sign-in">Sign in</a>/
+                            <a href="#" class="sign-up">Sign up</a>
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="router-view">
@@ -60,10 +70,15 @@
 <script>
 
 export default {
-  name: 'app',
-  components: {
+    name: 'app',
+    components: {
 
-  }
+    },
+    data() {
+        return {
+            isSignin: false
+        }
+    }
 }
 </script>
 
@@ -106,6 +121,22 @@ body {
     display: inline-block;
     padding: 0 12px;
 }
+
+.nav-user {
+    float: right;
+}
+.nav-user p {
+    font-size: 18px;
+}
+.nav-user a {
+    color: #22409a;
+    font-size: 16px;
+    margin: 0 10px;
+}
+.nav-user a:hover {
+    text-decoration: underline;
+}
+
 .tabs li a {
     color: rgba(0,0,0,0.8);
 }
