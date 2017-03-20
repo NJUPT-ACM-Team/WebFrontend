@@ -36,6 +36,11 @@ const router = new VueRouter({
       component: resolve => require(['components/Contest'], resolve)
     },
     {
+      path: '/contest/:contestId',
+      name: 'contest',
+      component: resolve => require(['components/ContestDetail'], resolve)
+    },
+    {
 	    path: '/user-rank',
       component: resolve => require(['components/UserRank'], resolve)
     },

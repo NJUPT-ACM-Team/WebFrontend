@@ -50,7 +50,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="mod-pagination">
+                <div class="mod-pagination" v-show="totalPages != 1">
                     <ul class="pagination-list" v-if="totalPages > 10">
                         <li class="pagination-item" :class="currentPage <= 1?'disabled':''">
                             <span v-if="currentPage<=1">&lt;&lt;</span>

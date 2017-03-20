@@ -2,45 +2,50 @@
     <div>
         <div class="layout-header">
             <div class="mod-header">
-                <h2>Search</h2>
-                <div class="input-group">
-                    <input type="text" placeholder="please input the word you want to search">
-                    <button>Search</button>
+                <h2>{{ contest.id }}.{{ contest.tit }}</h2>
+                <div class="header-txt">
+                	<p>
+                		Status : <span class="status">{{ contest.status }}</span>
+                		Access : <span class="access">{{ contest.access }}</span>
+                	</p>
                 </div>
             </div>
         </div>
         <div class="layout-body clearfix">
             <div class="layout-aside">
-                <div class="mod-box">
+                <!-- <div class="mod-box">
+                    <div class="box-hd">
+                        <h3 class="tit">Source</h3>
+                    </div>
                     <div class="box-bd">
-                        <ul class="status-list">
-                            <li class="status-item" v-for="item in status" :class="item.sname == activeStatus?'active':''" @click="setStatus(item.sname)">
-                                <a href="javscript:;" class="clearfix">
+                        <ul class="source-list">
+                            <li class="source-item" v-for="item in source" :class="item.sname == activeSource?'active':''" @click="setSource(item.sname)">
+                                <a href="javascript:;" class="clearfix">
                                     <span class="item-tit">{{ item.sname }}</span>
                                     <span class="item-num">{{ item.snum }}</span>
                                 </a>
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="layout-main">
                 <div class="mod-media">
-                    <div class="media-hd">
-                        <h3 class="tit">{{ activeStatus }}</h3>
-                    </div>
+                    <!-- <div class="media-hd">
+                        <h3 class="tit">{{ activeSource }}</h3>
+                    </div> -->
                     <div class="media-bd">
-                        <ul class="contest-list">
-                            <li class="contest-item" v-for="c in contestList">
-                                <div class="contest-tit">
-                                    <router-link :to="{name: 'contest', params: {contestId: c.cid} }">{{ c.cid }}. {{ c.cname }}</router-link>
-                                    <span class="contest-status" :class="[c.status]">{{ c.status }}</span>
-                                    <span class="contest-access" :class="[c.access]">{{ c.access }}</span>
+                        <ul class="problem-list">
+                            <li class="problem-item" v-for="item in problemList">
+                                <div class="problem-tit">
+                                    <router-link :to="{name: 'problem', params: {problemId: item.pid} }">{{ item.pid }}.{{ item.ptit }}</router-link>
                                 </div>
-                                <div class="contest-txt">
-                                    <p class="txt-date">
-                                        <span class="start-time">{{ c.stime }}</span> —— 
-                                        <span class="end-time">{{ c.etime }}</span>
+                                <div class="problem-txt">
+                                    <p class="txt-decs">{{ item.pdec }}</p>
+                                    <p class="txt-data">
+                                        AC : <span class="data-ac">{{ item.pac }}</span>
+                                        Submit : <span class="data-submit">{{ item.psubmit }}</span>
+                                        <span class="data-date">{{ item.pdate }}</span>
                                     </p>
                                 </div>
                             </li>
@@ -88,12 +93,12 @@
     </div>
 </template>
 <style scoped>
-
-    /* 异化 */
-    .mod-header h2 {
-        color: #333333;
-    }
-    
+	.mod-header {
+		padding: 20px 0 5px 0;
+	}
+	.mod-header h2 {
+		padding-bottom: 20px;
+	}
     .layout-body {
         margin-top: 20px;
     }
@@ -105,56 +110,42 @@
         width: 75%;
         float: right;
     }
-
 </style>
 <script>
 import 'assets/css/mod-header.css';
-import 'assets/css/mod-media.css';
 import 'assets/css/mod-box.css';
+import 'assets/css/mod-media.css';
 import 'assets/css/mod-pagination.css';
 
     export default{
         data(){
             return{
-                status: [
+            	loading: false,
+            	post: null,
+            	error: null,
+                contest: {
+                	id: '',
+                	tit: '“青书杯”科技节之算法脑洞大赛 初级组 ',
+                	status: 'ended',
+                	access: 'public'
+                },
+                problemList: [
                     {
-                        sname: 'All',
-                        snum: 12
+                        pid: '1001',
+                        ptit: '整数求和',
+                        pdec: '给定两个整数，求它们之和。',
+                        psource: 'NUPT',
+                        pac: '4552',
+                        psubmit: '10000',
+                        pdate: '2017-01-25'
                     },{
-                        sname: 'Past',
-                        snum: 8
-                    },{
-                        sname: 'Current',
-                        snum: 3
-                    },{
-                        sname: 'Future',
-                        snum: 1
-                    }
-
-                ],
-                activeStatus: 'All',
-                contestList: [
-                    {
-                        cid: '1001',
-                        cname: '“青书杯”科技节之算法脑洞大赛 初级组 ',
-                        stime: '2017.03.03 09:00',
-                        etime: '2017.03.03 12:00',
-                        status: 'in-progress',
-                        access: 'private'
-                    },{
-                        cid: '1002',
-                        cname: '“青书杯”科技节之算法脑洞大赛',
-                        stime: '2017.03.03 09:00',
-                        etime: '2017.03.03 12:00',
-                        status: 'in-future',
-                        access: 'public'
-                    },{
-                        cid: '1003',
-                        cname: '“青书杯”科技节之算法脑洞大赛',
-                        stime: '2017.03.03 09:00',
-                        etime: '2017.03.03 12:00',
-                        status: 'ended',
-                        access: 'public'
+                        pid: '1002',
+                        ptit: '整数求和',
+                        pdec: '给定两个整数，求它们之和。',
+                        psource: 'NUPT',
+                        pac: '4552',
+                        psubmit: '10000',
+                        pdate: '2017-01-25'
                     }
                 ],
                 currentPage: 1,
@@ -179,17 +170,29 @@ import 'assets/css/mod-pagination.css';
                 return arr;
             }
         },
+        created() {
+        	this.fetchData();
+        },
+        watch: {
+            '$route':'fetchData'
+        },
         methods: {
-            setStatus: function(s) {
-                if(this.activeStatus != s) {
-                    this.activeStatus = s;
+            setSource: function(s) {
+                if(this.activeSource != s) {
+                    this.activeSource = s;
                 }
             },
             setPage: function(n) {
                 if(this.currentPage != n) {
                     this.currentPage = n;
                 }
-            }
+            },
+            fetchData: function() {
+        		this.error = this.post = null;
+        		this.loading = true;
+        		// get post
+        		this.contest.id = this.$route.params.contestId;
+        	},
         }
     }
 </script>
