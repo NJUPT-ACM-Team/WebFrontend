@@ -32,8 +32,8 @@
                     </div>
                     <div v-else>
                         <p>
-                            <a href="#" class="sign-in">Sign in</a>/
-                            <a href="#" class="sign-up">Sign up</a>
+                            <router-link to="/signin" class="sign-in">Sign in</router-link>/
+                            <router-link to="/signup" class="sign-up">Sign up</router-link>
                         </p>
                     </div>
                 </div>

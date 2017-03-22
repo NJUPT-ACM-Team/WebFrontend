@@ -47,6 +47,12 @@ const router = new VueRouter({
     {
 	    path: '/about',
       component: resolve => require(['components/About'], resolve)
+    },{
+      path: '/signin',
+      component: resolve => require(['components/SignIn'], resolve)
+    },{
+      path: '/signup',
+      component: resolve => require(['components/SignUp'], resolve)
     }
   ]
 })
