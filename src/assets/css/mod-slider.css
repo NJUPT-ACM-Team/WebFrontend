@@ -1,0 +1,35 @@
+/* mod-slider */
+
+.mod-slider {
+	width: 100%;
+	height: 350px;
+	background: #cccccc;
+}
+
+.mod-slider .slider-wrapper {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+}
+
+.slider-list .slider-item {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+
+.slider-item .pic {
+	width: 100%;
+	height: auto;
+}
+
+.slider-item .slider-txt {
+	position: absolute;
+	right: 0;
+	bottom: 30px;
+	padding: 10px;
+	background: rgba(0,0,0,0.8);
+	color: #ffffff;
+	font-size: 16px;
+}

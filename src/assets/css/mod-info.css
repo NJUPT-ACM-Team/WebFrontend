@@ -1,0 +1,33 @@
+/* mod-info */
+
+.mod-info .info-hd {
+	display: flex;
+}
+
+.mod-info .info-hd .info-tag {
+	display: flex;
+	flex: 2;
+	text-align: center;
+	align-items: center;
+	line-height: 1.2;
+	border-radius: 5px;
+	padding: 4px;
+	font-size: 14px;
+	color: #ffffff;
+}
+
+.info-hd .info-tag.in-progress {
+	background: #fbcd36;
+}
+
+.mod-info .info-hd .info-con {
+	display: flex;
+	flex: 4;
+	align-items: center;
+}
+
+.mod-info .info-hd .info-act {
+	display: flex;
+	flex: 1;
+	align-items: center;
+}

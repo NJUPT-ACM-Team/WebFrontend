@@ -8,11 +8,11 @@
 				<div class="form-body">
 					<div class="form-item">
 						<label for="usr">Username</label>
-						<input type="text" id="usr" />
+						<input type="text" id="usr" v-model.trim="username" />
 					</div>
 					<div class="form-item">
 						<label for="pwd">Password</label>
-						<input type="password" id="pwd" />
+						<input type="password" id="pwd" v-model.trim="password" />
 					</div>
 					<div class="form-item">
 						<label for="re-pwd">Password again</label>
@@ -40,8 +40,12 @@ import 'assets/css/mod-sign.css';
 	export default {
 		data() {
 			return {
-
+				username: '',
+				password: '',
 			}
+		},
+		watch: {
+			
 		}
 	}
 </script>

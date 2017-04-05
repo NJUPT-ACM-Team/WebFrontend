@@ -110,11 +110,7 @@ import 'assets/css/mod-box.css';
           
         },
         method() {
-            return {
-              beforeLeave: function(el) {
-                alert('hello');
-              }
-            }
+            
         }
     }
 </script>
