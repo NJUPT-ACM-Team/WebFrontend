@@ -7,27 +7,46 @@
 .mod-info .info-hd .info-tag {
 	display: flex;
 	flex: 2;
+	flex-direction: column;
 	text-align: center;
 	align-items: center;
 	line-height: 1.2;
-	border-radius: 5px;
 	padding: 4px;
-	font-size: 14px;
-	color: #ffffff;
+	
 }
 
-.info-hd .info-tag.in-progress {
-	background: #fbcd36;
+.info-tag .tag-d {
+	width: 100%;
+	height: 32px;
+	background: #22409a;
+	color: #ffffff;
+	line-height: 32px;
+	font-size: 18px;
+}
+
+.info-tag .tag-ym {
+	width: 100%;
+	height: 24px;
+	background: #ffffff;
+	color: #000000;
+	line-height: 24px;
+	font-size: 12px;
 }
 
 .mod-info .info-hd .info-con {
 	display: flex;
-	flex: 4;
+	flex: 5;
 	align-items: center;
 }
 
-.mod-info .info-hd .info-act {
-	display: flex;
-	flex: 1;
-	align-items: center;
+.info-con a {
+	display:  block;
+	font-size: 14px;
+	color: #22409a;
+	padding-left: 5px;
+	line-height: 18px;
+}
+
+.info-con a:hover {
+	text-decoration: underline;
 }

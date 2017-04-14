@@ -155,6 +155,48 @@ import 'assets/css/mod-pagination.css';
                         etime: '2017.03.03 12:00',
                         status: 'ended',
                         access: 'public'
+                    },{
+                        cid: '1003',
+                        cname: '“青书杯”科技节之算法脑洞大赛',
+                        stime: '2017.03.03 09:00',
+                        etime: '2017.03.03 12:00',
+                        status: 'ended',
+                        access: 'public'
+                    },{
+                        cid: '1003',
+                        cname: '“青书杯”科技节之算法脑洞大赛',
+                        stime: '2017.03.03 09:00',
+                        etime: '2017.03.03 12:00',
+                        status: 'ended',
+                        access: 'public'
+                    },{
+                        cid: '1003',
+                        cname: '“青书杯”科技节之算法脑洞大赛',
+                        stime: '2017.03.03 09:00',
+                        etime: '2017.03.03 12:00',
+                        status: 'ended',
+                        access: 'public'
+                    },{
+                        cid: '1003',
+                        cname: '“青书杯”科技节之算法脑洞大赛',
+                        stime: '2017.03.03 09:00',
+                        etime: '2017.03.03 12:00',
+                        status: 'in-future',
+                        access: 'public'
+                    },{
+                        cid: '1003',
+                        cname: '“青书杯”科技节之算法脑洞大赛',
+                        stime: '2017.03.03 09:00',
+                        etime: '2017.03.03 12:00',
+                        status: 'ended',
+                        access: 'public'
+                    },{
+                        cid: '1003',
+                        cname: '“青书杯”科技节之算法脑洞大赛',
+                        stime: '2017.03.03 09:00',
+                        etime: '2017.03.03 12:00',
+                        status: 'ended',
+                        access: 'public'
                     }
                 ],
                 currentPage: 1,

@@ -8,10 +8,11 @@
 }
 
 
-.media-bd .problem-list .problem-item {
-    padding: 24px 0;
+/*.media-bd .problem-list .problem-item {
+    padding: 12px 0;
     border-bottom: 1px solid #e0e0e0;
-}
+}*/
+
 .problem-item .problem-tit,
 .contest-item .contest-tit {
     font-size: 18px;
@@ -21,6 +22,10 @@
 .problem-item .problem-tit a,
 .contest-item .contest-tit a {
     color: #22409a;
+}
+.problem-item .problem-tit a:hover,
+.contest-item .contest-tit a:hover {
+    text-decoration: underline;
 }
 .problem-item .problem-txt,
 .contest-item .contest-txt {
@@ -32,7 +37,7 @@
     margin-right: 14px;
 }
 
-
+.media-bd .problem-list .problem-item,
 .media-bd .contest-list .contest-item {
     padding: 14px 0 2px 0;
     border-bottom: 1px solid #e0e0e0;

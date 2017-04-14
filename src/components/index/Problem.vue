@@ -34,16 +34,17 @@
                     </div>
                     <div class="media-bd">
                         <ul class="problem-list">
-                            <li class="problem-item" v-for="item in problemList">
+                            <li class="problem-item clearfix" v-for="item in problemList">
                                 <div class="problem-tit">
                                     <router-link :to="{name: 'problem', params: {problemId: item.pid} }">{{ item.pid }}.{{ item.ptit }}</router-link>
                                 </div>
                                 <div class="problem-txt">
-                                    <p class="txt-decs">{{ item.pdec }}</p>
+                                    <!-- <p class="txt-decs">{{ item.pdec }}</p> -->
                                     <p class="txt-data">
                                         AC : <span class="data-ac">{{ item.pac }}</span>
                                         Submit : <span class="data-submit">{{ item.psubmit }}</span>
-                                        <span class="data-date">{{ item.pdate }}</span>
+                                        Source : <span class="data-source">{{ item.psource }}</span>
+                                        <!-- <span class="data-date">{{ item.pdate }}</span> -->
                                     </p>
                                 </div>
                             </li>
@@ -134,6 +135,46 @@ import 'assets/css/mod-pagination.css';
                 problemList: [
                     {
                         pid: '1001',
+                        ptit: '整数求和',
+                        pdec: '给定两个整数，求它们之和。',
+                        psource: 'NUPT',
+                        pac: '4552',
+                        psubmit: '10000',
+                        pdate: '2017-01-25'
+                    },{
+                        pid: '1002',
+                        ptit: '整数求和',
+                        pdec: '给定两个整数，求它们之和。',
+                        psource: 'NUPT',
+                        pac: '4552',
+                        psubmit: '10000',
+                        pdate: '2017-01-25'
+                    },{
+                        pid: '1002',
+                        ptit: '整数求和',
+                        pdec: '给定两个整数，求它们之和。',
+                        psource: 'NUPT',
+                        pac: '4552',
+                        psubmit: '10000',
+                        pdate: '2017-01-25'
+                    },{
+                        pid: '1002',
+                        ptit: '整数求和',
+                        pdec: '给定两个整数，求它们之和。',
+                        psource: 'NUPT',
+                        pac: '4552',
+                        psubmit: '10000',
+                        pdate: '2017-01-25'
+                    },{
+                        pid: '1002',
+                        ptit: '整数求和',
+                        pdec: '给定两个整数，求它们之和。',
+                        psource: 'NUPT',
+                        pac: '4552',
+                        psubmit: '10000',
+                        pdate: '2017-01-25'
+                    },{
+                        pid: '1002',
                         ptit: '整数求和',
                         pdec: '给定两个整数，求它们之和。',
                         psource: 'NUPT',

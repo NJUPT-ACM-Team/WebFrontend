@@ -1,26 +1,55 @@
 <template>
 	<div>
 		<div class="layout-header">
-			<div class="mod-slider">
+			<div class="mod-slider" @mouseout="setTimer()" @mouseover="clearTimer()">
 				<div class="slider-wrapper">
-					<ul class="slider-list">
+					<ul class="slider-list" :style="{ transform: 'translateX(-' + ( slider * 100 ) + '%)' }" >
 						<li class="slider-item">
-							<a href="#" class="slider-pic">
+							<a href="#1" class="slider-pic">
 								<img src="../../assets/img/acm.jpg" alt="acm" class="pic">
 							</a>
 							<div class="slider-txt">
 								NOJ update!
 							</div>
 						</li>
+						<li class="slider-item">
+							<a href="#2" class="slider-pic">
+								<img src="../../assets/img/news.jpg" alt="acm" class="pic">
+							</a>
+							<div class="slider-txt">
+								我校学生在第36届ACM国际大学生程序设计竞赛亚洲区预赛取得佳绩1
+							</div>
+						</li>
+						<li class="slider-item">
+							<a href="#3" class="slider-pic">
+								<img src="../../assets/img/news.png" alt="acm" class="pic">
+							</a>
+							<div class="slider-txt">
+								我校学生在第36届ACM国际大学生程序设计竞赛亚洲区预赛取得佳绩2
+							</div>
+						</li>
+						<li class="slider-item">
+							<a href="#4" class="slider-pic">
+								<img src="../../assets/img/news.jpg" alt="acm" class="pic">
+							</a>
+							<div class="slider-txt">
+								我校学生在第36届ACM国际大学生程序设计竞赛亚洲区预赛取得佳绩3
+							</div>
+						</li>
 					</ul>
+					<div class="slider-act">
+						<i class="icon icon-arrow-l" @click="slider <= 0? slider = (sliderNum - 1):slider--"></i>
+						<i class="icon icon-arrow-r" @click="slider >= (sliderNum - 1)? slider = 0:slider++"></i>
+					</div>
 				</div>
 			</div>
 		</div>
 		<div class="layout-body clearfix">
 			<div class="layout-main">
 				<div class="main-content">
-					<div class="tit">
+					<div class="tit clearfix">
 						<h3>News</h3>
+						<router-link to="/news" class="more">more</router-link>
 					</div>
 					<ul class="clearfix">
 						<li>
@@ -92,22 +121,60 @@
 			</div>
 			<div class="layout-aside">
 				<div class="aside-content">
-					<div class="tit">
-						<h3>Announce</h3>
+					<div class="tit clearfix">
+						<h3>Contest</h3>
+						<router-link to="/contest" class="more">more</router-link>
 					</div>
 					<div class="contest-list">
 						<ul>
 							<li>
 								<div class="mod-info">
 									<div class="info-hd">
-										<div class="info-tag in-progress">
-											<span>in progress</span>
+										<div class="info-tag">
+											<div class="tag-d">05</div>
+											<div class="tag-ym">2017-04</div>
 										</div>
 										<div class="info-con">
-											<span>xxxx</span>
+											<a href="#">“青书杯”科技节之算法脑洞大赛 初级组</a>
 										</div>
-										<div class="info-act">
-											<span></span>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="mod-info">
+									<div class="info-hd">
+										<div class="info-tag">
+											<div class="tag-d">05</div>
+											<div class="tag-ym">2017-04</div>
+										</div>
+										<div class="info-con">
+											<a href="#">“青书杯”科技节之算法脑洞大赛 初级组</a>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="mod-info">
+									<div class="info-hd">
+										<div class="info-tag">
+											<div class="tag-d">05</div>
+											<div class="tag-ym">2017-04</div>
+										</div>
+										<div class="info-con">
+											<a href="#">“青书杯”科技节之算法脑洞大赛 初级组</a>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="mod-info">
+									<div class="info-hd">
+										<div class="info-tag">
+											<div class="tag-d">05</div>
+											<div class="tag-ym">2017-04</div>
+										</div>
+										<div class="info-con">
+											<a href="#">“青书杯”科技节之算法脑洞大赛 初级组</a>
 										</div>
 									</div>
 								</div>
@@ -127,7 +194,40 @@ import 'assets/css/mod-thumbnail.css';
 import 'assets/css/mod-info.css';
 
 export default {
-
+	data() {
+		return {
+			sliderNum: 4,
+			slider: 0,
+			timer: null
+		}
+	},
+	mounted() {
+		this.setTimer();
+	},
+	methods: {
+		setTimer: function() {
+			var that = this;
+			if(!this.timer) {
+				this.timer = setInterval(function() {
+					if(that.slider < 0) {
+						that.slider = that.sliderNum - 1;
+					}else if(that.slider >= (that.sliderNum - 1)) {
+						that.slider = 0;
+					}else {
+						that.slider++;
+					}
+				}, 3000);	
+			}
+		},
+		clearTimer: function() {
+			clearInterval(this.timer);
+			this.timer = null;
+		}
+	},
+	beforeRouteLeave(to, from, next) {
+		this.clearTimer();
+		next();
+	}
 }
 
 </script>
@@ -150,6 +250,24 @@ export default {
     	color: #333333;
     	margin-bottom: 10px;
     }
+    .layout-main .main-content .tit h3,
+    .layout-aside .aside-content .tit h3 {
+    	float: left;
+    }
+    .layout-main .main-content .tit .more,
+    .layout-aside .aside-content .tit .more {
+    	font-size: 14px;
+    	color: rgba(51, 51, 51, 0.8);
+    	float: right;
+    }
+    .layout-main .main-content .tit .more {
+    	margin-right: 48px;
+    }
+    .layout-main .main-content .tit .more:hover,
+    .layout-aside .aside-content .tit .more:hover {
+    	color: rgba(51, 51, 51, 1);
+    	/*text-decoration: underline;*/
+    }
     .layout-main .main-content ul {
     	margin-left: -15px;
     }
@@ -162,15 +280,20 @@ export default {
 
     .layout-aside .aside-content .contest-list {
     	width: 100%;
-    	height: 100px;
-    	background: #e0e0e0;
-    	border-top: 3px solid #333333;
+    	background: #ededed;
+    	border-top: 3px solid #22409a;
     }
+    /*.layout-aside .aside-content .contest-list:hover {
+    	box-shadow: 0 8px 20px #808080; 
+    }*/
     .contest-list ul {
     	padding: 10px;
     }
     .contest-list ul li {
     	padding: 10px 0;
-    	border-bottom: 1px solid #333333;
+    	border-bottom: 1px solid rgba(51, 51, 51, 0.3);
+    }
+    .contest-list ul li:last-child {
+    	border: none;
     }
 </style>

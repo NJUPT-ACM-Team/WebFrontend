@@ -3,7 +3,7 @@
 		<div class="nav-container clearfix">
 			<div class="nav-logo">
 				<a href="/">
-					<h1>NUPT Online Judge</h1>
+					<h1>NOJ</h1>
 				</a>
 			</div>
 			<div class="nav-tabs">
