@@ -1,25 +1,48 @@
 /* mod-media */
 
 .mod-media .media-hd {
-    font-size: 18px;
+    font-size: 16px;
     color: #333333;
-    padding: 0 12px 20px 12px;
+    padding-bottom: 12px;
     border-bottom: 1px solid #e0e0e0;
 }
 
-
-/*.media-bd .problem-list .problem-item {
+.media-hd .list-header,
+.media-bd .problem-list .problem-item {
+    display: flex;
+}
+.list-header .title,
+.problem-item .problem-tit {
+    display: flex;
+    flex: 3;
+}
+.list-header .source,
+.problem-item .problem-source {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+}
+.list-header .ratio,
+.problem-item .problem-ratio {
+    display: flex;
+    flex: 2;
+    justify-content: center;
+}
+.media-bd .problem-list .problem-item {
     padding: 12px 0;
     border-bottom: 1px solid #e0e0e0;
-}*/
+    color: #333;
+    font-size: 14px;
+}
+.problem-item .problem-tit a {
+    color: #333;
+}
 
-.problem-item .problem-tit,
 .contest-item .contest-tit {
-    font-size: 18px;
-    margin-bottom: 12px;
+    font-size: 14px;
+    margin-bottom: 5px;
     position: relative;
 }
-.problem-item .problem-tit a,
 .contest-item .contest-tit a {
     color: #22409a;
 }
@@ -27,26 +50,20 @@
 .contest-item .contest-tit a:hover {
     text-decoration: underline;
 }
-.problem-item .problem-txt,
 .contest-item .contest-txt {
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1.5;
 }
-.problem-item .problem-txt span {
-    display: inline-block;
-    margin-right: 14px;
-}
 
-.media-bd .problem-list .problem-item,
 .media-bd .contest-list .contest-item {
-    padding: 14px 0 2px 0;
+    padding: 10px 0 2px 0;
     border-bottom: 1px solid #e0e0e0;
 }
 .contest-item .contest-tit span {
     display: inline-block;
     padding: 4px 8px;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 12px;
     color: #f3f3f3;
     transform: translateY(-2px);
     background: #a8adb1;

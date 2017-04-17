@@ -30,22 +30,23 @@
             <div class="layout-main">
                 <div class="mod-media">
                     <div class="media-hd">
-                        <h3 class="tit">{{ activeSource }}</h3>
+                        <div class="list-header">
+                            <div class="title">Title</div>
+                            <div class="source">Source</div>
+                            <div class="ratio">Ratio(AC/Submit)</div>
+                        </div>
                     </div>
                     <div class="media-bd">
                         <ul class="problem-list">
-                            <li class="problem-item clearfix" v-for="item in problemList">
-                                <div class="problem-tit">
-                                    <router-link :to="{name: 'problem', params: {problemId: item.pid} }">{{ item.pid }}.{{ item.ptit }}</router-link>
+                            <li class="problem-item" v-for="item in problemList">
+                                <div class="item-tab problem-tit">
+                                    <router-link :to="{name: 'problem', params: {problemId: item.id} }">{{ item.id }}.{{ item.tit }}</router-link>
                                 </div>
-                                <div class="problem-txt">
-                                    <!-- <p class="txt-decs">{{ item.pdec }}</p> -->
-                                    <p class="txt-data">
-                                        AC : <span class="data-ac">{{ item.pac }}</span>
-                                        Submit : <span class="data-submit">{{ item.psubmit }}</span>
-                                        Source : <span class="data-source">{{ item.psource }}</span>
-                                        <!-- <span class="data-date">{{ item.pdate }}</span> -->
-                                    </p>
+                                <div class="item-tab problem-source">{{ item.source }}</div>
+                                <div class="item-tab problem-ratio">
+                                    <p class="p-r">{{ (item.ac/item.submit*100).toFixed(2) }}%</p>&nbsp;(
+                                    <p class="p-ac">{{ item.ac }}</p>/
+                                    <p class="p-sb">{{ item.submit }}</p>)
                                 </div>
                             </li>
                         </ul>
@@ -134,61 +135,61 @@ import 'assets/css/mod-pagination.css';
                 activeSource: 'All',
                 problemList: [
                     {
-                        pid: '1001',
-                        ptit: '整数求和',
-                        pdec: '给定两个整数，求它们之和。',
-                        psource: 'NUPT',
-                        pac: '4552',
-                        psubmit: '10000',
-                        pdate: '2017-01-25'
+                        id: '1001',
+                        tit: '整数求和',
+                        dec: '给定两个整数，求它们之和。',
+                        source: 'NUPT',
+                        ac: '4552',
+                        submit: '10000',
+                        date: '2017-01-25'
                     },{
-                        pid: '1002',
-                        ptit: '整数求和',
-                        pdec: '给定两个整数，求它们之和。',
-                        psource: 'NUPT',
-                        pac: '4552',
-                        psubmit: '10000',
-                        pdate: '2017-01-25'
+                        id: '1002',
+                        tit: '整数求和',
+                        dec: '给定两个整数，求它们之和。',
+                        source: 'NUPT',
+                        ac: '4552',
+                        submit: '10000',
+                        date: '2017-01-25'
                     },{
-                        pid: '1002',
-                        ptit: '整数求和',
-                        pdec: '给定两个整数，求它们之和。',
-                        psource: 'NUPT',
-                        pac: '4552',
-                        psubmit: '10000',
-                        pdate: '2017-01-25'
+                        id: '1002',
+                        tit: '整数求和',
+                        dec: '给定两个整数，求它们之和。',
+                        source: 'NUPT',
+                        ac: '4552',
+                        submit: '10000',
+                        date: '2017-01-25'
                     },{
-                        pid: '1002',
-                        ptit: '整数求和',
-                        pdec: '给定两个整数，求它们之和。',
-                        psource: 'NUPT',
-                        pac: '4552',
-                        psubmit: '10000',
-                        pdate: '2017-01-25'
+                        id: '1002',
+                        tit: '整数求和',
+                        dec: '给定两个整数，求它们之和。',
+                        source: 'NUPT',
+                        ac: '4552',
+                        submit: '10000',
+                        date: '2017-01-25'
                     },{
-                        pid: '1002',
-                        ptit: '整数求和',
-                        pdec: '给定两个整数，求它们之和。',
-                        psource: 'NUPT',
-                        pac: '4552',
-                        psubmit: '10000',
-                        pdate: '2017-01-25'
+                        id: '1002',
+                        tit: '整数求和',
+                        dec: '给定两个整数，求它们之和。',
+                        source: 'NUPT',
+                        ac: '4552',
+                        submit: '10000',
+                        date: '2017-01-25'
                     },{
-                        pid: '1002',
-                        ptit: '整数求和',
-                        pdec: '给定两个整数，求它们之和。',
-                        psource: 'NUPT',
-                        pac: '4552',
-                        psubmit: '10000',
-                        pdate: '2017-01-25'
+                        id: '1002',
+                        tit: '整数求和',
+                        dec: '给定两个整数，求它们之和。',
+                        source: 'NUPT',
+                        ac: '4552',
+                        submit: '10000',
+                        date: '2017-01-25'
                     },{
-                        pid: '1002',
-                        ptit: '整数求和',
-                        pdec: '给定两个整数，求它们之和。',
-                        psource: 'NUPT',
-                        pac: '4552',
-                        psubmit: '10000',
-                        pdate: '2017-01-25'
+                        id: '1002',
+                        tit: '整数求和',
+                        dec: '给定两个整数，求它们之和。',
+                        source: 'NUPT',
+                        ac: '4552',
+                        submit: '10000',
+                        date: '2017-01-25'
                     }
                 ],
                 currentPage: 1,
