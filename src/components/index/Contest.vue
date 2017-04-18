@@ -26,9 +26,9 @@
             </div>
             <div class="layout-main">
                 <div class="mod-media">
-                    <div class="media-hd">
+                    <!-- <div class="media-hd">
                         <h3 class="tit">{{ activeStatus }}</h3>
-                    </div>
+                    </div> -->
                     <div class="media-bd">
                         <ul class="contest-list">
                             <li class="contest-item" v-for="c in contestList">
