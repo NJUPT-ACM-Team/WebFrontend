@@ -40,13 +40,13 @@
                         <ul class="problem-list">
                             <li class="problem-item" v-for="item in problemList">
                                 <div class="item-tab problem-tit">
-                                    <router-link :to="{name: 'problem', params: {problemId: item.id} }">{{ item.id }}.{{ item.tit }}</router-link>
+                                    <router-link :to="{name: 'problem', params: {problemId: item.pid} }">{{ item.pid }}.{{ item.title }}</router-link>
                                 </div>
                                 <div class="item-tab problem-source">{{ item.source }}</div>
                                 <div class="item-tab problem-ratio">
-                                    <p class="p-r">{{ (item.ac/item.submit*100).toFixed(2) }}%</p>&nbsp;(
-                                    <p class="p-ac">{{ item.ac }}</p>/
-                                    <p class="p-sb">{{ item.submit }}</p>)
+                                    <p class="p-r">{{ (item.ac_submission/item.total_submission*100).toFixed(2) }}%</p>&nbsp;(
+                                    <p class="p-ac">{{ item.ac_submission }}</p>/
+                                    <p class="p-sb">{{ item.total_submission }}</p>)
                                 </div>
                             </li>
                         </ul>
@@ -112,10 +112,13 @@
     }
 </style>
 <script>
+
 import 'assets/css/mod-header.css';
 import 'assets/css/mod-box.css';
 import 'assets/css/mod-media.css';
 import 'assets/css/mod-pagination.css';
+
+import { getProblemList } from 'src/api';
 
     export default{
         data(){
@@ -133,68 +136,24 @@ import 'assets/css/mod-pagination.css';
                     }
                 ],
                 activeSource: 'All',
-                problemList: [
-                    {
-                        id: '1001',
-                        tit: '整数求和',
-                        dec: '给定两个整数，求它们之和。',
-                        source: 'NUPT',
-                        ac: '4552',
-                        submit: '10000',
-                        date: '2017-01-25'
-                    },{
-                        id: '1002',
-                        tit: '整数求和',
-                        dec: '给定两个整数，求它们之和。',
-                        source: 'NUPT',
-                        ac: '4552',
-                        submit: '10000',
-                        date: '2017-01-25'
-                    },{
-                        id: '1002',
-                        tit: '整数求和',
-                        dec: '给定两个整数，求它们之和。',
-                        source: 'NUPT',
-                        ac: '4552',
-                        submit: '10000',
-                        date: '2017-01-25'
-                    },{
-                        id: '1002',
-                        tit: '整数求和',
-                        dec: '给定两个整数，求它们之和。',
-                        source: 'NUPT',
-                        ac: '4552',
-                        submit: '10000',
-                        date: '2017-01-25'
-                    },{
-                        id: '1002',
-                        tit: '整数求和',
-                        dec: '给定两个整数，求它们之和。',
-                        source: 'NUPT',
-                        ac: '4552',
-                        submit: '10000',
-                        date: '2017-01-25'
-                    },{
-                        id: '1002',
-                        tit: '整数求和',
-                        dec: '给定两个整数，求它们之和。',
-                        source: 'NUPT',
-                        ac: '4552',
-                        submit: '10000',
-                        date: '2017-01-25'
-                    },{
-                        id: '1002',
-                        tit: '整数求和',
-                        dec: '给定两个整数，求它们之和。',
-                        source: 'NUPT',
-                        ac: '4552',
-                        submit: '10000',
-                        date: '2017-01-25'
-                    }
-                ],
+                problemList: [],
                 currentPage: 1,
                 totalPages: 99
             }
+        },
+        created() {
+            var $this = this,
+                res = getProblemList(2,1,0,true,'zoj',0);
+            res.then(function(response) {
+                var data = response.data.list_problems_response,
+                    lines = data.lines;
+                $this.currentPage = data.current_page;
+                $this.totalPages = data.total_pages;
+                $this.problemList = lines;
+            })
+            .catch(function(err) {
+                console.log(err);
+            })
         },
         computed: {
             setPageRange: function() {

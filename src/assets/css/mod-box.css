@@ -79,7 +79,7 @@
 }
 
 /* contest page status panel */
-.box-bd .status-list .status-item {
+.box-bd .list .item {
     width: 80%;
     /*height: 32px;
     line-height: 32px;*/
@@ -90,35 +90,35 @@
     font-size: 14px;
     transition: all .3s;
 }
-.status-list .status-item:first-child {
+.list .item:first-child {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
-.status-list .status-item:last-child {
+.list .item:last-child {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     border-bottom: 1px solid #e0e0e0;
 }
-.status-list .status-item:hover {
+.list .item:hover {
     background: #e7e7e7;
 }
-.status-list .status-item.active {
+.list .item.active {
     background: #22409a;
 }
-.status-list .status-item.active a {
+.list .item.active a {
     color: #f3f3f3;
     cursor: default;
 }
-.status-list .status-item.active .item-num {
+.list .item.active .item-tab {
     background: #f3f3f3;
     color: #000000;
 }
-.status-item a {
+.item a {
     width: 100%;
     display: block;
     color: #000000;
 }
-.status-item .item-num {
+.item .item-tab {
     float: right;
     border-radius: 10px;
     padding: 2px 4px;

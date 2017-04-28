@@ -34,7 +34,29 @@ export default new VueRouter({
         {
           path: '/contest/:contestId',
           name: 'contest',
-          component: resolve => require(['components/index/ContestDetail'], resolve)
+          component: resolve => require(['components/index/ContestDetail'], resolve),
+          children: [
+            {
+              path: '/contest/:contestId/detail',
+              name: 'contest-introduce',
+              component: resolve => require(['components/index/contest/ContestIntroduce'], resolve)
+            },
+            {
+              path: '/contest/:contestId/status',
+              name: 'contest-status',
+              component: resolve => require(['components/index/contest/ContestStatus'], resolve)
+            },
+            {
+              path: '/contest/:contestId/rank',
+              name: 'contest-rank',
+              component: resolve => require(['components/index/contest/ContestRank'], resolve)
+            },
+            {
+              path: '/contest/:contestId/discussion',
+              name: 'contest-discussion',
+              component: resolve => require(['components/index/contest/ContestDiscussion'], resolve)
+            }
+          ]
         },
         {
           path: '/user-rank',

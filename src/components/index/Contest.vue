@@ -13,11 +13,11 @@
             <div class="layout-aside">
                 <div class="mod-box">
                     <div class="box-bd">
-                        <ul class="status-list">
-                            <li class="status-item" v-for="item in status" :class="item.sname == activeStatus?'active':''" @click="setStatus(item.sname)">
+                        <ul class="list">
+                            <li class="item" v-for="item in status" :class="item.sname == activeStatus?'active':''" @click="setStatus(item.sname)">
                                 <a href="javscript:;" class="clearfix">
                                     <span class="item-tit">{{ item.sname }}</span>
-                                    <span class="item-num">{{ item.snum }}</span>
+                                    <span class="item-tab">{{ item.snum }}</span>
                                 </a>
                             </li>
                         </ul>
@@ -33,7 +33,7 @@
                         <ul class="contest-list">
                             <li class="contest-item" v-for="c in contestList">
                                 <div class="contest-tit">
-                                    <router-link :to="{name: 'contest', params: {contestId: c.cid} }">{{ c.cid }}. {{ c.cname }}</router-link>
+                                    <router-link :to="{name: 'contest-introduce', params: {contestId: c.id} }">{{ c.id }}. {{ c.name }}</router-link>
                                     <span class="contest-status" :class="[c.status]">{{ c.status }}</span>
                                     <span class="contest-access" :class="[c.access]">{{ c.access }}</span>
                                 </div>
@@ -135,64 +135,64 @@ import 'assets/css/mod-pagination.css';
                 activeStatus: 'All',
                 contestList: [
                     {
-                        cid: '1001',
-                        cname: '“青书杯”科技节之算法脑洞大赛 初级组 ',
+                        id: '1001',
+                        name: '“青书杯”科技节之算法脑洞大赛 初级组 ',
                         stime: '2017.03.03 09:00',
                         etime: '2017.03.03 12:00',
                         status: 'in-progress',
                         access: 'private'
                     },{
-                        cid: '1002',
-                        cname: '“青书杯”科技节之算法脑洞大赛',
+                        id: '1002',
+                        name: '“青书杯”科技节之算法脑洞大赛',
                         stime: '2017.03.03 09:00',
                         etime: '2017.03.03 12:00',
                         status: 'in-future',
                         access: 'public'
                     },{
-                        cid: '1003',
-                        cname: '“青书杯”科技节之算法脑洞大赛',
+                        id: '1003',
+                        name: '“青书杯”科技节之算法脑洞大赛',
                         stime: '2017.03.03 09:00',
                         etime: '2017.03.03 12:00',
                         status: 'ended',
                         access: 'public'
                     },{
-                        cid: '1003',
-                        cname: '“青书杯”科技节之算法脑洞大赛',
+                        id: '1003',
+                        name: '“青书杯”科技节之算法脑洞大赛',
                         stime: '2017.03.03 09:00',
                         etime: '2017.03.03 12:00',
                         status: 'ended',
                         access: 'public'
                     },{
-                        cid: '1003',
-                        cname: '“青书杯”科技节之算法脑洞大赛',
+                        id: '1003',
+                        name: '“青书杯”科技节之算法脑洞大赛',
                         stime: '2017.03.03 09:00',
                         etime: '2017.03.03 12:00',
                         status: 'ended',
                         access: 'public'
                     },{
-                        cid: '1003',
-                        cname: '“青书杯”科技节之算法脑洞大赛',
+                        id: '1003',
+                        name: '“青书杯”科技节之算法脑洞大赛',
                         stime: '2017.03.03 09:00',
                         etime: '2017.03.03 12:00',
                         status: 'ended',
                         access: 'public'
                     },{
-                        cid: '1003',
-                        cname: '“青书杯”科技节之算法脑洞大赛',
+                        id: '1003',
+                        name: '“青书杯”科技节之算法脑洞大赛',
                         stime: '2017.03.03 09:00',
                         etime: '2017.03.03 12:00',
                         status: 'in-future',
                         access: 'public'
                     },{
-                        cid: '1003',
-                        cname: '“青书杯”科技节之算法脑洞大赛',
+                        id: '1003',
+                        name: '“青书杯”科技节之算法脑洞大赛',
                         stime: '2017.03.03 09:00',
                         etime: '2017.03.03 12:00',
                         status: 'ended',
                         access: 'public'
                     },{
-                        cid: '1003',
-                        cname: '“青书杯”科技节之算法脑洞大赛',
+                        id: '1003',
+                        name: '“青书杯”科技节之算法脑洞大赛',
                         stime: '2017.03.03 09:00',
                         etime: '2017.03.03 12:00',
                         status: 'ended',
