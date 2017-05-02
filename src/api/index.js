@@ -5,6 +5,7 @@ import axios from 'axios';
 const URL = 'http://10.80.124.249:8000';
 
 axios.defaults.baseURL = URL;
+axios.defaults.withCredentials = true;
 
 export function login(name, pwd) {
 	return axios.post('/api/inline/login/auth',{
@@ -57,7 +58,7 @@ export function getStatus(per_page=20, current_page=1, is_desc=false, filter_use
 
 export function postCode(problem_sid, code, language_id, is_shared=false, contest_id=0) {
 	return axios.post('/api/inline/submit', {
-		data: {
+		submit_request: {
 			problem_sid: problem_sid,
 			code: code,
 			language_id: language_id,
