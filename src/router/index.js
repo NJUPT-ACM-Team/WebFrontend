@@ -28,6 +28,10 @@ export default new VueRouter({
           component: resolve => require(['components/index/ProblemDetail'], resolve)
         },
         {
+          path: '/status',
+          component: resolve => require(['components/index/Status'], resolve)
+        },
+        {
           path: '/contest',
           component: resolve => require(['components/index/Contest'], resolve)
         }, 

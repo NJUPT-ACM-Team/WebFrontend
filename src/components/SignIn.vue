@@ -8,14 +8,14 @@
 				<div class="form-body">
 					<div class="form-item">
 						<label for="usr">Username</label>
-						<input type="text" id="usr" />
+						<input type="text" id="usr" v-model="username"/>
 					</div>
 					<div class="form-item">
 						<label for="pwd">Password</label>
-						<input type="password" id="pwd" />
+						<input type="password" id="pwd" v-model="pwd"/>
 					</div>
 					<div class="form-btn">
-						<a href="javascript:;" class="btn">Sign in</a>
+						<a href="javascript:;" class="btn" @click="enter()">Sign in</a>
 					</div>
 					<div class="form-exp">
 						<router-link to="/signup" class="exp">New?Create an account.</router-link>
@@ -33,10 +33,21 @@
 <script>
 import 'assets/css/mod-sign.css';
 
+import { login } from 'src/api';
+
 	export default {
 		data() {
 			return {
-
+				username: '',
+				pwd: ''
+			}
+		},
+		methods: {
+			enter: function() {
+				var res = login(this.username, this.pwd);
+				res.then(function(response) {
+					console.log(response);
+				})
 			}
 		}
 	}

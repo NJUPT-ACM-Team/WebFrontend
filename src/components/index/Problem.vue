@@ -40,7 +40,7 @@
                         <ul class="problem-list">
                             <li class="problem-item" v-for="item in problemList">
                                 <div class="item-tab problem-tit">
-                                    <router-link :to="{name: 'problem', params: {problemId: item.pid} }">{{ item.pid }}.{{ item.title }}</router-link>
+                                    <router-link :to="{name: 'problem', params: {problemId: item.sid} }">{{ item.pid }}.{{ item.title }}</router-link>
                                 </div>
                                 <div class="item-tab problem-source">{{ item.source }}</div>
                                 <div class="item-tab problem-ratio">

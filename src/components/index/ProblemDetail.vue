@@ -2,11 +2,11 @@
 	<div>
 		<div class="layout-header">
             <div class="mod-header">
-                <h2>{{ problem.id }}.{{ problem.tit }}</h2>
+                <h2>{{ problem.id }}.{{ problem.title }}</h2>
                 <div class="header-txt">
-                	<p>
-                		Time limit : <span class="time-limit">{{ problem.tlimit }}ms</span>
-                		Memory limit : <span class="memory-limit">{{ problem.mlimit }}KByte</span>
+                	<p v-for="item in problem.limits">
+                		({{ item.language }})Time limit : <span class="time-limit">{{ item.time_limit }}ms</span>
+                		Memory limit : <span class="memory-limit">{{ item.memory_limit }}KByte</span>
                 	</p>
                 </div>
             </div>
@@ -20,7 +20,7 @@
         						<h3><a name="description" href="#description">Description</a></h3>
         					</div>
         					<div class="txt-bd">
-        						<p>{{ problem.dec }}</p>
+        						<p>{{ problem.description }}</p>
         					</div>
         				</li>
         				<li>
@@ -44,7 +44,7 @@
         						<h3><a name="sampleInput" href="#sampleInput">Sample input</a></h3>
         					</div>
         					<div class="txt-bd">
-        						<p>{{ problem.sinput }}</p>
+        						<p>{{ problem.sample_input }}</p>
         					</div>
         				</li>
         				<li>
@@ -52,7 +52,7 @@
         						<h3><a name="sampleOutput" href="#sampleOutput">Sample output</a></h3>
         					</div>
         					<div class="txt-bd">
-        						<p>{{ problem.soutput }}</p>
+        						<p>{{ problem.sample_output }}</p>
         					</div>
         				</li>
         				<li>
@@ -76,7 +76,7 @@
                                 <h3><a name="language" href="#language">Language</a></h3>
                             </div>
                             <div class="txt-bd">
-                                <a href="javascript:;" class="lan-item" v-for="item in supportLan" :class="item.lan == usedLan?'active':''" @click="setLan(item)">{{ item.lan }}</a>
+                                <a href="javascript:;" class="lan-item" v-for="item in supportLan" :class="item.language_id == usedLanID?'active':''" @click="setLan(item)">{{ item.language }}</a>
                             </div>
                         </li>
                         <li>
@@ -100,7 +100,7 @@
         		</div>
         		<div class="mod-btn">
         			<div class="btn btn-submit">
-        				<a href="javascript:;" name="submit">Submit</a>
+        				<a href="javascript:;" name="submit" @click="submitCode()">Submit</a>
         			</div>
         		</div>
         	</div>
@@ -186,6 +186,8 @@ import 'assets/css/mod-menu.css';
 import 'assets/css/mod-btn.css';
 import 'assets/css/mod-codemirror.css';
 
+import { getProblemDetail, postCode } from 'src/api';
+
 	export default{
         data(){
             return{
@@ -193,34 +195,25 @@ import 'assets/css/mod-codemirror.css';
             	post: null,
             	error: null,
                 problem: {
-                	id: '',
-                	tit: '整数求和',
-                	tlimit: '1000',
-                	mlimit: '65536',
-                	dec: '给定两个整数，求它们之和。',
-                	input: '两个整数A，B.',
-                	output: '两个整数的和。',
-                	sinput: '1 2',
-                	soutput: '3',
-                	hint: '给定两个整数，求它们之和。',
-                	source: 'NUAA'
+                	
                 },
-                supportLan: [
+                supportLan: [],
+                lanMode: [
                     {
-                        lan: 'G++',
+                        language: 'c++',
                         mode: 'text/x-c++src'
                     },{
-                        lan: 'GCC',
+                        language: 'c',
                         mode: 'text/x-csrc',
                     },{
-                        lan: 'Java',
+                        language: 'java',
                         mode: 'text/x-java'
                     },{
-                        lan: 'Pascal',
+                        language: 'pascal',
                         mode: 'text/x-pascal'
                     }
                 ],
-                usedLan: 'G++',
+                usedLanID: 1,
                 code: '',
                 editorOption: {
                     tabSize: 4,
@@ -275,13 +268,38 @@ import 'assets/css/mod-codemirror.css';
         		this.error = this.post = null;
         		this.loading = true;
         		// get post
-        		this.problem.id = this.$route.params.problemId;
+        		// this.problem.id = this.$route.params.problemId;
+                var $this = this;
+                var res = getProblemDetail(this.$route.params.problemId);
+                res.then(function(response) {
+                    var data = response.data.show_problem_response;
+                    $this.problem = data.problem;
+                    $this.problem.id = data.problem_sid;
+
+                    $this.supportLan = data.languages;
+                    console.log($this.problem);
+                })
         	},
             setLan: function(l) {
+                console.log(l);
                 if(l.lan != this.usedLan) {
-                    this.usedLan = l.lan;
-                    this.editorOption.mode = l.mode;
+                    this.usedLan = l.language;
+                    // this.editorOption.mode = l.mode;
                 }
+            },
+            submitCode: function() {
+                var data = {
+                    problem_sid: this.problem.id,
+                    code: this.code,
+                    language_id: this.usedLanID,
+                }
+                var res = postCode(this.problem.id, this.code, this.usedLanID);
+                res.then(function(response) {
+                    console.log(response);
+                })
+                .catch(function(err) {
+                    console.log(err);
+                })
             }
         }
     }
