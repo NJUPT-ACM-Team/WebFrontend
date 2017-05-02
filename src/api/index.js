@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-const URL = 'http://10.80.124.249:8000';
+const URL = 'http://10.164.22.130:8000';
 
 axios.defaults.baseURL = URL;
 axios.defaults.withCredentials = true;

@@ -85,13 +85,14 @@
                             </div>
                             <div class="txt-bd">
                                 <div class="mod-codemirror">
-                                    <div class="cm-hd clearfix">
+                                    <!-- <div class="cm-hd clearfix">
                                         <div class="cm-btn">
                                             <a href="javascript:;" class="btn-clear" @click="code = ''">clear</a>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="cm-bd">
-                                        <codemirror v-model="code" :options="editorOption"></codemirror>
+                                        <!-- <codemirror v-model="code" :options="editorOption"></codemirror> -->
+                                        <textarea name="code" id="code" v-model="code"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -293,9 +294,17 @@ import { getProblemDetail, postCode } from 'src/api';
                     code: this.code,
                     language_id: this.usedLanID,
                 }
+                console.log(data);
                 var res = postCode(this.problem.id, this.code, this.usedLanID);
                 res.then(function(response) {
                     console.log(response);
+                    var data = response.data;
+                    if(data.error) {
+                        alert("error");
+                    }else {
+                        alert('success');
+                        location.href = '/status';
+                    }
                 })
                 .catch(function(err) {
                     console.log(err);

@@ -52,7 +52,7 @@ export default {
 	},
 	created() {
 		var $this = this;
-		var res = getStatus(10);
+		var res = getStatus();
 		res.then(function(response) {
 			var data = response.data.list_submissions_response;
 			var lines = data.lines;

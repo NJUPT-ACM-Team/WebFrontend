@@ -1,6 +1,6 @@
 /* mod-codemirror */
 
-.mod-codemirror .cm-hd {
+/*.mod-codemirror .cm-hd {
 	height: 30px;
 	background: #f7f7f7;
 	border-top-left-radius: 12px;
@@ -27,4 +27,14 @@
 }
 .cm-hd .cm-btn .btn-clear:hover {
 	opacity: 1;
+}*/
+
+.mod-codemirror .cm-bd textarea {
+	width: 100%;
+	height: 300px;
+	resize: none;
+	box-sizing: border-box;
+	padding: 10px;
+	font-size: 14px;
+	font-family: arial;
 }
