@@ -24,6 +24,23 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
 }
+
+/*@font-face {
+    font-family: 'founder jane black simplified';
+    src: url('../fonts/Founder-Jane-Black-simplified-Chinese-characters.ttf');
+}
+
+@font-face {
+    font-family: 'ADELEADELE';
+    src: url('../fonts/adele-light-webfont.eot');
+    src: url('../fonts/adele-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/adele-light-webfont.woff') format('woff'),
+         url('../fonts/adele-light-webfont.ttf') format('truetype'),
+         url('../fonts/adele-light-webfont.svg#ADELEADELE') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}*/
+
 body {
     line-height: 1;
     font-family: 'microsoft yahei',Calibri, arial;

@@ -1,5 +1,17 @@
 <template>
 	<div>
+		<div class="layout-header">
+            <div class="mod-header">
+                <h2>Search</h2>
+                <div class="input-group">
+                    <input type="text" placeholder="please input the word you want to search">
+                    <button>Search</button>
+                </div>
+            </div>
+        </div>
+        <div class="layout-body">
+        	
+        </div>
 		<table>
 			<tr>
 				<td>run_id</td>
@@ -41,7 +53,9 @@
 </style>
 
 <script>
-	
+
+import 'assets/css/mod-header.css';
+
 import { getStatus } from 'src/api';
 
 export default {

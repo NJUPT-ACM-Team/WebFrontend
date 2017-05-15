@@ -33,14 +33,14 @@
                         <ul class="contest-list">
                             <li class="contest-item" v-for="c in contestList">
                                 <div class="contest-tit">
-                                    <router-link :to="{name: 'contest-introduce', params: {contestId: c.id} }">{{ c.id }}. {{ c.name }}</router-link>
+                                    <router-link :to="{name: 'contest-introduce', params: {contestId: c.contest_id} }">{{ c.contest_id }}. {{ c.title }}</router-link>
                                     <span class="contest-status" :class="[c.status]">{{ c.status }}</span>
                                     <span class="contest-access" :class="[c.access]">{{ c.access }}</span>
                                 </div>
                                 <div class="contest-txt">
                                     <p class="txt-date">
-                                        <span class="start-time">{{ c.stime }}</span> —— 
-                                        <span class="end-time">{{ c.etime }}</span>
+                                        <span class="start-time">{{ c.start_time }}</span> —— 
+                                        <span class="end-time">{{ c.end_time }}</span>
                                     </p>
                                 </div>
                             </li>
@@ -113,6 +113,8 @@ import 'assets/css/mod-media.css';
 import 'assets/css/mod-box.css';
 import 'assets/css/mod-pagination.css';
 
+import { getContestList } from 'src/api';
+
     export default{
         data(){
             return{
@@ -133,75 +135,22 @@ import 'assets/css/mod-pagination.css';
 
                 ],
                 activeStatus: 'All',
-                contestList: [
-                    {
-                        id: '1001',
-                        name: '“青书杯”科技节之算法脑洞大赛 初级组 ',
-                        stime: '2017.03.03 09:00',
-                        etime: '2017.03.03 12:00',
-                        status: 'in-progress',
-                        access: 'private'
-                    },{
-                        id: '1002',
-                        name: '“青书杯”科技节之算法脑洞大赛',
-                        stime: '2017.03.03 09:00',
-                        etime: '2017.03.03 12:00',
-                        status: 'in-future',
-                        access: 'public'
-                    },{
-                        id: '1003',
-                        name: '“青书杯”科技节之算法脑洞大赛',
-                        stime: '2017.03.03 09:00',
-                        etime: '2017.03.03 12:00',
-                        status: 'ended',
-                        access: 'public'
-                    },{
-                        id: '1003',
-                        name: '“青书杯”科技节之算法脑洞大赛',
-                        stime: '2017.03.03 09:00',
-                        etime: '2017.03.03 12:00',
-                        status: 'ended',
-                        access: 'public'
-                    },{
-                        id: '1003',
-                        name: '“青书杯”科技节之算法脑洞大赛',
-                        stime: '2017.03.03 09:00',
-                        etime: '2017.03.03 12:00',
-                        status: 'ended',
-                        access: 'public'
-                    },{
-                        id: '1003',
-                        name: '“青书杯”科技节之算法脑洞大赛',
-                        stime: '2017.03.03 09:00',
-                        etime: '2017.03.03 12:00',
-                        status: 'ended',
-                        access: 'public'
-                    },{
-                        id: '1003',
-                        name: '“青书杯”科技节之算法脑洞大赛',
-                        stime: '2017.03.03 09:00',
-                        etime: '2017.03.03 12:00',
-                        status: 'in-future',
-                        access: 'public'
-                    },{
-                        id: '1003',
-                        name: '“青书杯”科技节之算法脑洞大赛',
-                        stime: '2017.03.03 09:00',
-                        etime: '2017.03.03 12:00',
-                        status: 'ended',
-                        access: 'public'
-                    },{
-                        id: '1003',
-                        name: '“青书杯”科技节之算法脑洞大赛',
-                        stime: '2017.03.03 09:00',
-                        etime: '2017.03.03 12:00',
-                        status: 'ended',
-                        access: 'public'
-                    }
-                ],
+                contestList: [],
                 currentPage: 1,
                 totalPages: 99
             }
+        },
+        created() {
+            var $this = this,
+                contestList = getContestList();
+            contestList.then(function(response) {
+                var data = response.data.list_contests_response,
+                    lines = data.lines;
+                $this.contestList = lines;
+                $this.currentPage = data.current_page;
+                $this.totalPages = data.total_pages;
+                console.log(data);
+            })
         },
         computed: {
             setPageRange: function() {

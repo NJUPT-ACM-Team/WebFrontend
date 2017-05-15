@@ -71,19 +71,20 @@
         						<p>{{ problem.source }}</p>
         					</div>
         				</li>
-                        <li>
+                        <!-- <li>
                             <div class="txt-hd">
                                 <h3><a name="language" href="#language">Language</a></h3>
                             </div>
                             <div class="txt-bd">
                                 <a href="javascript:;" class="lan-item" v-for="item in supportLan" :class="item.language_id == usedLanID?'active':''" @click="setLan(item)">{{ item.language }}</a>
                             </div>
-                        </li>
+                        </li> -->
                         <li>
                             <div class="txt-hd">
                                 <h3><a name="sourceCode" href="#sourceCode">Source code</a></h3>
                             </div>
                             <div class="txt-bd">
+                                <a href="javascript:;" class="lan-item" v-for="item in supportLan" :class="item.language_id == usedLanID?'active':''" @click="setLan(item)">{{ item.language }}</a>
                                 <div class="mod-codemirror">
                                     <!-- <div class="cm-hd clearfix">
                                         <div class="cm-btn">
@@ -154,7 +155,7 @@
 		padding: 20px 0 5px 0;
 	}
 	.mod-header h2 {
-		padding-bottom: 20px;
+		padding-bottom: 12px;
 	}
 	.layout-body {
 		margin-top: 20px;
@@ -171,7 +172,7 @@
 		margin-bottom: 20px;
 	}
     .mod-codemirror {
-        margin-top: 16px;
+        margin-top: 8px;
     }
     .layout-aside .fix {
         position: fixed;
@@ -199,6 +200,8 @@ import { getProblemDetail, postCode } from 'src/api';
                 	
                 },
                 supportLan: [],
+                usedLanID: 2,
+                code: '',
                 lanMode: [
                     {
                         language: 'c++',
@@ -214,8 +217,6 @@ import { getProblemDetail, postCode } from 'src/api';
                         mode: 'text/x-pascal'
                     }
                 ],
-                usedLanID: 1,
-                code: '',
                 editorOption: {
                     tabSize: 4,
                     styleActiveLine: true,
@@ -278,13 +279,14 @@ import { getProblemDetail, postCode } from 'src/api';
                     $this.problem.id = data.problem_sid;
 
                     $this.supportLan = data.languages;
-                    console.log($this.problem);
+                    console.log($this.supportLan);
                 })
         	},
             setLan: function(l) {
                 console.log(l);
-                if(l.lan != this.usedLan) {
+                if(l.language_id != this.usedLanID) {
                     this.usedLan = l.language;
+                    this.usedLanID = l.language_id;
                     // this.editorOption.mode = l.mode;
                 }
             },

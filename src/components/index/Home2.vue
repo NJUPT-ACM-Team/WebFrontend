@@ -1,45 +1,23 @@
 <template>
 	<div>
 		<div class="layout-header">
-			<div class="mod-slider" @mouseout="setTimer()" @mouseover="clearTimer()">
-				<div class="slider-wrapper">
-					<ul class="slider-list" :style="{ transform: 'translateX(-' + ( slider * 100 ) + '%)' }" >
-						<li class="slider-item">
-							<a href="#1" class="slider-pic">
-								<img src="../../assets/img/acm.jpg" alt="acm" class="pic">
-							</a>
-							<div class="slider-txt">
-								NOJ update!
+			<div class="mod-banner">
+				<div class="banner-wrapper">
+					<div class="banner-bd">
+						<div class="banner-pic">
+							<img src="../../assets/img/banner.jpg" alt="acm" class="pic">
+						</div>
+						<div class="banner-info">
+							<div class="banner-txt">
+								<p class="txt-welcome">Welcome to</p>
+								<h2>NUPT Online Judge</h2>
+								<p class="txt-school">南京邮电大学</p>
+								<p class="txt-acm">ACM 校集训队欢迎你！</p>
 							</div>
-						</li>
-						<li class="slider-item">
-							<a href="#2" class="slider-pic">
-								<img src="../../assets/img/news.jpg" alt="acm" class="pic">
-							</a>
-							<div class="slider-txt">
-								我校学生在第36届ACM国际大学生程序设计竞赛亚洲区预赛取得佳绩1
+							<div class="banner-act clearfix">
+								<a href="#" class="act-btn">Join Us</a>
 							</div>
-						</li>
-						<li class="slider-item">
-							<a href="#3" class="slider-pic">
-								<img src="../../assets/img/news.png" alt="acm" class="pic">
-							</a>
-							<div class="slider-txt">
-								我校学生在第36届ACM国际大学生程序设计竞赛亚洲区预赛取得佳绩2
-							</div>
-						</li>
-						<li class="slider-item">
-							<a href="#4" class="slider-pic">
-								<img src="../../assets/img/news.jpg" alt="acm" class="pic">
-							</a>
-							<div class="slider-txt">
-								我校学生在第36届ACM国际大学生程序设计竞赛亚洲区预赛取得佳绩3
-							</div>
-						</li>
-					</ul>
-					<div class="slider-act">
-						<i class="icon icon-arrow-l" @click="slider <= 0? slider = (sliderNum - 1):slider--"></i>
-						<i class="icon icon-arrow-r" @click="slider >= (sliderNum - 1)? slider = 0:slider++"></i>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -189,44 +167,21 @@
 
 <script>
 
-import 'assets/css/mod-slider.css';
+import 'assets/css/mod-banner.css';
 import 'assets/css/mod-thumbnail.css';
 import 'assets/css/mod-info.css';
 
 export default {
 	data() {
 		return {
-			sliderNum: 4,
-			slider: 0,
-			timer: null
+			
 		}
 	},
 	mounted() {
-		this.setTimer();
+		
 	},
 	methods: {
-		setTimer: function() {
-			var that = this;
-			if(!this.timer) {
-				this.timer = setInterval(function() {
-					if(that.slider < 0) {
-						that.slider = that.sliderNum - 1;
-					}else if(that.slider >= (that.sliderNum - 1)) {
-						that.slider = 0;
-					}else {
-						that.slider++;
-					}
-				}, 3000);	
-			}
-		},
-		clearTimer: function() {
-			clearInterval(this.timer);
-			this.timer = null;
-		}
-	},
-	beforeRouteLeave(to, from, next) {
-		this.clearTimer();
-		next();
+		
 	}
 }
 

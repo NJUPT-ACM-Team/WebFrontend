@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-const URL = 'http://10.164.22.130:8000';
+const URL = 'http://35.189.170.28:8000/';
 
 axios.defaults.baseURL = URL;
 axios.defaults.withCredentials = true;
@@ -16,10 +16,7 @@ export function login(name, pwd) {
 	});
 }
 
-export function getProblemList(per_page, current_page, order_by, is_desc, filter_oj, filter_p_status) {
-	var data = {
-		
-	}
+export function getProblemList(per_page, current_page, order_by, is_desc, filter_oj, filter_p_status=0) {
 	return axios.get('/api/inline/problems', {
 		params: {
 			per_page: per_page,
@@ -30,6 +27,32 @@ export function getProblemList(per_page, current_page, order_by, is_desc, filter
 			filter_p_status: filter_p_status
 		}
 	});
+}
+
+export function getOJList() {
+	return axios.get('/api/inline/about', {
+		params: {
+			need_ojs_list: true
+		}
+	});
+}
+
+export function getContestList(per_page, current_page, order_by, is_desc, filter_ctype, filter_is_public, filter_is_virtual) {
+	// ctype: ICPC/OI/CF
+	// order_by: CID/TITLE/STARTTIME/ENDTIME/STATUS
+	// filter_is_public: PUBLIC/PRIVATE
+	// is_virtual: VIRTUAL/FORMAL
+	return axios.get('/api/inline/contests', {
+		params: {
+			per_page: per_page,
+			current_page: current_page,
+			order_by: order_by,
+			is_desc: is_desc,
+			filter_ctype: filter_ctype,
+			filter_is_public: filter_is_public,
+			filter_is_virtual: filter_is_virtual
+		}
+	})
 }
 
 export function getProblemDetail(id) {

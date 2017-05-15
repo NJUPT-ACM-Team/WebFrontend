@@ -17,10 +17,10 @@
                     </div>
                     <div class="box-bd">
                         <ul class="source-list">
-                            <li class="source-item" v-for="item in source" :class="item.sname == activeSource?'active':''" @click="setSource(item.sname)">
+                            <li class="source-item" v-for="item in source" :class="item.oj_name == activeSource?'active':''" @click="setSource(item.oj_name)">
                                 <a href="javascript:;" class="clearfix">
-                                    <span class="item-tit">{{ item.sname }}</span>
-                                    <span class="item-num">{{ item.snum }}</span>
+                                    <span class="item-tit">{{ item.oj_name }}</span>
+                                    <span class="item-num">{{ item.problem_num }}</span>
                                 </a>
                             </li>
                         </ul>
@@ -118,24 +118,13 @@ import 'assets/css/mod-box.css';
 import 'assets/css/mod-media.css';
 import 'assets/css/mod-pagination.css';
 
-import { getProblemList } from 'src/api';
+import { getProblemList, getOJList } from 'src/api';
 
     export default{
         data(){
             return{
-                source: [
-                    {
-                        sname: 'All',
-                        snum: 120
-                    },{
-                        sname: 'NUPT',
-                        snum: 30
-                    },{
-                        sname: 'BUPT',
-                        snum: 90
-                    }
-                ],
-                activeSource: 'All',
+                source: [],
+                activeSource: 'ALL',
                 problemList: [],
                 currentPage: 1,
                 totalPages: 99
@@ -143,16 +132,31 @@ import { getProblemList } from 'src/api';
         },
         created() {
             var $this = this,
-                res = getProblemList(2,1,0,true,'zoj',0);
-            res.then(function(response) {
+                prList = getProblemList(),
+                ojList = getOJList();
+            prList.then(function(response) {
                 var data = response.data.list_problems_response,
                     lines = data.lines;
                 $this.currentPage = data.current_page;
                 $this.totalPages = data.total_pages;
                 $this.problemList = lines;
+                console.log(data);
             })
             .catch(function(err) {
                 console.log(err);
+            })
+
+            ojList.then(function(response) {
+                var data = response.data.about_response,
+                    list = data.ojs_list,
+                    num = 0;
+                $this.source = list;
+                $this.source.forEach(function(v) {
+                    v.oj_name = v.oj_name.toUpperCase();
+                    num += v.problem_num;
+                });
+                $this.source.unshift({oj_name: 'ALL', problem_num: num});
+                console.log($this.source);
             })
         },
         computed: {
