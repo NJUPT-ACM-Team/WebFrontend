@@ -115,11 +115,15 @@
     color: #0ec400;
 }
 .status-item .status.wt {
+    color: #8b8b8b;
+}
+.status-item .status.pe {
     color: #fbcd36;
 }
-.status-item .status.pe,
 .status-item .status.ce,
-.status-item .status.se,
 .status-item .status.wa {
     color: #d60600;
+}
+.status-item .status.se {
+    color: #d600b5;
 }

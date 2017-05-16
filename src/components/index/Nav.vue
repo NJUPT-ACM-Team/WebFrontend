@@ -15,6 +15,9 @@
 						<router-link to="/problem">Problem</router-link>
 					</li>
 					<li class="tabs-item">
+						<router-link to="/status">Status</router-link>
+					</li>
+					<li class="tabs-item">
 						<router-link to="/contest">Contest</router-link>
 					</li>
 					<li class="tabs-item">
