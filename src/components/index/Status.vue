@@ -9,59 +9,108 @@
                 </div>
             </div>
         </div>
-        <div class="layout-body">
-        	
+        <div class="layout-body clearfix">
+        	<div class="layout-main">
+        		<div class="mod-media status-media">
+        			<div class="media-hd">
+                        <div class="list-header">
+                            <div class="status-tit run-id">ID</div>
+                            <div class="status-tit user-name">User Name</div>
+                            <div class="status-tit s-id">SID</div>
+                            <div class="status-tit status">Status</div>
+							<div class="status-tit time-used">Time Used</div>
+							<div class="status-tit memory-used">Memory Used</div>
+							<div class="status-tit code-length">Code Length</div>
+							<div class="status-tit lan">Language</div>
+							<div class="status-tit submit-time">Submit Time</div>
+                        </div>
+                    </div>
+                    <div class="media-bd">
+                        <ul class="status-list">
+                            <li class="status-item" v-for="item in statusList">
+                                <div class="item-tab run-id">
+                                    {{ item.run_id }}
+                                </div>
+                                <div class="item-tab user-name">{{ item.username }}</div>
+                                <div class="item-tab s-id">{{ item.sid }}</div>
+                                <div class="item-tab status" :class="item.status_code">{{ item.status }}</div>
+                                <div class="item-tab time-used">{{ item.time_used }}</div>
+                                <div class="item-tab memory-used">{{ item.memory_used }}</div>
+								<div class="item-tab code-length">{{ item.code_length }}</div>
+								<div class="item-tab lan">{{ item.language.compiler }}</div>
+								<div class="item-tab submit-time">{{ item.submit_time }}</div>
+                            </li>
+                        </ul>
+                    </div>
+        		</div>
+        		<div class="mod-pagination" v-show="totalPages != 1">
+                    <ul class="pagination-list" v-if="totalPages > 10">
+                        <li class="pagination-item" :class="currentPage <= 1?'disabled':''">
+                            <span v-if="currentPage<=1">&lt;&lt;</span>
+                            <a href="#" v-else @click="currentPage = 1">&lt;&lt;</a>
+                        </li>
+                        <li class="pagination-item" :class="currentPage <= 1?'disabled':''">
+                            <span v-if="currentPage<=1">prev</span>
+                            <a href="#" v-else @click="currentPage--">prev</a>
+                        </li>
+                        <li class="pagination-item" v-for="n in setPageRange" :class="n == currentPage?'active':''" @click="setPage(n)">
+                            <a href="#">{{ n }}</a>
+                        </li>
+                        <li class="pagination-item" :class="currentPage >= totalPages?'disabled':''">
+                            <span v-if="currentPage>=totalPages">next</span>
+                            <a href="#" v-else @click="currentPage++">next</a>
+                        </li>
+                        <li class="pagination-item" :class="currentPage >= totalPages?'disabled':''">
+                            <span v-if="currentPage>=totalPages">&gt;&gt;</span>
+                            <a href="#" v-else @click="currentPage = totalPages">&gt;&gt;</a>
+                        </li>
+                    </ul>
+                    <ul class="pagination-list" v-else>
+                        <li class="pagination-item" :class="currentPage <= 1?'disabled':''">
+                            <span v-if="currentPage<=1">prev</span>
+                            <a href="#" v-else @click="currentPage--">prev</a>
+                        </li>
+                        <li class="pagination-item" v-for="n in totalPages" :class="n == currentPage?'active':''" @click="setPage(n)">
+                            <a href="#">{{ n }}</a>
+                        </li>
+                        <li class="pagination-item" :class="currentPage >= totalPages?'disabled':''">
+                            <span v-if="currentPage>=totalPages">next</span>
+                            <a href="#" v-else @click="currentPage++">next</a>
+                        </li>
+                    </ul>
+                </div>
+        	</div>
         </div>
-		<table>
-			<tr>
-				<td>run_id</td>
-				<td>username</td>
-				<td>sid</td>
-				<td>status</td>
-				<td>time_used</td>
-				<td>memory_used</td>
-				<td>code_length</td>
-				<td>language</td>
-				<td>submit_time</td>
-			</tr>
-			<tr v-for="item in statusList">
-				<td> {{ item.run_id }} </td>
-				<td> {{ item.username }} </td>
-				<td> {{ item.sid }} </td>
-				<td> {{ item.status }} </td>
-				<td> {{ item.time_used }} </td>
-				<td> {{ item.memory_used }} </td>
-				<td> {{ item.code_length }} </td>
-				<td> {{ item.language.compiler }} </td>
-				<td> {{ item.submit_time }} </td>
-			</tr>
-		</table>
 	</div>
 </template>
 
 <style scoped>
-	table {
-		margin-top: 20px;
-	}
-	table,
-	tr td {
-		border: 1px solid #ccc;
-	}
-	tr td {
-		padding: 10px;
-	}
+
+	/* 异化 */
+    .mod-header h2 {
+        color: #333333;
+    }
+
+    .layout-body {
+        margin-top: 20px;
+    }
 </style>
 
 <script>
 
 import 'assets/css/mod-header.css';
+import 'assets/css/mod-media.css';
+import 'assets/css/mod-pagination.css';
 
 import { getStatus } from 'src/api';
+import { parseTime } from 'src/filters';
 
 export default {
 	data() {
 		return {
-			statusList: []
+			statusList: [],
+			currentPage: 1,
+            totalPages: 99
 		}
 	},
 	created() {
@@ -71,8 +120,38 @@ export default {
 			var data = response.data.list_submissions_response;
 			var lines = data.lines;
 			$this.statusList = lines;
+			$this.statusList.forEach(function(v) {
+				v.submit_time = parseTime(v.submit_time);
+			});
+			$this.currentPage = data.current_page;
+			$this.totalPages = data.total_pages;
 			console.log(data);
 		})
+	},
+	computed: {
+		setPageRange: function() {
+            var arr = [],
+                tol = this.totalPages,
+                cur = this.currentPage;
+            if(cur > 6 && cur < (tol - 4)) {
+                for(var i = (cur - 5); i < (cur + 5); i++)
+                    arr.push(i);
+            }else if(cur <= 6) {
+                for(var i = 1; i <= 10; i++)
+                    arr.push(i);
+            }else {
+                for(var i = tol; i > (tol - 10); i--)
+                    arr.unshift(i);
+            }
+            return arr;
+        }
+	},
+	methods: {
+		setPage: function(n) {
+            if(this.currentPage != n) {
+                this.currentPage = n;
+            }
+        }
 	}
 }
 
