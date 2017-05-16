@@ -33,7 +33,10 @@
                                 </div>
                                 <div class="item-tab user-name">{{ item.username }}</div>
                                 <div class="item-tab s-id">{{ item.sid }}</div>
-                                <div class="item-tab status" :class="item.status_code">{{ item.status }}</div>
+                                <div class="item-tab status" :class="item.status_code">
+                                	<span v-if="item.status != 'Compile Error'">{{ item.status }}</span>
+                                	<a href="javascript:;" v-else @click="showCeInfo(item.ce_info)">{{ item.status }}</a>
+                                </div>
                                 <div class="item-tab time-used">{{ item.time_used }}</div>
                                 <div class="item-tab memory-used">{{ item.memory_used }}</div>
 								<div class="item-tab code-length">{{ item.code_length }}</div>
@@ -151,6 +154,9 @@ export default {
             if(this.currentPage != n) {
                 this.currentPage = n;
             }
+        },
+        showCeInfo: function(msg) {
+        	alert(msg);
         }
 	}
 }
