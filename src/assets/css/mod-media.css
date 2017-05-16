@@ -120,7 +120,7 @@
 .status-item .status.pe {
     color: #fbcd36;
 }
-.status-item .status.ce,
+.status-item .status.ce a,
 .status-item .status.wa {
     color: #d60600;
 }
