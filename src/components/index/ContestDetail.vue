@@ -16,7 +16,7 @@
                 <div class="mod-box">
                     <div class="box-bd">
                         <ul class="list">
-                            <li class="item" v-for="item in modules" :class="item.tit == activeModule? 'active' : ''">
+                            <li class="item" v-for="item in modules" :class="item.tit == activeModule? 'active' : ''" @click="setModule(item.tit)">
                                 <router-link :to="{name: item.router, params: {contestId: contest.id} }">
                                     <span class="item-tit">{{ item.tit }}</span>
                                 </router-link>
@@ -140,6 +140,11 @@ import 'assets/css/mod-pagination.css';
         		// get post
         		this.contest.id = this.$route.params.contestId;
         	},
+            setModule: function(m) {
+                if(this.activeModule != m) {
+                    this.activeModule = m;
+                }
+            },
         }
     }
 </script>

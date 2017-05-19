@@ -16,7 +16,7 @@ export function login(name, pwd) {
 	});
 }
 
-export function getProblemList(per_page, current_page, order_by, is_desc, filter_oj, filter_p_status=0) {
+export function getProblemList(per_page=20, current_page=1, order_by, is_desc, filter_oj, filter_p_status=0) {
 	return axios.get('/api/inline/problems', {
 		params: {
 			per_page: per_page,

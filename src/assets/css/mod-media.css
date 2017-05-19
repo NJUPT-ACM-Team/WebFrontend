@@ -21,7 +21,9 @@
     text-overflow: ellipsis;
 }
 .list-header .source,
-.problem-item .problem-source {
+.problem-item .problem-source,
+.list-header .oj,
+.problem-item .problem-oj {
     display: flex;
     flex: 1;
     justify-content: center;
@@ -109,6 +111,19 @@
 .status-media .status,
 .status-media .submit-time {
     flex: 1.5;
+}
+
+.status-media .status {
+    position: relative;
+}
+.status-media .status .icon.icon-mark {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: url("../img/mark.png");
+    background-size: cover;
+    right: 3px;
+    top: -2px;
 }
 
 .status-item .status.ac {

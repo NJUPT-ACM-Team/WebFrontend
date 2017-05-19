@@ -19,7 +19,7 @@
                         <ul class="source-list">
                             <li class="source-item" v-for="item in source" :class="item.oj_name == activeSource?'active':''" @click="setSource(item.oj_name)">
                                 <a href="javascript:;" class="clearfix">
-                                    <span class="item-tit">{{ item.oj_name }}</span>
+                                    <span class="item-tit">{{ item.oj_name.toUpperCase() }}</span>
                                     <span class="item-num">{{ item.problem_num }}</span>
                                 </a>
                             </li>
@@ -32,6 +32,7 @@
                     <div class="media-hd">
                         <div class="list-header">
                             <div class="title">Title</div>
+                            <div class="oj">OJ</div>
                             <div class="source">Source</div>
                             <div class="ratio">Ratio(AC/Submit)</div>
                         </div>
@@ -42,6 +43,7 @@
                                 <div class="item-tab problem-tit">
                                     <router-link :to="{name: 'problem', params: {problemId: item.sid} }">{{ item.pid }}.{{ item.title }}</router-link>
                                 </div>
+                                <div class="item problem-oj">{{ item.oj.toUpperCase() }}</div>
                                 <div class="item-tab problem-source">{{ item.source }}</div>
                                 <div class="item-tab problem-ratio">
                                     <p class="p-r">{{ (item.ac_submission/item.total_submission*100).toFixed(2) }}%</p>&nbsp;(
@@ -131,33 +133,7 @@ import { getProblemList, getOJList } from 'src/api';
             }
         },
         created() {
-            var $this = this,
-                prList = getProblemList(),
-                ojList = getOJList();
-            prList.then(function(response) {
-                var data = response.data.list_problems_response,
-                    lines = data.lines;
-                $this.currentPage = data.current_page;
-                $this.totalPages = data.total_pages;
-                $this.problemList = lines;
-                console.log(data);
-            })
-            .catch(function(err) {
-                console.log(err);
-            })
-
-            ojList.then(function(response) {
-                var data = response.data.about_response,
-                    list = data.ojs_list,
-                    num = 0;
-                $this.source = list;
-                $this.source.forEach(function(v) {
-                    v.oj_name = v.oj_name.toUpperCase();
-                    num += v.problem_num;
-                });
-                $this.source.unshift({oj_name: 'ALL', problem_num: num});
-                console.log($this.source);
-            })
+            this.fetchData();
         },
         computed: {
             setPageRange: function() {
@@ -178,7 +154,7 @@ import { getProblemList, getOJList } from 'src/api';
             }
         },
         watch: {
-            
+            'currentPage': 'fetchData'
         },
         methods: {
             setSource: function(s) {
@@ -189,6 +165,33 @@ import { getProblemList, getOJList } from 'src/api';
             setPage: function(n) {
                 if(this.currentPage != n) {
                     this.currentPage = n;
+                }
+            },
+            fetchData: async function() {
+                try {
+                    const pres = await getProblemList(undefined, this.currentPage);
+                    const ores = await getOJList();
+                    if(pres.status == 200) {
+                        let data = pres.data.list_problems_response;
+                        this.problemList = data.lines;
+                        this.currentPage = data.current_page;
+                        this.totalPages = data.total_pages;
+                        console.log(data);
+                    }else {
+                        console.log('getProblemList error');
+                    }
+
+                    if(ores.status == 200) {
+                        let data = ores.data.about_response;
+                        let num = 0;
+                        this.source = data.ojs_list;
+                        this.source.forEach((v) => { num += v.problem_num });
+                        this.source.unshift({oj_name: 'ALL', problem_num: num});
+                    }else {
+                        console.log('getOJList error');
+                    }
+                } catch(err) {
+                    console.log(err);
                 }
             }
         }

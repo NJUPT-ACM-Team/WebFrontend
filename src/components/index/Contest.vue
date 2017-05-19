@@ -114,6 +114,7 @@ import 'assets/css/mod-box.css';
 import 'assets/css/mod-pagination.css';
 
 import { getContestList } from 'src/api';
+import { parseTime } from 'src/filters';
 
     export default{
         data(){
@@ -141,16 +142,10 @@ import { getContestList } from 'src/api';
             }
         },
         created() {
-            var $this = this,
-                contestList = getContestList();
-            contestList.then(function(response) {
-                var data = response.data.list_contests_response,
-                    lines = data.lines;
-                $this.contestList = lines;
-                $this.currentPage = data.current_page;
-                $this.totalPages = data.total_pages;
-                console.log(data);
-            })
+            this.fetchData();
+        },
+        watch: {
+            'currentPage': 'fetchData'
         },
         computed: {
             setPageRange: function() {
@@ -179,6 +174,23 @@ import { getContestList } from 'src/api';
             setPage: function(n) {
                 if(this.currentPage != n) {
                     this.currentPage = n;
+                }
+            },
+            fetchData: async function() {
+                try {
+                    const cres = await getContestList(undefined, this.currentPage);
+                    if(cres.status == 200) {
+                        let data = cres.data.list_contests_response;
+                        this.contestList = data.lines;
+                        this.currentPage = data.current_page;
+                        this.totalPages = data.total_pages;
+                        this.contestList.forEach((v) => { v.start_time = parseTime(v.start_time); v.end_time = parseTime(v.end_time) })
+                        console.log(data);
+                    }else {
+                        console.log('getContestList error');
+                    }
+                } catch(err) {
+                    console.log(err);
                 }
             }
         }

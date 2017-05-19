@@ -35,7 +35,7 @@
                                 <div class="item-tab s-id">{{ item.sid }}</div>
                                 <div class="item-tab status" :class="item.status_code">
                                 	<span v-if="item.status != 'Compile Error'">{{ item.status }}</span>
-                                	<a href="javascript:;" v-else @click="showCeInfo(item.ce_info)">{{ item.status }}</a>
+                                	<a href="javascript:;" v-else @click="showCeInfo(item.ce_info)">{{ item.status }} <i class="icon icon-mark"></i></a>
                                 </div>
                                 <div class="item-tab time-used">{{ item.time_used }}</div>
                                 <div class="item-tab memory-used">{{ item.memory_used }}</div>
@@ -50,35 +50,35 @@
                     <ul class="pagination-list" v-if="totalPages > 10">
                         <li class="pagination-item" :class="currentPage <= 1?'disabled':''">
                             <span v-if="currentPage<=1">&lt;&lt;</span>
-                            <a href="#" v-else @click="currentPage = 1">&lt;&lt;</a>
+                            <a href="javascript:;" v-else @click="currentPage = 1">&lt;&lt;</a>
                         </li>
                         <li class="pagination-item" :class="currentPage <= 1?'disabled':''">
                             <span v-if="currentPage<=1">prev</span>
-                            <a href="#" v-else @click="currentPage--">prev</a>
+                            <a href="javascript:;" v-else @click="currentPage--">prev</a>
                         </li>
                         <li class="pagination-item" v-for="n in setPageRange" :class="n == currentPage?'active':''" @click="setPage(n)">
-                            <a href="#">{{ n }}</a>
+                            <a href="javascript:;">{{ n }}</a>
                         </li>
                         <li class="pagination-item" :class="currentPage >= totalPages?'disabled':''">
                             <span v-if="currentPage>=totalPages">next</span>
-                            <a href="#" v-else @click="currentPage++">next</a>
+                            <a href="javascript:;" v-else @click="currentPage++">next</a>
                         </li>
                         <li class="pagination-item" :class="currentPage >= totalPages?'disabled':''">
                             <span v-if="currentPage>=totalPages">&gt;&gt;</span>
-                            <a href="#" v-else @click="currentPage = totalPages">&gt;&gt;</a>
+                            <a href="javascript:;" v-else @click="currentPage = totalPages">&gt;&gt;</a>
                         </li>
                     </ul>
                     <ul class="pagination-list" v-else>
                         <li class="pagination-item" :class="currentPage <= 1?'disabled':''">
                             <span v-if="currentPage<=1">prev</span>
-                            <a href="#" v-else @click="currentPage--">prev</a>
+                            <a href="javascript:;" v-else @click="currentPage--">prev</a>
                         </li>
                         <li class="pagination-item" v-for="n in totalPages" :class="n == currentPage?'active':''" @click="setPage(n)">
-                            <a href="#">{{ n }}</a>
+                            <a href="javascript:;">{{ n }}</a>
                         </li>
                         <li class="pagination-item" :class="currentPage >= totalPages?'disabled':''">
                             <span v-if="currentPage>=totalPages">next</span>
-                            <a href="#" v-else @click="currentPage++">next</a>
+                            <a href="javascript:;" v-else @click="currentPage++">next</a>
                         </li>
                     </ul>
                 </div>
@@ -117,19 +117,10 @@ export default {
 		}
 	},
 	created() {
-		var $this = this;
-		var res = getStatus();
-		res.then(function(response) {
-			var data = response.data.list_submissions_response;
-			var lines = data.lines;
-			$this.statusList = lines;
-			$this.statusList.forEach(function(v) {
-				v.submit_time = parseTime(v.submit_time);
-			});
-			$this.currentPage = data.current_page;
-			$this.totalPages = data.total_pages;
-			console.log(data);
-		})
+		this.fetchData();
+	},
+	watch: {
+		'currentPage': 'fetchData'
 	},
 	computed: {
 		setPageRange: function() {
@@ -157,6 +148,23 @@ export default {
         },
         showCeInfo: function(msg) {
         	alert(msg);
+        },
+        fetchData: async function() {
+        	try {
+				const res = await getStatus(undefined,this.currentPage);
+				console.log(res);
+				if(res.status == 200) {
+					var data = res.data.list_submissions_response;
+					this.statusList = data.lines;
+					this.statusList.forEach((v) => { v.submit_time = parseTime(v.submit_time) });
+					this.currentPage = data.current_page;
+					this.totalPages = data.total_pages;
+				}else {
+					console.log('error');
+				}
+			} catch(err) {
+				console.log(err);
+			}
         }
 	}
 }
