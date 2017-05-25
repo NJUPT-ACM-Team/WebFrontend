@@ -1,23 +1,26 @@
 <template>
 	<div>
 		<div class="mod-media">
-	        <div class="media-bd">
-	            <ul class="problem-list">
-	                <li class="problem-item" v-for="item in problemList">
-	                    <div class="problem-tit">
-	                    	<router-link :to="{name: 'problem', params: {problemId: item.pid} }">{{ item.pid }}.{{ item.ptit }}</router-link>
-	                    </div>
-	                    <div class="problem-txt">
-	                    	<p class="txt-decs">{{ item.pdec }}</p>
-	                    	<p class="txt-data">
-	                    		AC : <span class="data-ac">{{ item.pac }}</span>
-	                    		Submit : <span class="data-submit">{{ item.psubmit }}</span>
-	                    		<span class="data-date">{{ item.pdate }}</span>
-	                    	</p>
-	                    </div>
-	                </li>
-	            </ul>
-	        </div>
+			<div class="media-hd">
+				<div class="list-header">
+					<div class="title">Title</div>
+					<div class="ratio">Ratio(AC/Submit)</div>
+				</div>
+			</div>
+			<div class="media-bd">
+				<ul class="problem-list">
+					<li class="problem-item" v-for="item in problemList">
+						<div class="item-tab problem-tit">
+							<router-link :to="{name: 'contest-problem', params: {problemId: item.label} }">{{ item.label }}.{{ item.alias }}</router-link>
+						</div>
+						<div class="item-tab problem-ratio">
+							<p class="p-r">{{ (item.ac_submission/item.total_submission*100).toFixed(2) }}%</p>&nbsp;(
+							<p class="p-ac">{{ item.ac_submission }}</p>/
+							<p class="p-sb">{{ item.total_submission }}</p>)
+						</div>
+					</li>
+				</ul>
+			</div>
 	    </div>	
 	</div>	
 </template>
@@ -29,29 +32,37 @@
 <script>
 import 'assets/css/mod-media.css';
 
+import { getContestProblemsList } from 'src/api';
+
 	export default {
 		data() {
 			return {
-				problemList: [
-                    {
-                        pid: '1001',
-                        ptit: '整数求和',
-                        pdec: '给定两个整数，求它们之和。',
-                        psource: 'NUPT',
-                        pac: '4552',
-                        psubmit: '10000',
-                        pdate: '2017-01-25'
-                    },{
-                        pid: '1002',
-                        ptit: '整数求和',
-                        pdec: '给定两个整数，求它们之和。',
-                        psource: 'NUPT',
-                        pac: '4552',
-                        psubmit: '10000',
-                        pdate: '2017-01-25'
-                    }
-                ],
+				problemList: [],
 			}
+		},
+		created() {
+			this.fetchData();
+		},
+		methods: {
+			fetchData: async function() {
+                try {
+                	var contestId = this.$route.params.contestId;
+                    const res = await getContestProblemsList(contestId);
+                    if(res.status == 200) {
+                    	console.log(res);
+                        let data = res.data.contest_list_problems_response;
+                        if(data.error) {
+                        	alert(data.error.debug);
+                        }else {
+                        	this.problemList = data.lines;
+                        }
+                    }else {
+                        console.log('getProblemList error');
+                    }
+                } catch(err) {
+                    console.error(err);
+                }
+            }
 		}
 	}
 </script>

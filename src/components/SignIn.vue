@@ -47,11 +47,12 @@ import { login } from 'src/api';
 				var res = login(this.username, this.pwd);
 				res.then(function(response) {
 					var data = response.data;
-					if("error" in data) {
+					if(data.error) {
 						alert(data.error.msg);
 					}else {
+						console.log(data);
 						alert(data.login_auth_response.msg);
-						location.href = "/";
+						// location.href = "/";
 					}
 				})
 			}

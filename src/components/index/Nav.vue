@@ -47,8 +47,12 @@
 	export default {
 		data() {
 			return {
-				isSignin: false
+				isSignin: false,
+				nickName: '',
 			}
+		},
+		created() {
+			
 		}
 	}
 </script>

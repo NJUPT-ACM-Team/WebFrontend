@@ -10,7 +10,14 @@
             </div>
         </div>
         <div class="layout-body clearfix">
-        	<div class="layout-main">
+        	<div class="layout-loading" v-if="loading">
+        		<div class="mod-loading">
+        			<div class="loading-pic">
+        				<i class="icon icon-loading"></i>
+        			</div>
+        		</div>
+        	</div>
+        	<div class="layout-main" v-else>
         		<div class="mod-media status-media">
         			<div class="media-hd">
                         <div class="list-header">
@@ -97,6 +104,7 @@
     .layout-body {
         margin-top: 20px;
     }
+
 </style>
 
 <script>
@@ -104,6 +112,7 @@
 import 'assets/css/mod-header.css';
 import 'assets/css/mod-media.css';
 import 'assets/css/mod-pagination.css';
+import 'assets/css/mod-loading.css';
 
 import { getStatus } from 'src/api';
 import { parseTime } from 'src/filters';
@@ -111,6 +120,7 @@ import { parseTime } from 'src/filters';
 export default {
 	data() {
 		return {
+			loading: true,
 			statusList: [],
 			currentPage: 1,
             totalPages: 99
@@ -144,6 +154,7 @@ export default {
 		setPage: function(n) {
             if(this.currentPage != n) {
                 this.currentPage = n;
+                this.loading = true;
             }
         },
         showCeInfo: function(msg) {
@@ -153,6 +164,7 @@ export default {
         	try {
 				const res = await getStatus(undefined,this.currentPage);
 				console.log(res);
+				this.loading = false;
 				if(res.status == 200) {
 					var data = res.data.list_submissions_response;
 					this.statusList = data.lines;

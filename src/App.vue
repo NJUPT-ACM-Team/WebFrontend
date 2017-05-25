@@ -14,7 +14,7 @@ export default {
         }
     },
     created() {
-        
+        this.deleteCookie('default');
     },
     methods: {
         setCookie: function(name, val, expiredays) {
@@ -47,5 +47,19 @@ body {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+#app>div {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.nav {
+    flex: 0 0 auto;
+}
+.router-view {
+    flex: 1 0 auto;
+}
+.footer {
+    flex: 0 0 auto;
 }
 </style>

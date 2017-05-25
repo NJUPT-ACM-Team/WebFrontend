@@ -27,7 +27,14 @@
                     </div>
                 </div>
             </div>
-            <div class="layout-main">
+            <div class="layout-loading" v-if="loading">
+                <div class="mod-loading">
+                    <div class="loading-pic">
+                        <i class="icon icon-loading"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="layout-main" v-else>
                 <div class="mod-media">
                     <div class="media-hd">
                         <div class="list-header">
@@ -108,7 +115,8 @@
         width: 25%;
         float: left;
     }
-    .layout-body .layout-main {
+    .layout-body .layout-main,
+    .layout-body .layout-loading {
         width: 75%;
         float: right;
     }
@@ -119,12 +127,14 @@ import 'assets/css/mod-header.css';
 import 'assets/css/mod-box.css';
 import 'assets/css/mod-media.css';
 import 'assets/css/mod-pagination.css';
+import 'assets/css/mod-loading.css';
 
 import { getProblemList, getOJList } from 'src/api';
 
     export default{
         data(){
             return{
+                loading: true,
                 source: [],
                 activeSource: 'ALL',
                 problemList: [],
@@ -132,8 +142,22 @@ import { getProblemList, getOJList } from 'src/api';
                 totalPages: 99
             }
         },
-        created() {
-            this.fetchData();
+        async created() {
+            try {
+               const res = await getOJList();
+                if(res.status == 200) {
+                    let data = res.data.about_response;
+                    let num = 0;
+                    this.source = data.ojs_list;
+                    this.source.forEach((v) => { num += v.problem_num });
+                    this.source.unshift({oj_name: 'ALL', problem_num: num});
+                    this.fetchData();
+                }else {
+                    console.log('getOJList error');
+                } 
+            } catch(err) {
+                console.error(err);
+            }
         },
         computed: {
             setPageRange: function() {
@@ -160,17 +184,19 @@ import { getProblemList, getOJList } from 'src/api';
             setSource: function(s) {
                 if(this.activeSource != s) {
                     this.activeSource = s;
+                    // this.loading = true;
                 }
             },
             setPage: function(n) {
                 if(this.currentPage != n) {
                     this.currentPage = n;
+                    this.loading = true;
                 }
             },
             fetchData: async function() {
                 try {
                     const pres = await getProblemList(undefined, this.currentPage);
-                    const ores = await getOJList();
+                    this.loading = false;
                     if(pres.status == 200) {
                         let data = pres.data.list_problems_response;
                         this.problemList = data.lines;
@@ -179,16 +205,6 @@ import { getProblemList, getOJList } from 'src/api';
                         console.log(data);
                     }else {
                         console.log('getProblemList error');
-                    }
-
-                    if(ores.status == 200) {
-                        let data = ores.data.about_response;
-                        let num = 0;
-                        this.source = data.ojs_list;
-                        this.source.forEach((v) => { num += v.problem_num });
-                        this.source.unshift({oj_name: 'ALL', problem_num: num});
-                    }else {
-                        console.log('getOJList error');
                     }
                 } catch(err) {
                     console.log(err);

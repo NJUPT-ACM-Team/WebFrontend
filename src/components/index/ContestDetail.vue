@@ -2,7 +2,7 @@
     <div>
         <div class="layout-header">
             <div class="mod-header">
-                <h2>{{ contest.id }}.{{ contest.tit }}</h2>
+                <h2>{{ contest.contest_id }}.{{ contest.title }}</h2>
                 <div class="header-txt">
                 	<p>
                 		Status : <span class="status">{{ contest.status }}</span>
@@ -11,13 +11,13 @@
                 </div>
             </div>
         </div>
-        <div class="layout-body clearfix">
+        <div class="layout-body clearfix" v-if="hasAccess">
             <div class="layout-aside">
                 <div class="mod-box">
                     <div class="box-bd">
                         <ul class="list">
-                            <li class="item" v-for="item in modules" :class="item.tit == activeModule? 'active' : ''" @click="setModule(item.tit)">
-                                <router-link :to="{name: item.router, params: {contestId: contest.id} }">
+                            <li class="item" v-for="item in modules" :class="item.router == activeModule? 'active' : ''" @click="setModule(item.router)">
+                                <router-link :to="{name: item.router, params: {contestId: contest.contest_id} }">
                                     <span class="item-tit">{{ item.tit }}</span>
                                 </router-link>
                             </li>
@@ -25,44 +25,8 @@
                     </div>
                 </div>
             </div>
-            <div class="layout-main">
+            <div class="layout-main" v-if="hasAccess">
                 <router-view></router-view>
-                <!-- <div class="mod-pagination" v-show="totalPages != 1">
-                    <ul class="pagination-list" v-if="totalPages > 10">
-                        <li class="pagination-item" :class="currentPage <= 1?'disabled':''">
-                            <span v-if="currentPage<=1">&lt;&lt;</span>
-                            <a href="#" v-else @click="currentPage = 1">&lt;&lt;</a>
-                        </li>
-                        <li class="pagination-item" :class="currentPage <= 1?'disabled':''">
-                            <span v-if="currentPage<=1">prev</span>
-                            <a href="#" v-else @click="currentPage--">prev</a>
-                        </li>
-                        <li class="pagination-item" v-for="n in setPageRange" :class="n == currentPage?'active':''" @click="setPage(n)">
-                            <a href="#">{{ n }}</a>
-                        </li>
-                        <li class="pagination-item" :class="currentPage >= totalPages?'disabled':''">
-                            <span v-if="currentPage>=totalPages">next</span>
-                            <a href="#" v-else @click="currentPage++">next</a>
-                        </li>
-                        <li class="pagination-item" :class="currentPage >= totalPages?'disabled':''">
-                            <span v-if="currentPage>=totalPages">&gt;&gt;</span>
-                            <a href="#" v-else @click="currentPage = totalPages">&gt;&gt;</a>
-                        </li>
-                    </ul>
-                    <ul class="pagination-list" v-else>
-                        <li class="pagination-item" :class="currentPage <= 1?'disabled':''">
-                            <span v-if="currentPage<=1">prev</span>
-                            <a href="#" v-else @click="currentPage--">prev</a>
-                        </li>
-                        <li class="pagination-item" v-for="n in totalPages" :class="n == currentPage?'active':''" @click="setPage(n)">
-                            <a href="#">{{ n }}</a>
-                        </li>
-                        <li class="pagination-item" :class="currentPage >= totalPages?'disabled':''">
-                            <span v-if="currentPage>=totalPages">next</span>
-                            <a href="#" v-else @click="currentPage++">next</a>
-                        </li>
-                    </ul>
-                </div> -->
             </div>
         </div>
     </div>
@@ -91,34 +55,32 @@ import 'assets/css/mod-header.css';
 import 'assets/css/mod-box.css';
 import 'assets/css/mod-pagination.css';
 
+import { checkContestAccess, showContest } from 'src/api';
+
     export default{
         data(){
             return{
             	loading: false,
             	post: null,
             	error: null,
-                contest: {
-                	id: '',
-                	tit: '“青书杯”科技节之算法脑洞大赛 初级组 ',
-                	status: 'ended',
-                	access: 'public'
-                },
-                activeModule: 'Contest Details',
+                hasAccess: false,
+                contest: {},
+                activeModule: 'detail',
                 modules: [
                     {
-                        router: 'contest-introduce',
+                        router: 'detail',
                         tit: 'Contest Details'
                     },
                     {
-                        router: 'contest-status',
+                        router: 'status',
                         tit: 'Status'
                     },
                     {
-                        router: 'contest-rank',
+                        router: 'rank',
                         tit: 'Rank List'
                     },
                     {
-                        router: 'contest-discussion',
+                        router: 'discussion',
                         tit: 'Discussion'
                     }
                 ]
@@ -129,22 +91,71 @@ import 'assets/css/mod-pagination.css';
         },
         created() {
         	this.fetchData();
+            this.activeModule = this.$route.name;
         },
         watch: {
             '$route':'fetchData'
         },
         methods: {
-            fetchData: function() {
+            fetchData: async function() {
         		this.error = this.post = null;
         		this.loading = true;
         		// get post
-        		this.contest.id = this.$route.params.contestId;
+                try {
+                    const res = await showContest(this.$route.params.contestId);
+                    if(res.status == 200) {
+                        let data = res.data.contest_show_response;
+                        this.contest = data.contest;
+                        if(this.contest.access == 'private') {
+                            if(this.contest.has_access) {
+                                this.hasAccess = true;
+                            }else {
+                                this.checkAccess();
+                            }
+                        }else {
+                            this.hasAccess = true;
+                        }
+                    } else {
+                        console.log('get error');
+                    }
+                } catch(err) {
+                    console.log(err);
+                }
         	},
             setModule: function(m) {
                 if(this.activeModule != m) {
                     this.activeModule = m;
                 }
             },
-        }
+            checkAccess: async function() {
+                var pwd = prompt('Contest is private, please input the password', '');
+                if(pwd) {
+                    try {
+                        const res = await checkContestAccess(this.contest.contest_id, pwd);
+                        if(res.status == 200) {
+                            if(res.error) {
+                                console.log('login require');
+                            }else {
+                                let data = res.data.contest_auth_response;
+                                if(data.success) {
+                                    this.hasAccess = true;
+                                }else {
+                                    this.hasAccess = false;
+                                    alert('wrong password');
+                                    this.checkAccess();
+                                }
+                            }
+                        }else {
+                            console.log('check error');
+                        }
+                    } catch(err) {
+                        console.log(err);
+                    }
+                }else {
+                    this.$router.go(-1);
+                }
+            }
+        },
+
     }
 </script>

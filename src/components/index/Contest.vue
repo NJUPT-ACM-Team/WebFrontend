@@ -24,16 +24,23 @@
                     </div>
                 </div>
             </div>
-            <div class="layout-main">
+            <div class="layout-loading" v-if="loading">
+                <div class="mod-loading">
+                    <div class="loading-pic">
+                        <i class="icon icon-loading"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="layout-main" v-else>
                 <div class="mod-media">
-                    <!-- <div class="media-hd">
+                    <div class="media-hd">
                         <h3 class="tit">{{ activeStatus }}</h3>
-                    </div> -->
+                    </div>
                     <div class="media-bd">
                         <ul class="contest-list">
                             <li class="contest-item" v-for="c in contestList">
                                 <div class="contest-tit">
-                                    <router-link :to="{name: 'contest-introduce', params: {contestId: c.contest_id} }">{{ c.contest_id }}. {{ c.title }}</router-link>
+                                    <router-link :to="{name: 'detail', params: {contestId: c.contest_id} }">{{ c.contest_id }}. {{ c.title }}</router-link>
                                     <span class="contest-status" :class="[c.status]">{{ c.status }}</span>
                                     <span class="contest-access" :class="[c.access]">{{ c.access }}</span>
                                 </div>
@@ -101,7 +108,8 @@
         width: 25%;
         float: left;
     }
-    .layout-body .layout-main {
+    .layout-body .layout-main,
+    .layout-body .layout-loading {
         width: 75%;
         float: right;
     }
@@ -112,6 +120,7 @@ import 'assets/css/mod-header.css';
 import 'assets/css/mod-media.css';
 import 'assets/css/mod-box.css';
 import 'assets/css/mod-pagination.css';
+import 'assets/css/mod-loading.css';
 
 import { getContestList } from 'src/api';
 import { parseTime } from 'src/filters';
@@ -119,6 +128,7 @@ import { parseTime } from 'src/filters';
     export default{
         data(){
             return{
+                loading: true,
                 status: [
                     {
                         sname: 'All',
@@ -169,28 +179,31 @@ import { parseTime } from 'src/filters';
             setStatus: function(s) {
                 if(this.activeStatus != s) {
                     this.activeStatus = s;
+                    // this.loading = true;
                 }
             },
             setPage: function(n) {
                 if(this.currentPage != n) {
                     this.currentPage = n;
+                    this.loading = true;
                 }
             },
             fetchData: async function() {
                 try {
-                    const cres = await getContestList(undefined, this.currentPage);
-                    if(cres.status == 200) {
-                        let data = cres.data.list_contests_response;
+                    const res = await getContestList(undefined, this.currentPage);
+                    this.loading = false;
+                    if(res.status == 200) {
+                        let data = res.data.list_contests_response;
                         this.contestList = data.lines;
                         this.currentPage = data.current_page;
                         this.totalPages = data.total_pages;
                         this.contestList.forEach((v) => { v.start_time = parseTime(v.start_time); v.end_time = parseTime(v.end_time) })
                         console.log(data);
                     }else {
-                        console.log('getContestList error');
+                        console.error('getContestList error');
                     }
                 } catch(err) {
-                    console.log(err);
+                    console.error(err);
                 }
             }
         }

@@ -42,23 +42,28 @@ export default new VueRouter({
           children: [
             {
               path: '/contest/:contestId/detail',
-              name: 'contest-introduce',
+              name: 'detail',
               component: resolve => require(['components/index/contest/ContestIntroduce'], resolve)
             },
             {
               path: '/contest/:contestId/status',
-              name: 'contest-status',
+              name: 'status',
               component: resolve => require(['components/index/contest/ContestStatus'], resolve)
             },
             {
               path: '/contest/:contestId/rank',
-              name: 'contest-rank',
+              name: 'rank',
               component: resolve => require(['components/index/contest/ContestRank'], resolve)
             },
             {
               path: '/contest/:contestId/discussion',
-              name: 'contest-discussion',
+              name: 'discussion',
               component: resolve => require(['components/index/contest/ContestDiscussion'], resolve)
+            },
+            {
+              path: '/contest/:contestId/:problemId',
+              name: 'contest-problem',
+              component: resolve => require(['components/index/contest/ContestProblemDetail'], resolve)
             }
           ]
         },
