@@ -12,13 +12,13 @@
 						<router-link to="/news">News</router-link>
 					</li>
 					<li class="tabs-item">
-						<router-link to="/problem">Problem</router-link>
+						<router-link to="/problems">Problems</router-link>
 					</li>
 					<li class="tabs-item">
 						<router-link to="/status">Status</router-link>
 					</li>
 					<li class="tabs-item">
-						<router-link to="/contest">Contest</router-link>
+						<router-link to="/contests">Contests</router-link>
 					</li>
 					<li class="tabs-item">
 						<router-link to="/user-rank">User Rank</router-link>
@@ -30,7 +30,7 @@
 			</div>
 			<div class="nav-user">
 				<div v-if="isSignin">
-					user
+					{{ userInfo.nickName }}
 				</div>
 				<div v-else>
 					<p>
@@ -44,16 +44,30 @@
 </template>
 
 <script>
+
+import { mapGetters } from 'vuex';
+
 	export default {
 		data() {
 			return {
-				isSignin: false,
-				nickName: '',
+				
 			}
 		},
 		created() {
-			
-		}
+			console.log(this.userInfo);
+			var username = localStorage.getItem('username');
+			if(username) {
+				let userInfo = {
+					nickname: username,
+					role: localStorage.getItem('role')
+				}
+				this.$store.dispatch('login', userInfo);
+			}
+		},
+		computed: mapGetters({
+			isSignin: 'checkStatus',
+			userInfo: 'getUserInfo'
+		})
 	}
 </script>
 

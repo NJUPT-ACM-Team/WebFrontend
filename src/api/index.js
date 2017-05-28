@@ -2,8 +2,8 @@
 
 import axios from 'axios';
 
-// const URL = 'http://35.189.170.28:8000/';
-const URL = 'http://10.80.121.205:8000/';
+const URL = 'http://35.189.170.28:8000/';
+// const URL = 'http://10.80.121.205:8000/';
 
 axios.defaults.baseURL = URL;
 axios.defaults.withCredentials = true;
@@ -13,6 +13,14 @@ export function login(name, pwd) {
 		login_auth_request: {
 			username: name,
 			password: pwd
+		}
+	});
+}
+
+export function logout(goodbye) {
+	return axios.post('/api/inline/logout', {
+		logout_request: {
+			goodbye: goodbye
 		}
 	});
 }

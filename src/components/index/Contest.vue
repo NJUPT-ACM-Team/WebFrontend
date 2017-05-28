@@ -17,7 +17,6 @@
                             <li class="item" v-for="item in status" :class="item.sname == activeStatus?'active':''" @click="setStatus(item.sname)">
                                 <a href="javscript:;" class="clearfix">
                                     <span class="item-tit">{{ item.sname }}</span>
-                                    <span class="item-tab">{{ item.snum }}</span>
                                 </a>
                             </li>
                         </ul>

@@ -1,11 +1,10 @@
 <template>
 	<div>
-		admin index
-		<router-view></router-view>
+		admin home
 	</div>
 </template>
 
-<style>
+<style scoped>
 	
 </style>
 

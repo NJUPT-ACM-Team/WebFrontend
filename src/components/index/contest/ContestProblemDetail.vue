@@ -2,6 +2,7 @@
 	<div>
 		<div class="layout-header">
             <div class="mod-header">
+                <router-link :to="{name: 'detail', params: {contestId: contestId} }">Contest Detail</router-link> / 
                 <h2>{{ problem.id }}.{{ problem.title }}</h2>
                 <div class="header-txt">
                 	<p v-for="item in problem.limits">
@@ -17,7 +18,7 @@
         			<ul>
         				<li>
         					<div class="txt-hd">
-        						<h3><a name="description" href="#description">Description</a></h3>
+        						<h3>Description</h3>
         					</div>
         					<div class="txt-bd">
         						<p>{{ problem.description }}</p>
@@ -25,7 +26,7 @@
         				</li>
         				<li>
         					<div class="txt-hd">
-        						<h3><a name="input" href="#input">Input</a></h3>
+        						<h3>Input</h3>
         					</div>
         					<div class="txt-bd">
         						<p>{{ problem.input }}</p>
@@ -33,7 +34,7 @@
         				</li>
         				<li>
         					<div class="txt-hd">
-        						<h3><a name="output" href="#output">Output</a></h3>
+        						<h3>Output</h3>
         					</div>
         					<div class="txt-bd">
         						<p>{{ problem.output }}</p>
@@ -41,7 +42,7 @@
         				</li>
         				<li>
         					<div class="txt-hd">
-        						<h3><a name="sampleInput" href="#sampleInput">Sample input</a></h3>
+        						<h3>Sample input</h3>
         					</div>
         					<div class="txt-bd">
         						<p>{{ problem.sample_input }}</p>
@@ -49,7 +50,7 @@
         				</li>
         				<li>
         					<div class="txt-hd">
-        						<h3><a name="sampleOutput" href="#sampleOutput">Sample output</a></h3>
+        						<h3>Sample output</h3>
         					</div>
         					<div class="txt-bd">
         						<p>{{ problem.sample_output }}</p>
@@ -57,7 +58,7 @@
         				</li>
         				<li>
         					<div class="txt-hd">
-        						<h3><a name="hint" href="#hint">Hint</a></h3>
+        						<h3>Hint</h3>
         					</div>
         					<div class="txt-bd">
         						<p>{{ problem.hint }}</p>
@@ -65,7 +66,7 @@
         				</li>
         				<li name="source">
         					<div class="txt-hd">
-        						<h3><a name="source" href="#source">Source</a></h3>
+        						<h3>Source</h3>
         					</div>
         					<div class="txt-bd">
         						<p>{{ problem.source }}</p>
@@ -73,7 +74,7 @@
         				</li>
                         <li>
                             <div class="txt-hd">
-                                <h3><a name="sourceCode" href="#sourceCode">Source code</a></h3>
+                                <h3>Source code</h3>
                             </div>
                             <div class="txt-bd">
                                 <a href="javascript:;" class="lan-item" v-for="item in supportLan" :class="item.language_id == usedLanID?'active':''" @click="setLan(item)">{{ item.language }}</a>
@@ -98,45 +99,6 @@
         			</div>
         		</div>
         	</div>
-        	<!-- <div class="layout-aside">
-        		<div class="mod-menu">
-        			<ul class="menu-list">
-        				<li class="menu-item active">
-        					<a href="#description">Description</a>
-        				</li>
-        				<li class="menu-item">
-        					<a href="#input">Input</a>
-        				</li>
-        				<li class="menu-item">
-        					<a href="#output">Output</a>
-        				</li>
-        				<li class="menu-item">
-        					<a href="#sampleInput">Sample input</a>
-        				</li>
-        				<li class="menu-item">
-        					<a href="#sampleOutput">Sample output</a>
-        				</li>
-        				<li class="menu-item">
-        					<a href="#hint">Hint</a>
-        				</li>
-        				<li class="menu-item">
-        					<a href="#source">Source</a>
-        				</li>
-                        <li class="menu-item">
-                            <a href="#language">Language</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#sourceCode">Source Code</a>
-                        </li>
-        				<li class="menu-item">
-        					<a href="#submit">Submit</a>
-        				</li>
-        				<li class="menu-item back-to-top">
-        					<a href="javascript: window.scroll(0,0)">Back to top</a>
-        				</li>
-        			</ul>
-        		</div>
-        	</div> -->
         </div>
 	</div>
 </template>
@@ -148,27 +110,26 @@
 	}
 	.mod-header h2 {
 		padding-bottom: 12px;
+        font-weight: bold;
 	}
+    .mod-header a {
+        font-weight: bold;
+        color: #22409a;
+    }
+    .mod-header a:hover {
+        text-decoration: underline;
+    }
 	.layout-body {
 		margin-top: 20px;
 	}
-	.layout-body .layout-aside {
-        width: 25%;
-        float: right;
-    }
     .layout-body .layout-main {
-        width: 72%;
-        float: left;
+        width: 100%;
     }
 	.mod-txt ul li {
 		margin-bottom: 20px;
 	}
     .mod-codemirror {
         margin-top: 8px;
-    }
-    .layout-aside .fix {
-        position: fixed;
-        top: 20px;
     }
 
 </style>
@@ -231,26 +192,7 @@ import { getContestProblemDetail, postContestCode } from 'src/api';
         	this.fetchData();
         },
         mounted() {
-            // var aside = document.querySelector('.mod-menu');
-            // requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame ||function(callback) {setTimeout(callback, 1000 / 60);};
-            // var isScrolling = false;
-            // window.addEventListener('scroll', function(){
-            //     if(!isScrolling) {
-            //         if(window.scrollY > 130) {
-            //             requestAnimationFrame(function() {
-            //                 aside.className = 'mod-menu fix';
-            //                 isScrolling = false;
-            //             });
-            //         }else {
-            //             requestAnimationFrame(function() {
-            //                 aside.className = 'mod-menu';
-            //                 isScrolling = false;
-            //             });
-                        
-            //         }
-            //         isScrolling = true;
-            //     }
-            // })
+
         },
         watch: {
         	'$route':'fetchData'

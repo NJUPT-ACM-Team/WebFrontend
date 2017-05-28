@@ -266,21 +266,27 @@ import { getProblemDetail, postCode } from 'src/api';
         	'$route':'fetchData'
         },
         methods: {
-        	fetchData: function() {
+        	fetchData: async function() {
         		this.error = this.post = null;
         		this.loading = true;
         		// get post
-        		// this.problem.id = this.$route.params.problemId;
                 var $this = this;
-                var res = getProblemDetail(this.$route.params.problemId);
-                res.then(function(response) {
-                    var data = response.data.show_problem_response;
-                    $this.problem = data.problem;
-                    $this.problem.id = data.problem_sid;
-
-                    $this.supportLan = data.languages;
-                    console.log($this.supportLan);
-                })
+                try {
+                    const res = await getProblemDetail(this.$route.params.problemId);
+                    if(res.status == 200) {
+                        let data = res.data.show_problem_response;
+                        if(data.error) {
+                            console.log(data.error.debug);
+                        }else {
+                            this.problem = data.problem;
+                            this.problem.id = data.problem_sid;
+                            this.supportLan = data.languages;
+                            console.log(this.supportLan);
+                        }
+                    }
+                }catch(err) {
+                    console.log(err);
+                }
         	},
             setLan: function(l) {
                 console.log(l);
@@ -290,27 +296,27 @@ import { getProblemDetail, postCode } from 'src/api';
                     // this.editorOption.mode = l.mode;
                 }
             },
-            submitCode: function() {
+            submitCode: async function() {
                 var data = {
                     problem_sid: this.problem.id,
                     code: this.code,
                     language_id: this.usedLanID,
                 }
                 console.log(data);
-                var res = postCode(this.problem.id, this.code, this.usedLanID);
-                res.then(function(response) {
-                    console.log(response);
-                    var data = response.data;
-                    if(data.error) {
-                        alert("error");
-                    }else {
-                        alert('success');
-                        location.href = '/status';
+                try {
+                    const res = await postCode(this.problem.id, this.code, this.usedLanID);
+                    if(res.status == 200) {
+                        let data = res.data;
+                        if(data.error) {
+                            alert('error');
+                        }else {
+                            alert('success');
+                            this.$router.push('/status');
+                        }
                     }
-                })
-                .catch(function(err) {
+                }catch(err) {
                     console.log(err);
-                })
+                }
             }
         }
     }

@@ -2,7 +2,7 @@
 	<div>
 		<div class="mod-sign">
 			<div class="sign-hd">
-				<h2>Sign in to NOJ</h2>
+				<h2>Sign in to <router-link to="/">NOJ</router-link></h2>
 			</div>
 			<div class="sign-bd">
 				<div class="form-body">
@@ -12,7 +12,7 @@
 					</div>
 					<div class="form-item">
 						<label for="pwd">Password</label>
-						<input type="password" id="pwd" v-model="pwd"/>
+						<input type="password" id="pwd" v-model="pwd" @keydown.enter="enter" />
 					</div>
 					<div class="form-btn">
 						<a href="javascript:;" class="btn" @click="enter()">Sign in</a>
@@ -43,18 +43,33 @@ import { login } from 'src/api';
 			}
 		},
 		methods: {
-			enter: function() {
-				var res = login(this.username, this.pwd);
-				res.then(function(response) {
-					var data = response.data;
-					if(data.error) {
-						alert(data.error.msg);
+			enter: async function() {
+				try {
+					const res = await login(this.username, this.pwd);
+					if(res.status == 200) {
+						let data = res.data.login_auth_response;
+						if(data.error) {
+							alert(data.error.msg);
+						}else {
+							// console.log(data);
+							let userInfo = {
+								nickname: data.username,
+								role: 'common'
+							}
+							this.$store.dispatch('login', userInfo);
+							// temp
+							localStorage.setItem('username', userInfo.nickname);
+							localStorage.setItem('role', 'common');
+							
+							alert(data.msg);
+							this.$router.go(-1);
+						}
 					}else {
-						console.log(data);
-						alert(data.login_auth_response.msg);
-						// location.href = "/";
+						console.log('login error');
 					}
-				})
+				}catch(err) {
+					console.log(err);
+				}
 			}
 		}
 	}

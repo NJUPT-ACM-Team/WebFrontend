@@ -19,11 +19,11 @@ export default new VueRouter({
           component: resolve => require(['components/index/News'], resolve)
         },
         {
-          path: '/problem',
+          path: '/problems',
           component: resolve => require(['components/index/Problem'], resolve)
         },
         {
-          path: '/problem/:problemId',
+          path: '/problems/:problemId',
           name: 'problem',
           component: resolve => require(['components/index/ProblemDetail'], resolve)
         },
@@ -32,31 +32,31 @@ export default new VueRouter({
           component: resolve => require(['components/index/Status'], resolve)
         },
         {
-          path: '/contest',
+          path: '/contests',
           component: resolve => require(['components/index/Contest'], resolve)
         }, 
         {
-          path: '/contest/:contestId',
+          path: '/contests/:contestId',
           name: 'contest',
           component: resolve => require(['components/index/ContestDetail'], resolve),
           children: [
             {
-              path: '/contest/:contestId/detail',
+              path: '/contests/:contestId/detail',
               name: 'detail',
               component: resolve => require(['components/index/contest/ContestIntroduce'], resolve)
             },
             {
-              path: '/contest/:contestId/status',
+              path: '/contests/:contestId/status',
               name: 'status',
               component: resolve => require(['components/index/contest/ContestStatus'], resolve)
             },
             {
-              path: '/contest/:contestId/rank',
+              path: '/contests/:contestId/rank',
               name: 'rank',
               component: resolve => require(['components/index/contest/ContestRank'], resolve)
             },
             {
-              path: '/contest/:contestId/discussion',
+              path: '/contests/:contestId/discussion',
               name: 'discussion',
               component: resolve => require(['components/index/contest/ContestDiscussion'], resolve)
             },
@@ -87,9 +87,15 @@ export default new VueRouter({
     },
     {
       path: '/admin',
-      component: resolve => require(['components/admin/Index'], resolve),
+      component: resolve => require(['views/admin/Index'], resolve),
       children: [
-
+        {
+          path: '/admin',
+          component: resolve => require(['components/admin/Home'], resolve)
+        },
+        // {
+        //   path: '/admin/'
+        // }
       ]
     },
     {

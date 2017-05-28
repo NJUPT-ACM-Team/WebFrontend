@@ -1,13 +1,38 @@
 <template>
     <div>
         <div class="layout-header">
-            <div class="mod-header">
-                <h2>{{ contest.contest_id }}.{{ contest.title }}</h2>
-                <div class="header-txt">
-                	<p>
-                		Status : <span class="status">{{ contest.status }}</span>
-                		Access : <span class="access">{{ contest.access }}</span>
-                	</p>
+            <div class="mod-header clearfix">
+                <div class="header-main">
+                    <div class="header-tit">
+                        <h2>{{ contest.contest_id }}.{{ contest.title }}</h2>
+                        <p>{{ contest.description }}</p>
+                    </div>
+                    <div class="header-txt">
+                        <p>
+                            Status : <span class="status">{{ contest.status }}</span>
+                            Access : <span class="access">{{ contest.access }}</span>
+                            Start Time: <span>{{ parseTime(contest.start_time) }}</span>
+                            End Time: <span>{{ parseTime(contest.end_time) }}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layout-sub-header" v-if="contest.status != 'ended'">
+            <div class="mod-progress">
+                <div class="progress-bar" v-if="contest.status == 'in-progress'">
+                    <div class="progress-bar-content">
+                        <span class="start-time">Start Time: {{ parseTime(contest.start_time) }}</span>
+                        <div class="progress-bar-item progress-bar-success" :style="{ transform: barStyle.processPersent }"></div>
+                        <div class="progress-bar-item progress-bar-warning" :style="{ width: barStyle.lockTimePersent }">
+                            lock board time
+                            <span class="lock-time">Lock Time: {{ parseTime(contest.lock_board_time) }}</span>
+                            <span class="end-time">End Time: {{ parseTime(contest.end_time) }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tips" v-else-if="contest.status == 'in-future'">
+                    <p>{{ msg }}</p>
                 </div>
             </div>
         </div>
@@ -35,9 +60,18 @@
 	.mod-header {
 		padding: 20px 0 5px 0;
 	}
-	.mod-header h2 {
+	.mod-header .header-tit h2 {
 		padding-bottom: 12px;
 	}
+    .mod-header .header-tit p {
+        font-size: 14px;
+    }
+    .mod-header .header-txt {
+        padding-top: 10px;
+    }
+    .layout-sub-header {
+        padding: 28px 0 20px 0;
+    }
     .layout-body {
         margin-top: 20px;
     }
@@ -54,8 +88,10 @@
 import 'assets/css/mod-header.css';
 import 'assets/css/mod-box.css';
 import 'assets/css/mod-pagination.css';
+import 'assets/css/mod-progress.css';
 
 import { checkContestAccess, showContest } from 'src/api';
+import { parseTime } from 'src/filters';
 
     export default{
         data(){
@@ -66,6 +102,7 @@ import { checkContestAccess, showContest } from 'src/api';
                 hasAccess: false,
                 contest: {},
                 activeModule: 'detail',
+                msg: '比赛还未开始，敬请期待',
                 modules: [
                     {
                         router: 'detail',
@@ -83,15 +120,26 @@ import { checkContestAccess, showContest } from 'src/api';
                         router: 'discussion',
                         tit: 'Discussion'
                     }
-                ]
+                ],
+                barStyle: {
+                    lockTimePersent: '0',
+                    processPersent: 'scaleX(0)',
+                },
+                processing: true,
+                timer: null,
             }
         },
         computed: {
             
         },
         created() {
+            this.timer = null;
         	this.fetchData();
-            this.activeModule = this.$route.name;
+            if(this.$route.name == 'contest-problem') {
+                this.activeModule = 'detail';
+            }else {
+                this.activeModule = this.$route.name;
+            }
         },
         watch: {
             '$route':'fetchData'
@@ -106,6 +154,7 @@ import { checkContestAccess, showContest } from 'src/api';
                     if(res.status == 200) {
                         let data = res.data.contest_show_response;
                         this.contest = data.contest;
+                        console.log(data);
                         if(this.contest.access == 'private') {
                             if(this.contest.has_access) {
                                 this.hasAccess = true;
@@ -115,6 +164,7 @@ import { checkContestAccess, showContest } from 'src/api';
                         }else {
                             this.hasAccess = true;
                         }
+                        this.setProcess();
                     } else {
                         console.log('get error');
                     }
@@ -154,8 +204,37 @@ import { checkContestAccess, showContest } from 'src/api';
                 }else {
                     this.$router.go(-1);
                 }
+            },
+            parseTime: parseTime,
+            setProcess: function() {
+                // progress bar
+                var s = new Date(this.contest.start_time),
+                    l = new Date('2017-05-29 19:25:00'), // lock board time
+                    e = new Date(this.contest.end_time),
+                    totalTime = e - s;
+                this.barStyle.lockTimePersent = (e - l)/totalTime * 100 + '%';
+                this.barStyle.processPersent = 'scaleX(' + (new Date() - s)/totalTime + ')';
+                // var p = (new Date() - s)/totalTime;
+                if(this.processing) {
+                    this.timer = setInterval(() => {
+                        let p = (new Date() - s)/totalTime;
+                        // p += 0.05;
+                        if( p >= 1) {
+                            this.barStyle.processPersent = 'scaleX(1)';
+                            this.processing = false;
+                            clearInterval(this.timer);
+                            this.timer = null;
+                        }else {
+                            this.barStyle.processPersent = 'scaleX(' + p + ')';
+                        }
+                        // console.log(p);
+                    }, 1000);
+                }
             }
         },
-
+        beforeRouteLeave (to, from, next) {
+            clearInterval(this.timer);
+            next();
+        }
     }
 </script>

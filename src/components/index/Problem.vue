@@ -53,7 +53,7 @@
                                 <div class="item problem-oj">{{ item.oj.toUpperCase() }}</div>
                                 <div class="item-tab problem-source">{{ item.source }}</div>
                                 <div class="item-tab problem-ratio">
-                                    <p class="p-r">{{ (item.ac_submission/item.total_submission*100).toFixed(2) }}%</p>&nbsp;(
+                                    <p class="p-r">{{ item.total_submission == 0?0:(item.ac_submission/item.total_submission*100).toFixed(2) }}%</p>&nbsp;(
                                     <p class="p-ac">{{ item.ac_submission }}</p>/
                                     <p class="p-sb">{{ item.total_submission }}</p>)
                                 </div>
@@ -130,6 +130,7 @@ import 'assets/css/mod-pagination.css';
 import 'assets/css/mod-loading.css';
 
 import { getProblemList, getOJList } from 'src/api';
+import { mapGetters } from 'vuex';
 
     export default{
         data(){
@@ -159,7 +160,19 @@ import { getProblemList, getOJList } from 'src/api';
                 console.error(err);
             }
         },
-        computed: {
+        computed: mapGetters({
+            ojList: 'allOj'  
+        }),
+        watch: {
+            'currentPage': 'fetchData'
+        },
+        methods: {
+            setSource: function(s) {
+                if(this.activeSource != s) {
+                    this.activeSource = s;
+                    // this.loading = true;
+                }
+            },
             setPageRange: function() {
                 var arr = [],
                     tol = this.totalPages,
@@ -175,17 +188,6 @@ import { getProblemList, getOJList } from 'src/api';
                         arr.unshift(i);
                 }
                 return arr;
-            }
-        },
-        watch: {
-            'currentPage': 'fetchData'
-        },
-        methods: {
-            setSource: function(s) {
-                if(this.activeSource != s) {
-                    this.activeSource = s;
-                    // this.loading = true;
-                }
             },
             setPage: function(n) {
                 if(this.currentPage != n) {

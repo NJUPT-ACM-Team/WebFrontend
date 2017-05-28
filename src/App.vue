@@ -6,6 +6,8 @@
 
 <script>
 
+import { mapGetters } from 'vuex';
+
 export default {
     name: 'app',
     data() {
@@ -14,26 +16,13 @@ export default {
         }
     },
     created() {
-        this.deleteCookie('default');
+        this.$store.dispatch('getAllOj', [{'all':1}]);
     },
+    computed: mapGetters({
+        ojList: 'allOj'
+    }),
     methods: {
-        setCookie: function(name, val, expiredays) {
-            var exdate = new Date();
-            exdate.setDate(exdate.getDate() + expiredays);
-            document.cookie = name + '=' + escape(val) + ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString());
-        },
-        getCookie: function(name) {
-            var arr, 
-            reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-            if (arr = document.cookie.match(reg)) {
-                return unescape(arr[2]);  
-            }else {
-                return null; 
-            }
-        },
-        deleteCookie: function(name) {
-            this.setCookie(name, '', -1);
-        }
+        
     }
 }
 </script>

@@ -28,6 +28,12 @@
     flex: 1;
     justify-content: center;
 }
+.list-header .label,
+.problem-item .problem-label {
+    display: flex;
+    flex: .4;
+    justify-content: center;
+}
 .list-header .ratio,
 .problem-item .problem-ratio {
     display: flex;
