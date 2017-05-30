@@ -55,7 +55,8 @@ export function getProblemList(per_page=20, current_page=1, order_by, is_desc, f
 export function getOJList() {
 	return axios.get('/api/inline/about', {
 		params: {
-			need_ojs_list: true
+			need_ojs_list: true,
+			need_username: true
 		}
 	});
 }

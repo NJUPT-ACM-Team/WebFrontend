@@ -7,6 +7,7 @@
 <script>
 
 import { mapGetters } from 'vuex';
+import { getOJList } from 'src/api';
 
 export default {
     name: 'app',
@@ -15,8 +16,24 @@ export default {
 
         }
     },
-    created() {
-        this.$store.dispatch('getAllOj', [{'all':1}]);
+    async created() {
+        try {
+            const res = await getOJList();
+            if(res.status == 200) {
+                console.log(res);
+                let data = res.data.about_response;
+                if(data.username != '') {
+                    let userInfo = {
+                        nickname: data.username,
+                    }
+                    this.$store.dispatch('login', userInfo);
+                }
+                this.$store.dispatch('getAllOj', data.ojs_list);
+            }
+        }catch(err) {
+            console.log(err);
+        }
+        console.log(this.ojList);
     },
     computed: mapGetters({
         ojList: 'allOj'

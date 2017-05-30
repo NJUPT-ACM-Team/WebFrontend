@@ -57,10 +57,6 @@ import { login } from 'src/api';
 								role: 'common'
 							}
 							this.$store.dispatch('login', userInfo);
-							// temp
-							localStorage.setItem('username', userInfo.nickname);
-							localStorage.setItem('role', 'common');
-							
 							alert(data.msg);
 							this.$router.go(-1);
 						}

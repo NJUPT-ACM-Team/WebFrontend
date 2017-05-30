@@ -30,7 +30,11 @@
 			</div>
 			<div class="nav-user">
 				<div v-if="isSignin">
-					{{ userInfo.nickName }}
+					<p>
+						<span>{{ userInfo.nickName }}</span>
+						<a href="javascript:;" @click="logout">Logout</a>	
+					</p>
+					
 				</div>
 				<div v-else>
 					<p>
@@ -46,6 +50,7 @@
 <script>
 
 import { mapGetters } from 'vuex';
+import { logout } from 'src/api';
 
 	export default {
 		data() {
@@ -54,20 +59,34 @@ import { mapGetters } from 'vuex';
 			}
 		},
 		created() {
-			console.log(this.userInfo);
-			var username = localStorage.getItem('username');
-			if(username) {
-				let userInfo = {
-					nickname: username,
-					role: localStorage.getItem('role')
-				}
-				this.$store.dispatch('login', userInfo);
-			}
+
 		},
 		computed: mapGetters({
 			isSignin: 'checkStatus',
 			userInfo: 'getUserInfo'
-		})
+		}),
+		methods: {
+			logout: async function() {
+				try{
+					const res = await logout();
+					if(res.status == 200) {
+						let data = res.data.logout_response;
+						if(data.error) {
+							alert('error');
+						}else {
+							alert('logout success');
+							this.$store.dispatch('logout');
+							mapGetters({
+								isSignin: 'checkStatus',
+								userInfo: 'getUserInfo'
+							});
+						}
+					}
+				}catch(err) {
+					console.log(err);
+				}
+			}
+		}
 	}
 </script>
 
