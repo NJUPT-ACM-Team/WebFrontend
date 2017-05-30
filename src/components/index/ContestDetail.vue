@@ -123,7 +123,7 @@ import { parseTime } from 'src/filters';
                 modules: [
                     {
                         router: 'detail',
-                        tit: 'Contest Details'
+                        tit: 'Problem List'
                     },
                     {
                         router: 'status',

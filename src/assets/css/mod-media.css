@@ -3,7 +3,7 @@
 .mod-media .media-hd {
     font-size: 16px;
     color: #333333;
-    padding-bottom: 12px;
+    line-height: 32px;
     border-bottom: 1px solid #e0e0e0;
 }
 
@@ -18,7 +18,8 @@
 
 .media-hd .list-header,
 .media-bd .problem-list .problem-item,
-.media-bd .status-list .status-item {
+.media-bd .status-list .status-item,
+.media-bd .rank-list .rank-item {
     display: flex;
 }
 .list-header .title,
@@ -51,8 +52,10 @@
 }
 
 .media-bd .problem-list .problem-item,
-.media-bd .status-list .status-item {
-    padding: 12px 0;
+.media-bd .status-list .status-item,
+.media-bd .rank-list .rank-item {
+    /*padding: 12px 0;*/
+    line-height: 36px;
     border-bottom: 1px solid #e0e0e0;
     color: #333;
     font-size: 14px;

@@ -3,7 +3,7 @@
 import axios from 'axios';
 
 const URL = 'http://35.189.170.28:8000/';
-// const URL = 'http://10.80.121.205:8000/';
+// const URL = 'http://10.80.47.255:8000/';
 
 axios.defaults.baseURL = URL;
 axios.defaults.withCredentials = true;
@@ -162,7 +162,16 @@ export function getContestListSubmissions(per_page, current_page, contest_id, fi
 			filter_compiler: filter_compiler,
 			is_desc: is_desc
 		}
-	})
+	});
+}
+
+export function getContestRankList(contest_id, contest_type) {
+	return axios.get('/api/inline/contest/ranklist', {
+		params: {
+			contest_id: contest_id,
+			contest_type: contest_type
+		}
+	});
 }
 
 export function postContestCode(contest_id, problem_sid, code, language_id, is_shared) {
