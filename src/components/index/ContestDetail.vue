@@ -5,20 +5,16 @@
                 <div class="header-main">
                     <div class="header-tit">
                         <h2>{{ contest.contest_id }}.{{ contest.title }}</h2>
-                        <p>{{ contest.description }}</p>
+                        <span class="status" :class="[contest.status]">{{ contest.status }}</span>
+                        <span class="access" :class="[contest.access]">{{ contest.access }}</span>
                     </div>
                     <div class="header-txt">
-                        <p>
-                            Status : <span class="status">{{ contest.status }}</span>
-                            Access : <span class="access">{{ contest.access }}</span>
-                            Start Time: <span>{{ parseTime(contest.start_time) }}</span>
-                            End Time: <span>{{ parseTime(contest.end_time) }}</span>
-                        </p>
+                        <p>{{ contest.description }}</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="layout-sub-header" v-if="contest.status != 'ended'">
+        <div class="layout-sub-header">
             <div class="mod-progress">
                 <div class="progress-bar" v-if="contest.status == 'in-progress'">
                     <div class="progress-bar-content">
@@ -31,8 +27,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="tips" v-else-if="contest.status == 'in-future'">
+                <div class="tips" v-else>
                     <p>{{ msg }}</p>
+                    <p>Start Time: {{ parseTime(contest.start_time) }}</p>
+                    <p>End Time: {{ parseTime(contest.end_time) }}</p>
                 </div>
             </div>
         </div>
@@ -60,14 +58,33 @@
 	.mod-header {
 		padding: 20px 0 5px 0;
 	}
-	.mod-header .header-tit h2 {
-		padding-bottom: 12px;
-	}
-    .mod-header .header-tit p {
-        font-size: 14px;
-    }
     .mod-header .header-txt {
         padding-top: 10px;
+    }
+    .mod-header .header-tit span {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        color: #f3f3f3;
+        transform: translateY(-2px);
+        background: #a8adb1;
+        margin-right: 10px;
+    }
+    .mod-header .header-tit .status.in-progress {
+        background: #fbcd36;
+    }
+    .mod-header .header-tit .status.in-future {
+        background: #22409a;
+    }
+    .mod-header .header-tit .status.ended {
+        background: #a8adb1;
+    }
+    .mod-header .header-tit .access.private {
+        background: #f26c68;
+    }
+    .mod-header .header-tit .access.public {
+        background: #1f8d85;
     }
     .layout-sub-header {
         padding: 28px 0 20px 0;
@@ -164,7 +181,14 @@ import { parseTime } from 'src/filters';
                         }else {
                             this.hasAccess = true;
                         }
-                        this.setProcess();
+                        if(this.contest.status == 'in-progress') {
+                            this.setProcess();
+                        }else if(this.contest.status == 'in-future') {
+                            this.msg = '比赛还未开始，敬请期待';
+                        }else {
+                            this.msg = '比赛已经结束';
+                        }
+                        
                     } else {
                         console.log('get error');
                     }

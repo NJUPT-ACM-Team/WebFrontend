@@ -7,6 +7,15 @@
     border-bottom: 1px solid #e0e0e0;
 }
 
+.media-hd .tit {
+    display: inline-block;
+}
+
+.media-hd .input-group {
+    float: right;
+    margin: -10px 0 0 0;
+}
+
 .media-hd .list-header,
 .media-bd .problem-list .problem-item,
 .media-bd .status-list .status-item {
@@ -83,6 +92,9 @@
     background: #a8adb1;
     margin-right: 10px;
 }
+.contest-item .contest-tit .contest-operate {
+    float: right;
+}
 .contest-item .contest-tit .contest-status.in-progress {
     background: #fbcd36;
 }
@@ -142,7 +154,9 @@
     color: #fbcd36;
 }
 .status-item .status.ce a,
-.status-item .status.wa {
+.status-item .status.wa,
+.status-item .status.tle,
+.status-item .status.mle {
     color: #d60600;
 }
 .status-item .status.se {

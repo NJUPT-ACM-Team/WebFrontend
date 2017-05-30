@@ -5,66 +5,18 @@
 				<li class="menu-item">
 					<div class="mod-box">
 						<div class="box-hd">
-							<h3>Problems</h3>
+							<h3>Management</h3>
 						</div>
 						<div class="box-bd">
 							<ul>
 								<li class="active">
-									<router-link to="/">New Problems</router-link>
+									<router-link to="/admin/management/problems">Problems</router-link>
 								</li>
 								<li>
-									<router-link to="/">Problem List</router-link>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</li>
-				<li class="menu-item">
-					<div class="mod-box">
-						<div class="box-hd">
-							<h3>Contests</h3>
-						</div>
-						<div class="box-bd">
-							<ul>
-								<li>
-									<router-link to="/">new</router-link>
+									<router-link to="/admin/management/contests">Contest</router-link>
 								</li>
 								<li>
-									<router-link to="/">edit</router-link>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</li>
-				<li class="menu-item">
-					<div class="mod-box">
-						<div class="box-hd">
-							<h3>News</h3>
-						</div>
-						<div class="box-bd">
-							<ul>
-								<li>
-									<router-link to="/">new</router-link>
-								</li>
-								<li>
-									<router-link to="/">edit</router-link>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</li>
-				<li class="menu-item">
-					<div class="mod-box">
-						<div class="box-hd">
-							<h3>Users</h3>
-						</div>
-						<div class="box-bd">
-							<ul>
-								<li>
-									<router-link to="/">new</router-link>
-								</li>
-								<li>
-									<router-link to="/">edit</router-link>
+									<router-link to="/admin/management/users">Users</router-link>
 								</li>
 							</ul>
 						</div>
