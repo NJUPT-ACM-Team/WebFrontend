@@ -39,7 +39,9 @@
                                     {{ item.run_id }}
                                 </div>
                                 <div class="item-tab user-name">{{ item.username }}</div>
-                                <div class="item-tab s-id">{{ item.sid }}</div>
+                                <div class="item-tab s-id">
+                                    <router-link :to="{name: 'problem', params: {problemId: item.sid} }">{{ item.sid }}</router-link>    
+                                </div>
                                 <div class="item-tab status" :class="item.status_code">
                                 	<span v-if="item.status != 'Compile Error'">{{ item.status }}</span>
                                 	<a href="javascript:;" v-else @click="showCeInfo(item.ce_info)">{{ item.status }} <i class="icon icon-mark"></i></a>
@@ -103,6 +105,13 @@
 
     .layout-body {
         margin-top: 20px;
+    }
+
+    .mod-media .media-bd .s-id a {
+        color: #22409a;
+    }
+    .mod-media .media-bd .s-id a:hover {
+        text-decoration: underline;
     }
 
 </style>

@@ -72,7 +72,7 @@
         margin-right: 10px;
     }
     .mod-header .header-tit .status.in-progress {
-        background: #fbcd36;
+        background: #d6ab00;
     }
     .mod-header .header-tit .status.in-future {
         background: #22409a;
@@ -152,17 +152,17 @@ import { parseTime } from 'src/filters';
         created() {
             this.timer = null;
         	this.fetchData();
-            if(this.$route.name == 'contest-problem') {
-                this.activeModule = 'detail';
-            }else {
-                this.activeModule = this.$route.name;
-            }
         },
         watch: {
             '$route':'fetchData'
         },
         methods: {
             fetchData: async function() {
+                if(this.$route.name == 'contest-problem') {
+                    this.activeModule = 'detail';
+                }else {
+                    this.activeModule = this.$route.name;
+                }
         		this.error = this.post = null;
         		this.loading = true;
         		// get post

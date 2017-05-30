@@ -96,7 +96,7 @@
     float: right;
 }
 .contest-item .contest-tit .contest-status.in-progress {
-    background: #fbcd36;
+    background: #d6ab00;
 }
 .contest-item .contest-tit .contest-status.in-future {
     background: #22409a;

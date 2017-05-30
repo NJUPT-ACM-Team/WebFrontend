@@ -3,8 +3,9 @@
 		<div class="mod-media">
 			<div class="media-hd">
 				<div class="list-header">
+					<div class="status-tit run-id">Run ID</div>
 					<div class="status-tit user-name">User Name</div>
-					<div class="status-tit p-id">Problem ID</div>
+					<div class="status-tit s-id">Problem ID</div>
 					<div class="status-tit result">Result</div>
 					<div class="status-tit lan">Language</div>
 					<div class="status-tit submit-time">Submit Time</div>
@@ -13,8 +14,11 @@
 			<div class="media-bd">
 				<ul class="status-list">
 					<li class="status-item" v-for="item in statusList">
+						<div class="item-tab run-id">{{ item.run_id }}</div>
 						<div class="item-tab user-name">{{ item.username }}</div>
-						<div class="item-tab s-id">{{ item.sid }}</div>
+						<div class="item-tab s-id">
+							<router-link :to="{name: 'contest-problem', params: {problemId: item.label} }">{{ item.label }}</router-link>	
+						</div>
 						<div class="item-tab status" :class="item.status_code">
 							<span v-if="item.status_code != 'ce'">{{ item.status }}</span>
 							<a href="javascript:;" v-else @click="showCeInfo(item.ce_info)">{{ item.status }} <i class="icon icon-mark"></i></a>
@@ -66,6 +70,22 @@
 
 <style scoped>
 	
+	.mod-media .media-bd .s-id a {
+		color: #22409a;
+	}
+	.mod-media .media-bd .s-id a:hover {
+		text-decoration: underline;
+	}
+
+	.mod-media .media-hd .run-id,
+	.mod-media .media-bd .run-id {
+		flex: 0.4;
+	}
+	.mod-media .media-hd .s-id,
+	.mod-media .media-bd .s-id {
+		flex: 0.6;
+	}
+
 </style>
 
 <script>
@@ -73,7 +93,7 @@
 import 'assets/css/mod-media.css';
 import 'assets/css/mod-pagination.css';
 
-import { getStatus } from 'src/api';
+import { getContestListSubmissions } from 'src/api';
 import { parseTime } from 'src/filters';
 
 	export default {
@@ -81,10 +101,12 @@ import { parseTime } from 'src/filters';
 			return {
 				statusList: [],
 				currentPage: 1,
-            	totalPages: 99
+            	totalPages: 99,
+            	contestId: 0
 			}
 		},
 		created() {
+			this.contestId = this.$route.params.contestId;
 			this.fetchData();
 		},
 		watch: {
@@ -119,10 +141,10 @@ import { parseTime } from 'src/filters';
 	        },
 	        fetchData: async function() {
 	        	try {
-					const res = await getStatus(undefined,this.currentPage);
+					const res = await getContestListSubmissions(undefined,this.currentPage, this.contestId);
 					console.log(res);
 					if(res.status == 200) {
-						var data = res.data.list_submissions_response;
+						var data = res.data.contest_list_submissions_response;
 						this.statusList = data.lines;
 						this.statusList.forEach((v) => { v.submit_time = parseTime(v.submit_time) });
 						this.currentPage = data.current_page;
