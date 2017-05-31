@@ -39,9 +39,13 @@ import { login } from 'src/api';
 		data() {
 			return {
 				username: '',
-				pwd: ''
+				pwd: '',
+				from: ''
 			}
 		},
+		// created(){
+		// 	console.log(this.url);
+		// },
 		methods: {
 			enter: async function() {
 				try {
@@ -58,7 +62,12 @@ import { login } from 'src/api';
 							}
 							this.$store.dispatch('login', userInfo);
 							alert(data.msg);
-							this.$router.go(-1);
+							console.log(this.url);
+							if(this.from == '/signup') {
+								this.$router.push('/')
+							}else {
+								this.$router.go(-1);
+							}
 						}
 					}else {
 						console.log('login error');
@@ -67,6 +76,11 @@ import { login } from 'src/api';
 					console.log(err);
 				}
 			}
+		},
+		beforeRouteEnter(to, from, next) {
+			next(vm => {
+				vm.from = from.path;
+			});
 		}
 	}
 </script>

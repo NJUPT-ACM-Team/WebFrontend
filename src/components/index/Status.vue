@@ -138,6 +138,7 @@ export default {
 	},
 	created() {
 		this.fetchData();
+        console.log(this.$route);
 	},
 	watch: {
 		'currentPage': 'fetchData'
