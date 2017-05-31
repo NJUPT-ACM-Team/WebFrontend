@@ -237,11 +237,12 @@ import { getContestProblemDetail, postContestCode } from 'src/api';
                 try {
                 	const res = await postContestCode(data.contest_id, data.problem_sid, data.code, data.language_id);
                 	if(res.status == 200) {
-                		let data = res.data.submit_response;
-                		if(data.error) {
-                			alert(data.error.debug);
+                		let resData = res.data.submit_response;
+                		if(resData.error) {
+                			alert(resData.error.debug);
                 		}else {
                 			alert('success');
+                            this.$router.push('contests/' + data.contest_id + '/status');
                 		}
                 	}else {
                 		console.log('post error');

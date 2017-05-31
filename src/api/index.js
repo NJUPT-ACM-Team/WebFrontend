@@ -165,11 +165,11 @@ export function getContestListSubmissions(per_page, current_page, contest_id, fi
 	});
 }
 
-export function getContestRankList(contest_id, contest_type) {
+export function getContestRankList(contest_id, rank_type) {
 	return axios.get('/api/inline/contest/ranklist', {
 		params: {
 			contest_id: contest_id,
-			contest_type: contest_type
+			rank_type: rank_type
 		}
 	});
 }

@@ -1,5 +1,10 @@
 <template>
 	<div>
+		<div class="layout-exp">
+			<div class="exp-item is-ac is-fb">First solve problem</div>
+			<div class="exp-item is-ac">Solved problem</div>
+			<div class="exp-item is-attempt">Attempted problem</div>
+		</div>
 		<div class="mod-media">
 			<div class="media-hd">
 				<div class="list-header">
@@ -18,7 +23,7 @@
 						<div class="item-tab ac-num">{{ item.ac_num }}</div>
 						<div class="item-tab total-mins">{{ item.total_mins }}</div>
 						<div class="item-tab cols" v-for="c in item.cols" v-bind:class="{ 'is-ac': c.is_ac, 'is-fb': c.is_fb, 'is-attempt': c.attempt }">
-							<p>{{ c.attempt }}</p>
+							<p>{{ c.minutes }}/{{ c.attempt }}</p>
 						</div>
 					</li>
 				</ul>
@@ -28,6 +33,15 @@
 </template>
 
 <style scoped>
+
+	.layout-exp {
+		margin-bottom: 12px;
+	}
+	.layout-exp .exp-item {
+		display: inline-block;
+		padding: 5px;
+		font-size: 14px;
+	}
 
 	.mod-media {
 		overflow: auto;
@@ -61,14 +75,16 @@
 		flex: .4;
 	}
 
-	.mod-media .rank-item .is-attempt.is-ac {
+	.cols.is-ac,
+	.exp-item.is-ac {
 		background-color: #e1ffb5;
 	}
-	.mod-media .rank-item .is-attempt.is-ac.is-fb {
+	.cols.is-ac.is-fb,
+	.exp-item.is-fb {
 		background-color: #080;
 		color: #fff;
 	}
-	.mod-media .rank-item .is-attempt {
+	.is-attempt {
 		background-color: #ffdada;
 	}
 	
@@ -108,9 +124,9 @@ import { getContestRankList } from 'src/api';
 							{
 								'label': 'A',
 								'minutes': '0',
-								'attempt': 2,
-								'is_fb': true,
-								'is_ac': true
+								'attempt': 0,
+								'is_fb': false,
+								'is_ac': false
 							},
 							{
 								'label': 'B',
@@ -141,6 +157,7 @@ import { getContestRankList } from 'src/api';
 		},
 		created() {
 			this.contestId = this.$route.params.contestId;
+			this.fetchData();
 		},
 		methods: {
 			fetchData: async function() {
@@ -148,6 +165,9 @@ import { getContestRankList } from 'src/api';
 					const res = await getContestRankList(this.contestId, 'icpc');
 					if(res.status == 200) {
 						console.log(res);
+						let data = res.data.contest_ranklist_response;
+						this.labelList = data.rank_icpc.labels;
+						this.lines = data.rank_icpc.lines;
 					}
 				}catch(err) {
 					console.log(err);
