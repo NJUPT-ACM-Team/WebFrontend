@@ -39,6 +39,11 @@ export function register(name, pwd, email, phone, school, motto, captcha) {
 	});
 }
 
+export function getCaptcha() {
+	var ran = Math.random();
+	return URL + '/api/inline/captcha?' + ran;
+}
+
 export function getProblemList(per_page=20, current_page=1, order_by, is_desc, filter_oj, filter_p_status=0) {
 	return axios.get('/api/inline/problems', {
 		params: {

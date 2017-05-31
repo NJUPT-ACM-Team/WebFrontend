@@ -106,7 +106,7 @@ import 'assets/css/mod-header.css';
 
 import SignNav from './index/Nav.vue';
 
-import { register } from 'src/api';
+import { register, getCaptcha } from 'src/api';
 
 	export default {
 		data() {
@@ -157,9 +157,8 @@ import { register } from 'src/api';
 				}
 			},
 			setCaptcha: function() {
-				var captchaImg = document.getElementById('captchaImg'),
-					ran = Math.random();
-				captchaImg.src = 'http://35.189.170.28:8000/api/inline/captcha?' + ran;
+				var captchaImg = document.getElementById('captchaImg');
+				captchaImg.src = getCaptcha();
 			}
 		},
 		components: {
