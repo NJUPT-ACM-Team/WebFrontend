@@ -20,7 +20,7 @@
 							<router-link :to="{name: 'contest-problem', params: {problemId: item.label} }">{{ item.label }}</router-link>	
 						</div>
 						<div class="item-tab status" :class="item.status_code">
-							<a href="javascript:;" v-if="item.status_code == 'se'" title="reload">{{ item.status }} <i class="icon icon-reload"></i></a>
+							<a href="javascript:;" v-if="item.status_code == 'se'" title="rejudge" @click="rejudge(item.run_id)">{{ item.status }} <i class="icon icon-reload"></i></a>
 							<a href="javascript:;" v-else-if="item.status_code == 'ce'" @click="showCeInfo(item.ce_info)">{{ item.status }} <i class="icon icon-mark"></i></a>
 							<span v-else>{{ item.status }}</span>
 						</div>
@@ -101,7 +101,7 @@
 import 'assets/css/mod-media.css';
 import 'assets/css/mod-pagination.css';
 
-import { getContestListSubmissions } from 'src/api';
+import { getContestListSubmissions, rejudge } from 'src/api';
 import { parseTime } from 'src/filters';
 
 	export default {
@@ -163,6 +163,22 @@ import { parseTime } from 'src/filters';
 				} catch(err) {
 					console.log(err);
 				}
+	        },
+	        rejudge: async function(run_id) {
+	            try {
+	                const res = await rejudge(run_id);
+	                if(res.status == 200) {
+	                    let data = res.data.re_judge_response;
+	                    if(data.error) {
+	                        alert('error');
+	                    }else {
+	                        alert('success');
+	                        this.fetchData();
+	                    }
+	                }
+	            }catch(err) {
+	                console.log(err);
+	            }
 	        }
 		}
 	}

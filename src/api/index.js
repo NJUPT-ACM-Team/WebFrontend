@@ -183,5 +183,13 @@ export function postContestCode(contest_id, problem_sid, code, language_id, is_s
 			language_id: language_id,
 			is_shared: is_shared
 		}
-	})
+	});
+}
+
+export function rejudge(run_id) {
+	return axios.post('/api/inline/rejudge', {
+		re_judge_request: {
+			run_id: run_id
+		}
+	});
 }

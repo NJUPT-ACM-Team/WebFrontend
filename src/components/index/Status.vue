@@ -43,7 +43,7 @@
                                     <router-link :to="{name: 'problem', params: {problemId: item.sid} }">{{ item.sid }}</router-link>    
                                 </div>
                                 <div class="item-tab status" :class="item.status_code">
-                                	<a href="javascript:;" v-if="item.status_code == 'se'" title="reload">{{ item.status }} <i class="icon icon-reload"></i></a>
+                                	<a href="javascript:;" v-if="item.status_code == 'se'" title="rejudge" @click="rejudge(item.run_id)">{{ item.status }} <i class="icon icon-reload"></i></a>
                                     <a href="javascript:;" v-else-if="item.status_code == 'ce'" @click="showCeInfo(item.ce_info)">{{ item.status }} <i class="icon icon-mark"></i></a>
                                     <span v-else>{{ item.status }}</span>
                                 </div>
@@ -51,7 +51,7 @@
                                 <div class="item-tab memory-used">{{ item.memory_used }}</div>
 								<div class="item-tab code-length">{{ item.code_length }}</div>
 								<div class="item-tab lan">{{ item.language.compiler }}</div>
-								<div class="item-tab submit-time">{{ item.submit_time }}</div>
+								<div class="item-tab submit-time">{{ parseTime(item.submit_time) }}</div>
                             </li>
                         </ul>
                     </div>
@@ -124,7 +124,7 @@ import 'assets/css/mod-media.css';
 import 'assets/css/mod-pagination.css';
 import 'assets/css/mod-loading.css';
 
-import { getStatus } from 'src/api';
+import { getStatus, rejudge } from 'src/api';
 import { parseTime } from 'src/filters';
 
 export default {
@@ -177,9 +177,8 @@ export default {
 				console.log(res);
 				this.loading = false;
 				if(res.status == 200) {
-					var data = res.data.list_submissions_response;
+					let data = res.data.list_submissions_response;
 					this.statusList = data.lines;
-					this.statusList.forEach((v) => { v.submit_time = parseTime(v.submit_time) });
 					this.currentPage = data.current_page;
 					this.totalPages = data.total_pages;
 				}else {
@@ -188,6 +187,23 @@ export default {
 			} catch(err) {
 				console.log(err);
 			}
+        },
+        parseTime: parseTime,
+        rejudge: async function(run_id) {
+            try {
+                const res = await rejudge(run_id);
+                if(res.status == 200) {
+                    let data = res.data.re_judge_response;
+                    if(data.error) {
+                        alert('error');
+                    }else {
+                        alert('success');
+                        this.fetchData();
+                    }
+                }
+            }catch(err) {
+                console.log(err);
+            }
         }
 	}
 }
