@@ -20,7 +20,7 @@
         						<h3><a name="description" href="#description">Description</a></h3>
         					</div>
         					<div class="txt-bd">
-        						<p>{{ problem.description }}</p>
+        						<p v-html="problem.description"></p>
         					</div>
         				</li>
         				<li>
@@ -28,7 +28,7 @@
         						<h3><a name="input" href="#input">Input</a></h3>
         					</div>
         					<div class="txt-bd">
-        						<p>{{ problem.input }}</p>
+        						<p v-html="problem.input"></p>
         					</div>
         				</li>
         				<li>
@@ -36,7 +36,7 @@
         						<h3><a name="output" href="#output">Output</a></h3>
         					</div>
         					<div class="txt-bd">
-        						<p>{{ problem.output }}</p>
+        						<p v-html="problem.output"></p>
         					</div>
         				</li>
         				<li>
@@ -44,7 +44,7 @@
         						<h3><a name="sampleInput" href="#sampleInput">Sample input</a></h3>
         					</div>
         					<div class="txt-bd">
-        						<p>{{ problem.sample_input }}</p>
+        						<p v-html="problem.sample_input"></p>
         					</div>
         				</li>
         				<li>
@@ -52,7 +52,7 @@
         						<h3><a name="sampleOutput" href="#sampleOutput">Sample output</a></h3>
         					</div>
         					<div class="txt-bd">
-        						<p>{{ problem.sample_output }}</p>
+        						<p v-html="problem.sample_output"></p>
         					</div>
         				</li>
         				<li>
@@ -60,7 +60,7 @@
         						<h3><a name="hint" href="#hint">Hint</a></h3>
         					</div>
         					<div class="txt-bd">
-        						<p>{{ problem.hint }}</p>
+        						<p v-html="problem.hint"></p>
         					</div>
         				</li>
         				<li name="source">
@@ -68,7 +68,7 @@
         						<h3><a name="source" href="#source">Source</a></h3>
         					</div>
         					<div class="txt-bd">
-        						<p>{{ problem.source }}</p>
+        						<p v-html="problem.source"></p>
         					</div>
         				</li>
                         <!-- <li>

@@ -2,8 +2,8 @@
 
 import axios from 'axios';
 
-const URL = 'http://35.189.170.28:8000/';
-// const URL = 'http://10.80.47.255:8000/';
+// const URL = 'http://35.189.170.28:8000/';
+const URL = 'http://10.160.31.231:8000/';
 
 axios.defaults.baseURL = URL;
 axios.defaults.withCredentials = true;

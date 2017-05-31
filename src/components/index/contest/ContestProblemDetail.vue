@@ -21,7 +21,7 @@
         						<h3>Description</h3>
         					</div>
         					<div class="txt-bd">
-        						<p>{{ problem.description }}</p>
+        						<p v-html="problem.description"></p>
         					</div>
         				</li>
         				<li>
@@ -29,7 +29,7 @@
         						<h3>Input</h3>
         					</div>
         					<div class="txt-bd">
-        						<p>{{ problem.input }}</p>
+        						<p v-html="problem.input"></p>
         					</div>
         				</li>
         				<li>
@@ -37,7 +37,7 @@
         						<h3>Output</h3>
         					</div>
         					<div class="txt-bd">
-        						<p>{{ problem.output }}</p>
+        						<p v-html="problem.output"></p>
         					</div>
         				</li>
         				<li>
@@ -45,7 +45,7 @@
         						<h3>Sample input</h3>
         					</div>
         					<div class="txt-bd">
-        						<p>{{ problem.sample_input }}</p>
+        						<p v-html="problem.sample_input"></p>
         					</div>
         				</li>
         				<li>
@@ -53,7 +53,7 @@
         						<h3>Sample output</h3>
         					</div>
         					<div class="txt-bd">
-        						<p>{{ problem.sample_output }}</p>
+        						<p v-html="problem.sample_output"></p>
         					</div>
         				</li>
         				<li>
@@ -61,7 +61,7 @@
         						<h3>Hint</h3>
         					</div>
         					<div class="txt-bd">
-        						<p>{{ problem.hint }}</p>
+        						<p v-html="problem.hint"></p>
         					</div>
         				</li>
         				<li name="source">
@@ -69,7 +69,7 @@
         						<h3>Source</h3>
         					</div>
         					<div class="txt-bd">
-        						<p>{{ problem.source }}</p>
+        						<p v-html="problem.source"></p>
         					</div>
         				</li>
                         <li>
