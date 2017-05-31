@@ -150,12 +150,13 @@ export function getContestProblemDetail(contest_id, problem_sid) {
 	});
 }
 
-export function getContestListSubmissions(per_page, current_page, contest_id, filter_username, filter_label, filter_status_code, filter_language, filter_compiler, is_desc) {
+export function getContestListSubmissions(per_page, current_page, contest_id, filter_run_id, filter_username, filter_label, filter_status_code, filter_language, filter_compiler, is_desc) {
 	return axios.get('/api/inline/contest/status', {
 		params: {
 			per_page: per_page,
 			current_page: current_page,
 			contest_id: contest_id,
+			filter_run_id: filter_run_id,
 			filter_username: filter_username,
 			filter_label: filter_label,
 			filter_status_code: filter_status_code,

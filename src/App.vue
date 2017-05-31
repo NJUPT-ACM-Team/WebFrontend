@@ -28,16 +28,20 @@ export default {
                     }
                     this.$store.dispatch('login', userInfo);
                 }
-                this.$store.dispatch('getAllOj', data.ojs_list);
+                let source = data.ojs_list;
+                let num = 0;
+                source.forEach((v) => { num += v.problem_num });
+                source.unshift({oj_name: 'ALL', problem_num: num});
+                this.$store.dispatch('getAllOj', source);
             }
         }catch(err) {
             console.log(err);
         }
-        console.log(this.ojList);
+        // console.log(this.ojList);
     },
-    computed: mapGetters({
-        ojList: 'allOj'
-    }),
+    // computed: mapGetters({
+    //     ojList: 'allOj'
+    // }),
     methods: {
         
     }

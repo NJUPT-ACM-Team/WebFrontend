@@ -136,32 +136,33 @@ import { mapGetters } from 'vuex';
         data(){
             return{
                 loading: true,
-                source: [],
+                // source: [],
                 activeSource: 'ALL',
                 problemList: [],
                 currentPage: 1,
                 totalPages: 99
             }
         },
-        async created() {
-            try {
-               const res = await getOJList();
-                if(res.status == 200) {
-                    let data = res.data.about_response;
-                    let num = 0;
-                    this.source = data.ojs_list;
-                    this.source.forEach((v) => { num += v.problem_num });
-                    this.source.unshift({oj_name: 'ALL', problem_num: num});
-                    this.fetchData();
-                }else {
-                    console.log('getOJList error');
-                } 
-            } catch(err) {
-                console.error(err);
-            }
+        created() {
+            // try {
+            //    const res = await getOJList();
+            //     if(res.status == 200) {
+            //         let data = res.data.about_response;
+            //         let num = 0;
+            //         this.source = data.ojs_list;
+            //         this.source.forEach((v) => { num += v.problem_num });
+            //         this.source.unshift({oj_name: 'ALL', problem_num: num});
+            //         this.fetchData();
+            //     }else {
+            //         console.log('getOJList error');
+            //     } 
+            // } catch(err) {
+            //     console.error(err);
+            // }
+            this.fetchData();
         },
         computed: mapGetters({
-            ojList: 'allOj'  
+            source: 'allOj'  
         }),
         watch: {
             'currentPage': 'fetchData'
@@ -171,6 +172,7 @@ import { mapGetters } from 'vuex';
                 if(this.activeSource != s) {
                     this.activeSource = s;
                     // this.loading = true;
+                    this.fetchData(s);
                 }
             },
             setPageRange: function() {
@@ -195,12 +197,14 @@ import { mapGetters } from 'vuex';
                     this.loading = true;
                 }
             },
-            fetchData: async function() {
+            fetchData: async function(filter_oj) {
+                console.log(this.source);
                 try {
-                    const pres = await getProblemList(undefined, this.currentPage);
+                    if(filter_oj == 'ALL') filter_oj = undefined;
+                    const res = await getProblemList(undefined, this.currentPage, undefined, undefined, filter_oj);
                     this.loading = false;
-                    if(pres.status == 200) {
-                        let data = pres.data.list_problems_response;
+                    if(res.status == 200) {
+                        let data = res.data.list_problems_response;
                         this.problemList = data.lines;
                         this.currentPage = data.current_page;
                         this.totalPages = data.total_pages;

@@ -32,7 +32,12 @@
 							<a href="javascript:;" v-else-if="item.status_code == 'ce'" @click="showCeInfo(item.ce_info)">{{ item.status }} <i class="icon icon-mark"></i></a>
 							<span v-else>{{ item.status }}</span>
 						</div>
-						<div class="item-tab lan">{{ item.language.compiler }}</div>
+						<div class="item-tab lan">
+							<span v-if="item.code">
+                                <router-link :to="{name: 'contest-code', params: {runId: item.run_id}}">{{ item.language.compiler }}</router-link>
+                            </span>
+                            <span v-else>{{ item.language.compiler }}</span>
+						</div>
 						<div class="item-tab submit-time">{{ parseTime(item.submit_time) }}</div>
 					</li>
 				</ul>
@@ -82,7 +87,8 @@
 	.mod-media .media-bd .s-id a {
 		color: #22409a;
 	}
-	.mod-media .media-bd .s-id a:hover {
+	.mod-media .media-bd .s-id a:hover,
+	.mod-media .media-bd .lan a:hover {
 		text-decoration: underline;
 	}
 

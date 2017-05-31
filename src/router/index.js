@@ -69,6 +69,11 @@ export default new VueRouter({
               path: '/contest/:contestId/:problemId',
               name: 'contest-problem',
               component: resolve => require(['components/index/contest/ContestProblemDetail'], resolve)
+            },
+            {
+              path: '/contest/:contestId/showcode/:runId',
+              name: 'contest-code',
+              component: resolve => require(['components/index/contest/ContestShowCode'], resolve)
             }
           ]
         },

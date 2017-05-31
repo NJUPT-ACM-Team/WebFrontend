@@ -211,6 +211,12 @@ import { getContestProblemDetail, postContestCode } from 'src/api';
                 		this.problem = data.problem;
                 		this.supportLan = data.languages;
                 		this.problem.id = data.problem_sid;
+                        let lanId = localStorage.getItem(data.languages[0].oj_name);
+                        if(lanId) {
+                            this.usedLanID = lanId;
+                        }else {
+                            this.usedLanID = this.supportLan[0].language_id;
+                        }
                 	}else {
                 		console.log('get error');
                 	}
@@ -223,6 +229,7 @@ import { getContestProblemDetail, postContestCode } from 'src/api';
                 if(l.language_id != this.usedLanID) {
                     this.usedLan = l.language;
                     this.usedLanID = l.language_id;
+                    localStorage.setItem(l.oj_name, l.language_id);
                     // this.editorOption.mode = l.mode;
                 }
             },
