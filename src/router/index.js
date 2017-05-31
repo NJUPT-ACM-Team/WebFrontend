@@ -32,6 +32,11 @@ export default new VueRouter({
           component: resolve => require(['components/index/Status'], resolve)
         },
         {
+          path: '/showcode/:runId',
+          name: 'code',
+          component: resolve => require(['components/index/ShowCode'], resolve)
+        },
+        {
           path: '/contests',
           component: resolve => require(['components/index/Contest'], resolve)
         }, 

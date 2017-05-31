@@ -85,6 +85,10 @@
                             </div>
                             <div class="txt-bd">
                                 <a href="javascript:;" class="lan-item" v-for="item in supportLan" :class="item.language_id == usedLanID?'active':''" @click="setLan(item)">{{ item.language }}</a>
+                                <div class="mod-radio">
+                                    <input type="radio" id="shared" value="true" v-model="isShared"><label for="shared">Shared</label>
+                                    <input type="radio" id="no-shared" value="false" v-model="isShared"><label for="no-shared">No Shared</label>
+                                </div>
                                 <div class="mod-codemirror">
                                     <!-- <div class="cm-hd clearfix">
                                         <div class="cm-btn">
@@ -179,6 +183,14 @@
         top: 20px;
     }
 
+    .mod-radio {
+        margin: 10px 0 10px -5px;
+    }
+
+    .mod-radio label {
+        font-size: 14px;
+    }
+
 </style>
 
 <script>
@@ -189,6 +201,7 @@ import 'assets/css/mod-btn.css';
 import 'assets/css/mod-codemirror.css';
 
 import { getProblemDetail, postCode } from 'src/api';
+import { mapGetters } from 'vuex';
 
 	export default{
         data(){
@@ -200,7 +213,7 @@ import { getProblemDetail, postCode } from 'src/api';
                 	
                 },
                 supportLan: [],
-                usedLanID: 2,
+                usedLanID: 0,
                 code: '',
                 lanMode: [
                     {
@@ -235,14 +248,18 @@ import { getProblemDetail, postCode } from 'src/api';
                     showCursorWhenSelecting: true,
                     theme: "default"
                 },
+                isShared: false
             }
         },
         created() {
         	this.fetchData();
         },
+        computed: mapGetters({
+            isLogin: 'checkStatus'
+        }),
         mounted() {
             var aside = document.querySelector('.mod-menu');
-            requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame ||function(callback) {setTimeout(callback, 1000 / 60);};
+            var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame ||function(callback) {setTimeout(callback, 1000 / 60);};
             var isScrolling = false;
             window.addEventListener('scroll', function(){
                 if(!isScrolling) {
@@ -270,11 +287,11 @@ import { getProblemDetail, postCode } from 'src/api';
         		this.error = this.post = null;
         		this.loading = true;
         		// get post
-                var $this = this;
                 try {
                     const res = await getProblemDetail(this.$route.params.problemId);
                     if(res.status == 200) {
                         let data = res.data.show_problem_response;
+                        console.log(data);
                         if(data.error) {
                             console.log(data.error.debug);
                         }else {
@@ -282,6 +299,12 @@ import { getProblemDetail, postCode } from 'src/api';
                             this.problem.id = data.problem_sid;
                             this.supportLan = data.languages;
                             console.log(this.supportLan);
+                            let lanId = localStorage.getItem(data.languages[0].oj_name);
+                            if(lanId) {
+                                this.usedLanID = lanId;
+                            }else {
+                                this.usedLanID = this.supportLan[0].language_id;
+                            }
                         }
                     }
                 }catch(err) {
@@ -293,29 +316,33 @@ import { getProblemDetail, postCode } from 'src/api';
                 if(l.language_id != this.usedLanID) {
                     this.usedLan = l.language;
                     this.usedLanID = l.language_id;
+                    localStorage.setItem(l.oj_name, l.language_id);
                     // this.editorOption.mode = l.mode;
                 }
             },
             submitCode: async function() {
-                var data = {
-                    problem_sid: this.problem.id,
-                    code: this.code,
-                    language_id: this.usedLanID,
-                }
-                console.log(data);
-                try {
-                    const res = await postCode(this.problem.id, this.code, this.usedLanID);
-                    if(res.status == 200) {
-                        let data = res.data;
-                        if(data.error) {
-                            alert('error');
-                        }else {
-                            alert('success');
-                            this.$router.push('/status');
+                if(this.isLogin) {
+                    if(this.code == '') {
+                        alert('code cannot empty');
+                    }else {
+                        try {
+                            const res = await postCode(this.problem.id, this.code, this.usedLanID, this.isShared);
+                            if(res.status == 200) {
+                                let data = res.data;
+                                if(data.error) {
+                                    console.log(data.error);
+                                    alert('error');
+                                }else {
+                                    alert('success');
+                                    this.$router.push('/status');
+                                }
+                            }
+                        }catch(err) {
+                            console.log(err);
                         }
                     }
-                }catch(err) {
-                    console.log(err);
+                }else {
+                    alert('login first');
                 }
             }
         }

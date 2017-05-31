@@ -202,7 +202,6 @@ import { getContestProblemDetail, postContestCode } from 'src/api';
         		this.error = this.post = null;
         		this.loading = true;
         		// get post
-        		// this.problem.id = this.$route.params.problemId;
         		this.contestId = this.$route.params.contestId;
                 try {
                 	const res = await getContestProblemDetail(this.contestId, this.$route.params.problemId);

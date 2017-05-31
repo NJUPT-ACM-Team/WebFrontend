@@ -87,12 +87,13 @@ export function getProblemDetail(id) {
 	});
 }
 
-export function getStatus(per_page=20, current_page=1, is_desc=false, filter_username, filter_oj, filter_pid, filter_status_code, filter_language, filter_compiler) {
+export function getStatus(per_page=20, current_page=1, is_desc=false, filter_run_id, filter_username, filter_oj, filter_pid, filter_status_code, filter_language, filter_compiler) {
 	return axios.get('/api/inline/status', {
 		params: {
 			per_page: per_page,
 			current_page: current_page,
 			is_desc: is_desc,
+			filter_run_id: filter_run_id,
 			filter_username: filter_username,
 			filter_oj: filter_oj,
 			filter_pid: filter_pid,

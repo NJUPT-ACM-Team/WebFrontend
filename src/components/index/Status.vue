@@ -18,6 +18,14 @@
         		</div>
         	</div>
         	<div class="layout-main" v-else>
+                <div class="mod-exp">
+                    <div class="exp-refresh clearfix">
+                        <p>The Countdown of Refresh: {{ countdown }}</p>
+                        <a href="javascript:;" @click="fetchData">
+                            <i class="icon icon-refresh"></i>
+                        </a>
+                    </div>
+                </div>
         		<div class="mod-media status-media">
         			<div class="media-hd">
                         <div class="list-header">
@@ -50,7 +58,12 @@
                                 <div class="item-tab time-used">{{ item.time_used }}</div>
                                 <div class="item-tab memory-used">{{ item.memory_used }}</div>
 								<div class="item-tab code-length">{{ item.code_length }}</div>
-								<div class="item-tab lan">{{ item.language.compiler }}</div>
+								<div class="item-tab lan">
+                                    <span v-if="item.code">
+                                        <router-link :to="{name: 'code', params: {runId: item.run_id}}">{{ item.language.compiler }}</router-link>
+                                    </span>
+                                    <span v-else>{{ item.language.compiler }}</span>
+                                </div>
 								<div class="item-tab submit-time">{{ parseTime(item.submit_time) }}</div>
                             </li>
                         </ul>
@@ -111,8 +124,28 @@
     .mod-media .media-bd .s-id a {
         color: #22409a;
     }
-    .mod-media .media-bd .s-id a:hover {
+    .mod-media .media-bd .s-id a:hover,
+    .mod-media .media-bd .lan a:hover {
         text-decoration: underline;
+    }
+
+    .mod-exp {
+        margin-bottom: 12px;
+    }
+
+    .mod-exp .exp-refresh .icon {
+        float: left;
+        display: block;
+        width: 20px;
+        height: 20px;
+        background-image: url('../../assets/img/refresh.png');
+        background-size: cover;
+        margin: -4px 0 0 6px;
+    }
+
+    .mod-exp .exp-refresh p {
+        float: left;
+        line-height: 16px;
     }
 
 </style>
@@ -133,12 +166,25 @@ export default {
 			loading: true,
 			statusList: [],
 			currentPage: 1,
-            totalPages: 99
+            totalPages: 99,
+            count: 5,
+            countdown: 5,
+            refreshing: false,
+            timer: null
 		}
 	},
 	created() {
 		this.fetchData();
-        console.log(this.$route);
+        this.timer = setInterval(() => {
+            if(!this.refreshing) {
+               if(this.countdown <= 0) {
+                    this.refreshing = true;
+                    this.fetchData();
+                }else {
+                    this.countdown--;
+                } 
+            }
+        }, 1000);
 	},
 	watch: {
 		'currentPage': 'fetchData'
@@ -174,13 +220,15 @@ export default {
         fetchData: async function() {
         	try {
 				const res = await getStatus(undefined,this.currentPage);
-				console.log(res);
 				this.loading = false;
 				if(res.status == 200) {
+                    this.countdown = this.count;
+                    this.refreshing = false;
 					let data = res.data.list_submissions_response;
 					this.statusList = data.lines;
 					this.currentPage = data.current_page;
 					this.totalPages = data.total_pages;
+                    console.log(data);
 				}else {
 					console.log('error');
 				}
@@ -205,7 +253,11 @@ export default {
                 console.log(err);
             }
         }
-	}
+	},
+    beforeRouteLeave(to, from, next) {
+        clearInterval(this.timer);
+        next();
+    }
 }
 
 </script>
