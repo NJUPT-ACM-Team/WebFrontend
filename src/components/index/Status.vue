@@ -43,8 +43,9 @@
                                     <router-link :to="{name: 'problem', params: {problemId: item.sid} }">{{ item.sid }}</router-link>    
                                 </div>
                                 <div class="item-tab status" :class="item.status_code">
-                                	<span v-if="item.status != 'Compile Error'">{{ item.status }}</span>
-                                	<a href="javascript:;" v-else @click="showCeInfo(item.ce_info)">{{ item.status }} <i class="icon icon-mark"></i></a>
+                                	<a href="javascript:;" v-if="item.status_code == 'se'" title="reload">{{ item.status }} <i class="icon icon-reload"></i></a>
+                                    <a href="javascript:;" v-else-if="item.status_code == 'ce'" @click="showCeInfo(item.ce_info)">{{ item.status }} <i class="icon icon-mark"></i></a>
+                                    <span v-else>{{ item.status }}</span>
                                 </div>
                                 <div class="item-tab time-used">{{ item.time_used }}</div>
                                 <div class="item-tab memory-used">{{ item.memory_used }}</div>

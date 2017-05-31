@@ -242,7 +242,7 @@ import { getContestProblemDetail, postContestCode } from 'src/api';
                 			alert(resData.error.debug);
                 		}else {
                 			alert('success');
-                            this.$router.push('contests/' + data.contest_id + '/status');
+                            this.$router.push('/contest/' + data.contest_id + '/status');
                 		}
                 	}else {
                 		console.log('post error');

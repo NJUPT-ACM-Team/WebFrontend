@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="mod-media">
+		<div class="mod-media status-media">
 			<div class="media-hd">
 				<div class="list-header">
 					<div class="status-tit run-id">Run ID</div>
@@ -20,8 +20,9 @@
 							<router-link :to="{name: 'contest-problem', params: {problemId: item.label} }">{{ item.label }}</router-link>	
 						</div>
 						<div class="item-tab status" :class="item.status_code">
-							<span v-if="item.status_code != 'ce'">{{ item.status }}</span>
-							<a href="javascript:;" v-else @click="showCeInfo(item.ce_info)">{{ item.status }} <i class="icon icon-mark"></i></a>
+							<a href="javascript:;" v-if="item.status_code == 'se'" title="reload">{{ item.status }} <i class="icon icon-reload"></i></a>
+							<a href="javascript:;" v-else-if="item.status_code == 'ce'" @click="showCeInfo(item.ce_info)">{{ item.status }} <i class="icon icon-mark"></i></a>
+							<span v-else>{{ item.status }}</span>
 						</div>
 						<div class="item-tab lan">{{ item.language.compiler }}</div>
 						<div class="item-tab submit-time">{{ item.submit_time }}</div>
@@ -85,7 +86,14 @@
 	.mod-media .media-bd .s-id {
 		flex: 0.6;
 	}
+	
+	.status-media .status .icon.icon-mark {
+		background-image: url('../../../assets/img/mark.png');
+	}
 
+	.status-media .status .icon.icon-reload {
+		background-image: url('../../../assets/img/reload.png');
+	}
 </style>
 
 <script>

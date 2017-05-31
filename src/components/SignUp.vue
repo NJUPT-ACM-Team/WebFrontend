@@ -23,7 +23,7 @@
 								</div>
 								<div class="form-item captcha">
 									<label for="captcha">Captcha: </label>
-									<input type="text" id="captcha" v-model.trim="formData.captcha" />
+									<input type="text" id="captcha" v-model.trim="formData.captcha" @keydown.enter="signUp" />
 									<img src="http://35.189.170.28:8000/api/inline/captcha" alt="验证码" class="captcha-img" id="captchaImg" title="点击换一张" @click="setCaptcha()">
 								</div>
 								<div class="form-btn">
@@ -147,7 +147,7 @@ import { register } from 'src/api';
 							// alert(data.error.msg);
 						}else {
 							alert('success');
-							window.location.href = '/login';
+							this.$router.push('/signin');
 						}
 					}else {
 						console.log('error');

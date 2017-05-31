@@ -23,7 +23,7 @@ export default new VueRouter({
           component: resolve => require(['components/index/Problem'], resolve)
         },
         {
-          path: '/problems/:problemId',
+          path: '/problem/:problemId',
           name: 'problem',
           component: resolve => require(['components/index/ProblemDetail'], resolve)
         },
@@ -36,27 +36,27 @@ export default new VueRouter({
           component: resolve => require(['components/index/Contest'], resolve)
         }, 
         {
-          path: '/contests/:contestId',
+          path: '/contest/:contestId',
           name: 'contest',
           component: resolve => require(['components/index/ContestDetail'], resolve),
           children: [
             {
-              path: '/contests/:contestId/detail',
+              path: '/contest/:contestId/detail',
               name: 'detail',
               component: resolve => require(['components/index/contest/ContestIntroduce'], resolve)
             },
             {
-              path: '/contests/:contestId/status',
+              path: '/contest/:contestId/status',
               name: 'status',
               component: resolve => require(['components/index/contest/ContestStatus'], resolve)
             },
             {
-              path: '/contests/:contestId/rank',
+              path: '/contest/:contestId/rank',
               name: 'rank',
               component: resolve => require(['components/index/contest/ContestRank'], resolve)
             },
             {
-              path: '/contests/:contestId/discussion',
+              path: '/contest/:contestId/discussion',
               name: 'discussion',
               component: resolve => require(['components/index/contest/ContestDiscussion'], resolve)
             },

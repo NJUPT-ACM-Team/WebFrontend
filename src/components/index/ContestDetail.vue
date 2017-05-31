@@ -171,7 +171,7 @@ import { parseTime } from 'src/filters';
                     if(res.status == 200) {
                         let data = res.data.contest_show_response;
                         this.contest = data.contest;
-                        console.log(data);
+                        // console.log(data);
                         if(this.contest.access == 'private') {
                             if(this.contest.has_access) {
                                 this.hasAccess = true;

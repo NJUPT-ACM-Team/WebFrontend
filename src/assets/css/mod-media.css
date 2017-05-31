@@ -137,14 +137,23 @@
 .status-media .status {
     position: relative;
 }
-.status-media .status .icon.icon-mark {
+.status-media .status .icon {
     position: absolute;
     width: 16px;
     height: 16px;
-    background: url("../img/mark.png");
     background-size: cover;
     right: 3px;
-    top: -2px;
+    top: 8px;
+}
+
+.status-media .status .icon-mark {
+    background-image: url("../img/mark.png");
+}
+
+.status-media .status .icon-reload {
+    top: 10px;
+    right: 10px;
+    background-image: url("../img/reload.png");
 }
 
 .status-item .status.ac {
@@ -156,6 +165,7 @@
 .status-item .status.pe {
     color: #fbcd36;
 }
+.status-item .status.se a,
 .status-item .status.ce a,
 .status-item .status.wa,
 .status-item .status.tle,
