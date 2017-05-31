@@ -66,7 +66,7 @@ export function getOJList() {
 	});
 }
 
-export function getContestList(per_page, current_page, order_by, is_desc, filter_ctype, filter_is_public, filter_is_virtual) {
+export function getContestList(per_page, current_page, filter_is_virtual, order_by, is_desc, filter_ctype, filter_is_public) {
 	// ctype: ICPC/OI/CF
 	// order_by: CID/TITLE/STARTTIME/ENDTIME/STATUS
 	// filter_is_public: PUBLIC/PRIVATE
@@ -75,11 +75,11 @@ export function getContestList(per_page, current_page, order_by, is_desc, filter
 		params: {
 			per_page: per_page,
 			current_page: current_page,
+			filter_is_virtual: filter_is_virtual,
 			order_by: order_by,
 			is_desc: is_desc,
 			filter_ctype: filter_ctype,
-			filter_is_public: filter_is_public,
-			filter_is_virtual: filter_is_virtual
+			filter_is_public: filter_is_public
 		}
 	});
 }

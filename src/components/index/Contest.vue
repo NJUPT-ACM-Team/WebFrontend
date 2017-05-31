@@ -45,8 +45,8 @@
                                 </div>
                                 <div class="contest-txt">
                                     <p class="txt-date">
-                                        <span class="start-time">{{ c.start_time }}</span> —— 
-                                        <span class="end-time">{{ c.end_time }}</span>
+                                        <span class="start-time">{{ parseTime(c.start_time) }}</span> —— 
+                                        <span class="end-time">{{ parseTime(c.end_time) }}</span>
                                     </p>
                                 </div>
                             </li>
@@ -130,19 +130,12 @@ import { parseTime } from 'src/filters';
                 loading: true,
                 status: [
                     {
-                        sname: 'All',
-                        snum: 12
+                        sname: 'All'
                     },{
-                        sname: 'Past',
-                        snum: 8
+                        sname: 'VIRTUAL'
                     },{
-                        sname: 'Current',
-                        snum: 3
-                    },{
-                        sname: 'Future',
-                        snum: 1
+                        sname: 'FORMAL'
                     }
-
                 ],
                 activeStatus: 'All',
                 contestList: [],
@@ -179,6 +172,7 @@ import { parseTime } from 'src/filters';
                 if(this.activeStatus != s) {
                     this.activeStatus = s;
                     // this.loading = true;
+                    this.fetchData();
                 }
             },
             setPage: function(n) {
@@ -189,14 +183,17 @@ import { parseTime } from 'src/filters';
             },
             fetchData: async function() {
                 try {
-                    const res = await getContestList(undefined, this.currentPage);
+                    var isVirtual;
+                    if(this.activeStatus != 'All') {
+                        isVirtual = this.activeStatus;
+                    }
+                    const res = await getContestList(undefined, this.currentPage, isVirtual);
                     this.loading = false;
                     if(res.status == 200) {
                         let data = res.data.list_contests_response;
                         this.contestList = data.lines;
                         this.currentPage = data.current_page;
                         this.totalPages = data.total_pages;
-                        this.contestList.forEach((v) => { v.start_time = parseTime(v.start_time); v.end_time = parseTime(v.end_time) })
                         console.log(data);
                     }else {
                         console.error('getContestList error');
@@ -204,7 +201,8 @@ import { parseTime } from 'src/filters';
                 } catch(err) {
                     console.error(err);
                 }
-            }
+            },
+            parseTime: parseTime
         }
     }
 </script>
