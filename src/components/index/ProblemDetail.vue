@@ -248,11 +248,12 @@ import { mapGetters } from 'vuex';
                     showCursorWhenSelecting: true,
                     theme: "default"
                 },
-                isShared: false
+                isShared: 'false'
             }
         },
         created() {
         	this.fetchData();
+            // console.log(this.isShared);
         },
         computed: mapGetters({
             isLogin: 'checkStatus'
@@ -326,7 +327,8 @@ import { mapGetters } from 'vuex';
                         alert('code cannot empty');
                     }else {
                         try {
-                            const res = await postCode(this.problem.id, this.code, this.usedLanID, this.isShared);
+                            let isShared = (this.isShared == 'true');
+                            const res = await postCode(this.problem.id, this.code, this.usedLanID, isShared);
                             if(res.status == 200) {
                                 let data = res.data;
                                 if(data.error) {
