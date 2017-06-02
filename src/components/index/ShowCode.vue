@@ -1,6 +1,7 @@
 <template>
 	<div>
 		<pre>{{ code }}</pre>
+		<p v-html="sc"></p>
 	</div>
 </template>
 
@@ -15,7 +16,8 @@ import { getStatus } from 'src/api';
 	export default {
 		data() {
 			return {
-				code: ''
+				code: "",
+				sc: ""
 			}
 		},
 		created() {

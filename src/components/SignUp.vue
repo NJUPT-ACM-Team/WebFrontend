@@ -24,7 +24,7 @@
 								<div class="form-item captcha">
 									<label for="captcha">Captcha: </label>
 									<input type="text" id="captcha" v-model.trim="formData.captcha" @keydown.enter="signUp" />
-									<img src="http://35.189.170.28:8000/api/inline/captcha" alt="验证码" class="captcha-img" id="captchaImg" title="点击换一张" @click="setCaptcha()">
+									<img src="" alt="验证码" class="captcha-img" id="captchaImg" title="点击换一张" @click="setCaptcha()">
 								</div>
 								<div class="form-btn">
 									<a href="javascript:;" class="btn" @click="signUp()">Sign up</a>
@@ -123,8 +123,8 @@ import { register, getCaptcha } from 'src/api';
 				errorMsg: ''
 			}
 		},
-		watch: {
-			
+		mounted() {
+			this.setCaptcha();
 		},
 		methods: {
 			signUp: async function() {
