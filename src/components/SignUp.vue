@@ -15,11 +15,11 @@
 								</div>
 								<div class="form-item">
 									<label for="usr">Username: </label>
-									<input type="text" id="usr" v-model.trim="formData.username" />
+									<input type="text" id="usr" v-model.trim="formData.username" placeholder="用户名以字母开头，不少于4个字符" title="用户名以字母开头，不少于4个字符"/>
 								</div>
 								<div class="form-item">
 									<label for="pwd">Password: </label>
-									<input type="password" id="pwd" v-model.trim="formData.password" />
+									<input type="password" id="pwd" v-model.trim="formData.password" placeholder="密码最短8位" />
 								</div>
 								<div class="form-item captcha">
 									<label for="captcha">Captcha: </label>
@@ -135,6 +135,9 @@ import { register, getCaptcha } from 'src/api';
 					return;
 				}else if(!usrrxp.test(this.formData.username)) {
 					this.errorMsg = 'username error';
+					return;
+				}else if(this.formData.password.length < 8) {
+					this.errorMsg = 'password less than 8';
 					return;
 				}
 				try {

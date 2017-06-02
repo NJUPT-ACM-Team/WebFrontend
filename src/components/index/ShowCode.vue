@@ -1,12 +1,13 @@
 <template>
 	<div>
 		<pre>{{ code }}</pre>
-		<p v-html="sc"></p>
+		<!-- <p>{{sc}}</p> -->
+		<div ref="ads" id="ads"></div>
 	</div>
 </template>
 
 <style scoped>
-	
+
 </style>
 
 <script>
@@ -17,11 +18,14 @@ import { getStatus } from 'src/api';
 		data() {
 			return {
 				code: "",
-				sc: ""
+				test: `&lt;script&gt;alert('hh')&lt;/script&gt;`
 			}
 		},
 		created() {
 			this.fetchData();
+		},
+		mounted() {
+			
 		},
 		methods: {
 			fetchData: async function() {
