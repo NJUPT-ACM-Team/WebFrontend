@@ -233,7 +233,7 @@ import { parseTime } from 'src/filters';
             setProcess: function() {
                 // progress bar
                 var s = new Date(this.contest.start_time),
-                    l = new Date('2017-05-29 19:25:00'), // lock board time
+                    l = new Date(this.lock_board_time), // lock board time
                     e = new Date(this.contest.end_time),
                     totalTime = e - s;
                 this.barStyle.lockTimePersent = (e - l)/totalTime * 100 + '%';

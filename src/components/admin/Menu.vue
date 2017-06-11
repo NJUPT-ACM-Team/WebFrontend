@@ -9,10 +9,10 @@
 						</div>
 						<div class="box-bd">
 							<ul>
-								<li class="active">
+								<li class="">
 									<router-link to="/admin/management/problems">Problems</router-link>
 								</li>
-								<li>
+								<li class="active">
 									<router-link to="/admin/management/contests">Contest</router-link>
 								</li>
 								<li>
@@ -29,12 +29,12 @@
 						</div>
 						<div class="box-bd">
 							<ul>
-								<li>
+<!-- 								<li>
 									<router-link to="/">new</router-link>
 								</li>
 								<li>
 									<router-link to="/">edit</router-link>
-								</li>
+								</li> -->
 							</ul>
 						</div>
 					</div>

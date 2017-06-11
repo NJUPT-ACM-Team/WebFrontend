@@ -108,6 +108,10 @@ export default new VueRouter({
           component: resolve => require(['components/admin/problem/Index'], resolve)
         },
         {
+          path: '/admin/management/problems/new',
+          component: resolve => require(['components/admin/problem/New'], resolve)
+        },
+        {
           path: '/admin/management/contests',
           component: resolve => require(['components/admin/contest/Index'], resolve)
         },

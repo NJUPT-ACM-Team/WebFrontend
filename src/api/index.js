@@ -200,3 +200,42 @@ export function rejudge(run_id) {
 		}
 	});
 }
+
+export function saveProblem(oj_name, oj_pid, title, description, input, output, sample_in, sample_out, source, hint, hide, is_spj, spj_code, limits) {
+	return axios.post('/api/inline/save_problem', {
+		save_problem_request: {
+			oj_name: oj_name,
+			oj_pid: oj_pid,
+			title: title,
+			description: description,
+			input: input,
+			output: output,
+			sample_in: sample_in,
+			sample_out: sample_out,
+			source: source,
+			hint: hint,
+			hide: hide,
+			is_spj: is_spj,
+			spj_code: spj_code,
+			limits: limits
+		}
+	});
+}
+
+export function saveContest(title, description, is_virtual, contest_type, start_time, end_time, lock_board_time, hide_others_status, is_hidden, password, problems) {
+	return axios.post('/api/inline/contest/save', {
+		save_contest_request: {
+			title: title,
+			description: description,
+			is_virtual: is_virtual,
+			contest_type: contest_type,
+			start_time: start_time,
+			end_time: end_time,
+			lock_board_time: lock_board_time,
+			hide_others_status: hide_others_status,
+			is_hidden: is_hidden,
+			password: password,
+			problems: problems
+		}
+	});
+}

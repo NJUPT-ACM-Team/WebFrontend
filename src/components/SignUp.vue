@@ -147,7 +147,7 @@ import { register, getCaptcha } from 'src/api';
 						var data = res.data;
 						if(data.error) {
 							this.errorMsg = data.error.msg;
-							// alert(data.error.msg);
+							this.setCaptcha();
 						}else {
 							alert('success');
 							this.$router.push('/signin');
